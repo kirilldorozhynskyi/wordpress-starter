@@ -38,7 +38,6 @@ wp-signup.php
 wp-settings.php
 wp-mail.php
 wp-login.php
-index.php
 composer.lock
 license.txt
 readme.html
@@ -51,5 +50,7 @@ wp-links-opml.php
 wp-load.php
 wp-includes
 wp-admin
+/index.php
+
 
 package-lock.json

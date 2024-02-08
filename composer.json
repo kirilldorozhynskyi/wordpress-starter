@@ -1,6 +1,7 @@
 {
 	"name": "justdev/wordpress-starter",
 	"type": "project",
+	"license": "GPL-2.0",
 	"description": "jD WordPress starter",
 	"homepage": "https://justdev.org",
 	"keywords": [
