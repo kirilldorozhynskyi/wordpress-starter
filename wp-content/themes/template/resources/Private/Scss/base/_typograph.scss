@@ -1,0 +1,87 @@
+.ff-secondary {
+	font-family: $font-family-secondary;
+}
+
+.ff-primary {
+	font-family: $font-family-primary;
+}
+
+.link-hover-underlined {
+	position: relative;
+	&::after {
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 1px;
+		background-color: currentColor;
+		bottom: -0.25rem;
+		left: 50%;
+		transition: width 0.3s ease 0s, left 0.3s ease 0s;
+	}
+
+	&:hover::after {
+		width: 100%;
+		left: 0;
+	}
+}
+
+.link-underlined {
+	position: relative;
+	&::after {
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 1px;
+		background-color: currentColor;
+		bottom: 0;
+		left: 50%;
+		transition: opacity 0.3s ease 0s, left 0.3s ease 0s;
+		width: 100%;
+		left: 0;
+	}
+
+	&:hover::after {
+		opacity: 0;
+	}
+}
+
+p {
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+%heading {
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+h1,
+.h1 {
+	@include font-size($h1-font-size, $h1-font-size-mobile);
+}
+h2,
+.h2 {
+	@include font-size($h2-font-size, $h2-font-size-mobile);
+}
+h3,
+.h3 {
+	@include font-size($h3-font-size, $h3-font-size-mobile);
+}
+h4,
+.h4 {
+	@include font-size($h4-font-size, $h4-font-size-mobile);
+}
+h5,
+.h5 {
+	@include font-size($h5-font-size, $h5-font-size-mobile);
+}
+h6,
+.h6 {
+	@include font-size($h6-font-size, $h6-font-size-mobile);
+}
+
+.lead {
+	@include font-size($lead-font-size, $lead-font-size-mobile);
+}

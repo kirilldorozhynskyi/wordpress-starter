@@ -1,0 +1,34 @@
+//
+// Utility functions for evaluating source code across our variables, maps, and mixins
+//
+
+@use 'sass:math';
+
+// Remove the unit of a length
+@function strip-unit($number) {
+	@if type-of($number) == 'number' and not unitless($number) {
+		@return math.div($number, $number * 0 + 1);
+	}
+	@return $number;
+}
+
+// Calculate px to EM units
+@function em($px, $base: 16) {
+	@return math.div(strip-unit($px), $base) * 1em;
+}
+
+// Calculate px to REM units
+@function rem($px, $base: 16) {
+	@return math.div(strip-unit($px), $base) * 1rem;
+}
+
+// Calculate REM to px units
+@function px($rem, $base: 16) {
+	@return strip-unit($rem) * $base * 1px;
+}
+
+@function get-icon($icon, $color: currentColor, $icons-map: $icons) {
+	@return escape-svg(
+		url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='#{$color}' d='#{map-get($icons-map, $icon)}'/></svg>")
+	);
+}

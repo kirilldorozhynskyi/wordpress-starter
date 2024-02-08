@@ -1,0 +1,15 @@
+{% extends 'layouts/default.twig' %}
+
+{% block content %}
+	<section>
+		<div class="container">
+			<h1>
+				{{ archive.name }}
+			</h1>
+			<p>
+				{{ archive.description }}
+			</p>
+		</div>
+	</section>
+	{{ renderCE('page_content_elements') }}
+{% endblock %}

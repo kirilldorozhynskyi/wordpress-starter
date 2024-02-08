@@ -1,0 +1,46 @@
+{% if slide.image_position == 'left' %}
+	{% set textColOrder = ' order-lg-2' %}
+	{% set imageColOrder = ' order-lg-1' %}
+{% elseif slide.image_position == 'right' %}
+	{% set textColOrder = ' order-lg-1' %}
+	{% set imageColOrder = ' order-lg-2' %}
+{% endif %}
+
+<blockquote class="ce-quote-wrapper">
+	<div class="row">
+		<div class="offset-lg-1 col-12 col-lg-8 order-2{{ textColOrder }}">
+			{% if slide.text %}
+				<blockquote class="ce-quote-text mb-2">
+					{{ slide.text }}
+				</blockquote>
+			{% endif %}
+			{% if slide.author %}
+				{% for author in slide.author %}
+					<footer class="ce-quote-footer pt-1">
+						{% if author.first_name or author.last_name %}
+							<strong class="ce-quote-footer-headline">{{ author.first_name }} {{ author.last_name }}</strong>
+						{% endif %}
+						{% if slide.author.description %}
+							<p class="ce-quote-footer-description mb-0">
+								{{ author.description }}
+							</p>
+						{% endif %}
+					</footer>
+				{% endfor %}
+			{% endif %}
+		</div>
+		{% if slide.author %}
+			{% for author in slide.author %}
+				{% if author.image %}
+					<div class="col-12 pb-1 pb-lg-0 col-lg-3 text-center order-1{{ imageColOrder }}">
+						<img src="{{ get_image(author.image)|resize(205, 205) }}"
+							class="img-fluid rounded-circle"
+							alt="{{ get_image(author.image).alt }}"
+							width="205"
+							height="205" />
+					</div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+</blockquote>

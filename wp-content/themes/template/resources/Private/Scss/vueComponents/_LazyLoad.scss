@@ -1,0 +1,19 @@
+div,
+img,
+video,
+iframe {
+	&.lazy-loading {
+		background: {
+			image: escape-svg(
+				url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100px' height='100px' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid meet' ><circle cx='50' cy='50' r='40' fill='none' stroke='#{$lazy-loading-spinner-color}' stroke-dasharray='62.832 62.832' stroke-linecap='round' stroke-width='8' transform='rotate(169.502 50 50)'><animateTransform attributeName='transform' begin='0s' calcMode='linear' dur='0.8s' keyTimes='0;1' repeatCount='indefinite' type='rotate' values='0 50 50;360 50 50'/></circle></svg>")
+			);
+			repeat: no-repeat;
+			position: center;
+			size: $lazy-loading-spinner-size;
+		}
+	}
+
+	&.lazy-loaded {
+		background-image: none;
+	}
+}

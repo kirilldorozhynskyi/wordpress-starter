@@ -1,0 +1,14 @@
+<a href="{{ result.link }}" class="text-reset search-result">
+	<h3 class="h4 mb-half">
+		{{ result.title }}
+	</h3>
+	<small class="d-block mb-half text-uppercase">{{ result.postType }}</small>
+	<div class="row justify-content-between align-items-center mt-2">
+		<div class="col-auto">
+			<span>{{ result.publishDate|date('d.m.Y') }}</span>
+		</div>
+		<div class="col-auto">
+			<span class="btn btn-link">Zum artikel</span>
+		</div>
+	</div>
+</a>

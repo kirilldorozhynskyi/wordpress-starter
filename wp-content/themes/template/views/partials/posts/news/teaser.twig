@@ -1,0 +1,40 @@
+{% if news.link %}
+	<a href="{{ news.link }}" class="news-teaser {{ not news.image ? 'news-teaser--no-image' }}">
+		{% if news.publishDate %}
+			<small class="news-teaser-date">{{ news.publishDate|date('d.m.Y') }}</small>
+		{% endif %}
+		{% if news.image %}
+			<picture class="picture news-teaser-image-wrapper">
+				<img lazy
+					data-src="{{ get_image(news.image)|resize(650, 366) }}"
+					src="{{ getImagePlaceholder(650, 366) }}"
+					alt="{{ get_image(news.image).alt }}"
+					width="650"
+					height="366"
+					class="news-teaser-image img-full-width" />
+			</picture>
+		{% endif %}
+		<div class="news-teaser-content">
+			{% if news.categories %}
+				<div>
+					{% for category in news.categories %}
+						<span class="tag news-teaser-tag">{{ category.name }}</span>
+					{% endfor %}
+				</div>
+			{% endif %}
+			{% if news.title %}
+				<h3 class="h4 news-teaser-title">
+					{{ news.title }}
+				</h3>
+			{% endif %}
+			{% if news.intro_text %}
+				<p class="news-teaser-text mb-1-half">
+					{{ news.intro_text }}
+				</p>
+			{% endif %}
+			<div class="mt-auto">
+				<span class="btn btn-link p-0">Read more{% include 'icons/chevron-right.svg' %}</span>
+			</div>
+		</div>
+	</a>
+{% endif %}

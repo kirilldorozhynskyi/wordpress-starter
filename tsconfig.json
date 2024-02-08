@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"types": ["node"],
+		"importHelpers": true,
+		"moduleResolution": "Node",
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"allowJs": true,
+		"checkJs": false,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
+		}
+	},
+	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"]
+}

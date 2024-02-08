@@ -1,0 +1,91 @@
+{% set pageHeroHeight = ce.stretch ? 1004 : 600 %} {# 1004 = 1080 - $header-height #}
+{% if slide.media == 'image' and slide.image %}
+	{% set resizedImage = Image(slide.image)|resize(1920, pageHeroHeight) %}
+{% endif %}
+
+{% if slide.media == 'mp4' or slide.media == 'youtube' or slide.media == 'vimeo' %}
+	<div class="bg-media-wrapper ce-page-hero-media-wrapper ce-page-hero-directive is-playing" v-video-player="'{{ slide.media }}'">
+		{% if slide.media == 'mp4' and slide.mp4 %}
+			<video preload="metadata"
+				width="1920"
+				height="1080"
+				autoplay="autoplay"
+				muted="muted"
+				loop="loop"
+				playsinline
+				class="media-item bg-media ce-page-hero-media">
+				<source src="{{ slide.mp4.url }}" type="video/mp4" />
+			</video>
+		{% elseif slide.media == 'youtube' and slide.youtube %}
+			<iframe src="{{ youtubeIframeSrc(slide.youtube, true) }}"
+				width="1920"
+				height="1080"
+				frameborder="0"
+				allowfullscreen
+				class="media-item bg-media ce-page-hero-media"></iframe>
+		{% elseif slide.media == 'vimeo' and slide.vimeo %}
+			<iframe src="{{ vimeoIframeSrc(slide.vimeo, true) }}"
+				width="1920"
+				height="1080"
+				frameborder="0"
+				allowfullscreen
+				class="media-item bg-media ce-page-hero-media"></iframe>
+		{% endif %}
+	</div>
+{% else %}
+	<picture class="picture bg-media-wrapper">
+		<source media="(max-width: 991px)" srcset="{{ get_image(slide.image)|resize(991, 558) }} 1x, {{ get_image(slide.image)|resize(1982, 1116) }} 2x" />
+		<source media="(max-width: 575px)" srcset="{{ get_image(slide.image)|resize(575, 324) }} 1x, {{ get_image(slide.image)|resize(1150, 648) }} 2x" />
+		<source media="(max-width: 360px)" srcset="{{ get_image(slide.image)|resize(360, 600) }}" />
+		<img src="{{ resizedImage }}" width="1920" height="{{ pageHeroHeight }}" class="bg-media ce-page-hero-media" alt="{{ get_image(slide.image).alt }}" />
+	</picture>
+{% endif %}
+
+<div class="ce-page-hero-content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-xl-8">
+				<div class="ce-page-hero-content-box">
+					{% if slide.title %}
+						{% if slide.title_h1 %}
+							<h1 class="ce-page-hero-title display-1 text-white text-uppercase">
+								{{ slide.title }}
+							</h1>
+						{% else %}
+							<h2 class="ce-page-hero-title display-1 text-white text-uppercase">
+								{{ slide.title }}
+							</h2>
+						{% endif %}
+					{% endif %}
+					{% if slide.subtitle %}
+						{% if slide.title_h1 %}
+							<h2 class="text-white">
+								{{ slide.subtitle }}
+							</h2>
+						{% else %}
+							<h3 class="h2 text-white">
+								{{ slide.subtitle }}
+							</h3>
+						{% endif %}
+					{% endif %}
+					{% if slide.text %}
+						<p class="swiper-no-swiping">
+							{{ slide.text }}
+						</p>
+					{% endif %}
+					{% if slide.links %}
+						<div class="ce-page-hero-links">
+							{% for singleLink in slide.links %}
+								<a href="{{ singleLink.link.url }}"
+									{{ singleLink.link.target ? 'target="_blank" rel="noopener"' }}
+									class="btn {{ loop.index == 1 ? 'btn-primary' : 'btn-secondary ms-half' }}">
+									{{ singleLink.link.title }}
+								</a>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

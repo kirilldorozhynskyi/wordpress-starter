@@ -1,0 +1,164 @@
+@use 'sass:math';
+
+.pswp,
+.pswp--svg {
+	&__bg {
+		background: rgba($black, 0.7);
+	}
+
+	.pswp__button {
+		width: 3.5rem;
+		height: 3.5rem;
+		opacity: 1;
+
+		&--arrow {
+			&--left {
+				left: 0;
+
+				&::before {
+					left: 1rem;
+					@media all {
+						background-image: escape-svg(
+							url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' class='icon icon-arrow'><path fill='#{$white}' d='M5.09,3.85a.47.47,0,0,0-.29-.14.42.42,0,0,0-.28.14L.63,7.73a.35.35,0,0,0-.05.49l.05,0,3.89,3.88a.42.42,0,0,0,.28.14.47.47,0,0,0,.29-.14l.23-.23a.32.32,0,0,0,.14-.27.44.44,0,0,0-.14-.3L2.51,8.57H15.1a.38.38,0,0,0,.28-.12.36.36,0,0,0,.12-.28V7.83a.36.36,0,0,0-.12-.28.38.38,0,0,0-.28-.12H2.51L5.32,4.65a.44.44,0,0,0,.14-.3.32.32,0,0,0-.14-.27Z' style='fill-rule: evenodd'/></svg>")
+						);
+					}
+				}
+			}
+
+			&--right {
+				right: 0;
+
+				&::before {
+					right: 1rem;
+					@media all {
+						background-image: escape-svg(
+							url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' class='icon icon-arrow'><path fill='#{$white}' d='M10.91,12.15a.42.42,0,0,0,.29.14.4.4,0,0,0,.28-.14l3.89-3.88a.35.35,0,0,0,0-.54L11.48,3.85a.4.4,0,0,0-.28-.14.42.42,0,0,0-.29.14l-.23.23a.33.33,0,0,0-.14.27.42.42,0,0,0,.14.3l2.81,2.78H.9a.38.38,0,0,0-.28.12.38.38,0,0,0-.12.28v.34a.38.38,0,0,0,.12.28.38.38,0,0,0,.28.12H13.49l-2.81,2.78a.42.42,0,0,0-.14.3.33.33,0,0,0,.14.27Z' style='fill-rule: evenodd'/></svg>")
+						);
+					}
+				}
+			}
+
+			&--left,
+			&--right {
+				@media all {
+					background: none;
+				}
+				position: absolute;
+				top: 50%;
+				margin-top: rem(-50);
+
+				&::before {
+					position: absolute;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					background-color: rgba($black, 0.8);
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 1.5rem;
+					border-radius: 50%;
+					content: '';
+				}
+			}
+		}
+
+		&--close {
+			@media all {
+				background: escape-svg(
+						url("data:image/svg+xml,<svg class='icon icon-close' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><rect x='-1.81' y='7.57' width='19.75' height='1' transform='translate(-3.34 8.07) rotate(-45)' fill='#{$white}'/><rect x='7.57' y='-1.81' width='1' height='19.75' transform='translate(-3.34 8.07) rotate(-45)' fill='#{$white}'/></svg>")
+					)
+					no-repeat center;
+				background-size: 1.875rem;
+			}
+		}
+	}
+
+	&__caption {
+		background-color: transparent !important;
+		background-image: linear-gradient(180deg, transparent 1%, $black 100%);
+
+		&__center {
+			max-width: 50rem;
+			padding: 2.5rem 0 2rem;
+			color: $white;
+			font-size: $font-size-base;
+		}
+	}
+
+	&__counter {
+		padding: 1.5rem;
+		color: $gray-100;
+		font-size: $font-size-base;
+		line-height: 1.25rem;
+		opacity: 1;
+	}
+
+	&__top-bar {
+		background-color: transparent !important;
+	}
+
+	&__zoom-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__item__wrapper {
+		position: relative;
+		z-index: 1045;
+		display: inline-block;
+		width: 100%;
+		max-width: 1200px;
+		line-height: 0;
+		text-align: left;
+		vertical-align: middle;
+
+		&__video {
+			position: relative;
+			width: 100%;
+			height: 0;
+			padding-top: 25px;
+			padding-bottom: percentage(math.div(9, 16));
+
+			iframe,
+			video {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: none;
+			}
+		}
+	}
+
+	.pswp__button--share {
+		background-position: rem(-44) rem(-44);
+	}
+
+	.pswp--supports-fs .pswp__button--fs {
+		display: block;
+	}
+
+	.pswp--fs .pswp__button--fs {
+		background-position: rem(-44) 0;
+	}
+
+	.pswp__button--zoom {
+		background-position: rem(-88) 0;
+	}
+
+	.pswp--zoom-allowed .pswp__button--zoom {
+		display: block;
+	}
+
+	.pswp--zoomed-in .pswp__button--zoom {
+		background-position: rem(-132) 0;
+	}
+
+	/* no arrows on touch screens */
+	.pswp--touch .pswp__button--arrow--left,
+	.pswp--touch .pswp__button--arrow--right {
+		visibility: hidden;
+	}
+}

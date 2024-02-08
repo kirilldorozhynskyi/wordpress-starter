@@ -1,0 +1,122 @@
+{#
+Current item ratio -> 21:9
+To avoid bugs, make sure gallery ratio matches one of these: 21:9, 16:9, 4:3, 1:1
+Don't forget to change 'embed-responsive-' class
+#}
+
+{% set galleryMaxWidth = 1316 %}
+{% set galleryMaxHeight = 564 %}
+
+<figure class="figure mb-0 ce-gallery-directive" v-video-player="'{{ slide.media }}'">
+  {% if isSingleSlide and slide.media == 'image' %}
+    {% set paddingBottom = '0' %}
+  {% else %}
+    {% set paddingBottom = (galleryMaxHeight / galleryMaxWidth * 100) ~ '%' %}
+  {% endif %}
+  <div
+    class="figure-img ce-gallery-item-wrapper {{ slide.media == 'mp4' or slide.media == 'youtube' or slide.media == 'vimeo' ? 'ratio' }}"
+    style="padding-bottom: {{ paddingBottom }}"
+  >
+    {# Slide with image #}
+    {% if slide.media == 'image' and slide.image %}
+      {% set slideImage = getGalleryImage(slide.image, galleryMaxWidth, galleryMaxHeight).slide %}
+      {% set photoswipeImage = getGalleryImage(slide.image, galleryMaxWidth, galleryMaxHeight).pswp %}
+      <picture>
+        <source media="(max-width: 767px)" srcset="{{ getGalleryImage(slide.image, '524', galleryMaxHeight / galleryMaxWidth * 524).slide }} 1x, {{ getGalleryImage(slide.image, '1048', galleryMaxHeight / galleryMaxWidth * 1048).slide }} 2x"/>
+        <img
+          lazy
+          data-src="{{ slideImage }}"
+          src="{{ getImagePlaceholder(slideImage.width, slideImage.height) }}"
+          width="{{ slideImage.width }}"
+          height="{{ slideImage.height }}"
+          alt="{{ slide.image.alt }}"
+          class="ce-gallery-item"
+        >
+      </picture>
+      <a
+        class="btn btn-icon ce-gallery-btn ce-gallery-btn--fullscreen"
+        data-photoswipe="gallery-group-{{ ce.id }}"
+        data-description="{{ slide.description }}"
+        data-size="{{ photoswipeImage.width ~ 'x' ~ photoswipeImage.height }}"
+        href="{{ photoswipeImage }}"
+        @click.prevent="photoSwipe.open($event, {{ index }})"
+      >
+        {% include 'icons/fullscreen.svg' %}
+        <span class="visually-hidden">Zoom</span>
+      </a>
+    {% endif %}
+    {# Slide with MP4 video or youtube / vimeo iframe #}
+    {% if slide.media == 'mp4' or slide.media == 'youtube' or slide.media == 'vimeo' %}
+      {# Cover image #}
+      {% if slide.cover_image %}
+        {% set coverImage = get_image(slide.cover_image) | resize(galleryMaxWidth, galleryMaxHeight) %}
+        <button class="ce-gallery-poster bg-media-wrapper">
+          <picture>
+            <source media="(max-width: 767px)" data-srcset="{{ get_image(slide.cover_image) | resize('524', galleryMaxHeight / galleryMaxWidth * 524) }}"/>
+            <img
+              lazy
+              data-src="{{ coverImage }}"
+              src="{{ getImagePlaceholder(coverImage.width, coverImage.height) }}"
+              width="{{ galleryMaxWidth }}"
+              height="{{ galleryMaxHeight }}"
+              alt="{{ slide.cover_image.alt }}"
+              class="img-fluid"
+            >
+          </picture>
+          <span class="btn btn-icon ce-gallery-btn--play">
+            {% include 'icons/play.svg' %}
+            <span class="visually-hidden">Play</span>
+          </span>
+        </button>
+      {% endif %}
+      {# MP4 video #}
+      {% if slide.media == 'mp4' and slide.mp4 %}
+        {% set videoSrc = slide.mp4.url %}
+        {% set photoswipeVideo = '<video controls><source src="' ~ videoSrc ~ '" type="video/mp4"></video>' %}
+        <video
+          lazy
+          preload="metadata"
+          width="{{ galleryMaxWidth }}"
+          height="{{ galleryMaxHeight }}"
+          controls
+          class="media-item ce-gallery-item ce-gallery-item--video"
+        >
+          <source data-src="{{ videoSrc }}" type="video/mp4">
+        </video>
+      {% endif %}
+      {# Youtube / Vimeo iframe #}
+      {% if slide.media == 'youtube' or slide.media == 'vimeo' %}
+        {% if slide.media == 'youtube' and slide.youtube %}
+          {% set videoSrc = youtubeIframeSrc(slide.youtube) %}
+        {% endif %}
+        {% if slide.media == 'vimeo' and slide.vimeo %}
+          {% set videoSrc = vimeoIframeSrc(slide.vimeo) %}
+        {% endif %}
+        {% set photoswipeVideo = '<iframe src=' ~ videoSrc ~ '></iframe>' %}
+        <iframe
+          src="{{ videoSrc }}"
+          width="{{ galleryMaxWidth }}"
+          height="{{ galleryMaxHeight }}"
+          frameborder="0"
+          allowfullscreen
+          class="media-item ce-gallery-item ce-gallery-item--video"></iframe
+        >
+      {% endif %}
+      {# Photoswipe #}
+      <a
+        class="btn btn-icon ce-gallery-btn ce-gallery-btn--fullscreen"
+        data-photoswipe="gallery-group-{{ ce.id }}"
+        data-description="{{ slide.description }}"
+        data-video='{{ photoswipeVideo }}'
+        href="{{ videoSrc }}"
+        @click.prevent="photoSwipe.open($event, {{ index }})"
+      >
+        {% include 'icons/fullscreen.svg' %}
+        <span class="visually-hidden">Zoom</span>
+      </a>
+    {% endif %}
+  </div>
+  {% if slide.caption %}
+    <figcaption class="figure-caption ce-gallery-caption">{{ slide.caption }}</figcaption>
+  {% endif %}
+</figure>

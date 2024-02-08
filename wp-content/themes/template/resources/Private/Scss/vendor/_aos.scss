@@ -1,0 +1,65 @@
+// fix disabled AOS screens - elements mounted after AOS init not visible
+// see AOS.init disabled property in vue/app.ts
+[data-aos] {
+	pointer-events: none;
+
+	&.aos-animate {
+		pointer-events: auto;
+	}
+
+	@media (max-width: 767.98px) {
+		pointer-events: auto !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	@each $delay in $aos-delays {
+		body[data-aos-delay='#{$delay}'] &,
+		&[data-aos][data-aos-delay='#{$delay}'] {
+			transition-delay: 0s;
+
+			&.aos-animate {
+				transition-delay: #{$delay}ms;
+			}
+		}
+	}
+
+	@each $key, $val in $aos-easing {
+		body[data-aos-easing='#{$key}'] &,
+		&[data-aos][data-aos-easing='#{$key}'] {
+			transition-timing-function: $val;
+		}
+	}
+
+	@each $duration in $aos-durations {
+		body[data-aos-duration='#{$duration}'] &,
+		&[data-aos][data-aos-duration='#{$duration}'] {
+			transition-duration: #{$duration}ms;
+		}
+	}
+}
+
+@media screen {
+	html:not(.no-js) {
+		[data-aos^='fade'][data-aos^='fade'] {
+			opacity: 0;
+
+			&.aos-animate {
+				opacity: 1;
+				transform: none;
+			}
+		}
+
+		@each $key, $val in $aos-transforms {
+			[data-aos^='#{$key}'][data-aos^='#{$key}'] {
+				transform: $val;
+			}
+		}
+
+		@each $key, $val in $aos-properties {
+			[data-aos^='#{$key}'][data-aos^='#{$key}'] {
+				transition-property: $val;
+			}
+		}
+	}
+}

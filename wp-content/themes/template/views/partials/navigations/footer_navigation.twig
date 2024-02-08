@@ -1,0 +1,9 @@
+<nav class="footer-nav">
+	<ul class="list-unstyled footer-nav-list">
+		{% for item in menu.footer.items %}
+			<li class="footer-nav-item {{ item.current ? 'active' }}">
+				<a class="footer-nav-link link-hover-underlined" href="{{ item.link }}">{{ item.name }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</nav>

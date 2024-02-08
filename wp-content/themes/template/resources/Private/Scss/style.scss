@@ -1,0 +1,32 @@
+//
+// Styles for content
+//
+
+// Functions & Variables
+@import 'node_modules/bootstrap/scss/functions';
+@import 'base/functions';
+@import '_variables/variablesGlobal';
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+
+@import 'base/fonts';
+
+@import 'base/mixins/alignment';
+@import 'base/mixins/rfs';
+
+@import 'base/typograph';
+
+// Elements
+@import 'elements/**/*.scss';
+
+// Mixins
+@import 'node_modules/bootstrap/scss/maps';
+
+// Vendor
+@import 'aos/dist/aos';
+
+// Page
+@import 'page/**/*.scss';
+@import 'global/**/*.scss';
+@import 'posts/**/*.scss';
+
+@import '../../../views/elements/**/*.scss';

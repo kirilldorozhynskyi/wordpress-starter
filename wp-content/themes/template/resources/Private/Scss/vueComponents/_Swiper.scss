@@ -1,0 +1,112 @@
+.swiper {
+	&-container {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
+
+	&-slide {
+		height: auto;
+	}
+
+	&-button {
+		&-prev,
+		&-next {
+			position: absolute;
+			top: auto;
+			bottom: auto;
+			width: $swiper-btn-size;
+			height: $swiper-btn-size;
+			margin: $swiper-btn-margin;
+			color: $swiper-btn-color;
+			font-size: $swiper-btn-icon-size;
+			background: $swiper-btn-bg;
+			border-radius: 0;
+			transition: opacity $transition-base;
+			z-index: 1;
+			@include media-breakpoint-down($mobile-breakpoint) {
+				width: $swiper-btn-size-mobile;
+				height: $swiper-btn-size-mobile;
+				font-size: $swiper-btn-icon-size-mobile;
+			}
+
+			&::after {
+				content: none;
+			}
+
+			.icon {
+				transition: transform $transition-base, color $transition-base;
+			}
+
+			&:not(.swiper-button-disabled) {
+				&:hover,
+				&:focus-visible {
+					color: $swiper-btn-color-hover;
+
+					.icon {
+						transform: translateX(20%);
+					}
+				}
+			}
+
+			&:hover,
+			&:focus-visible {
+				background-color: $swiper-btn-bg;
+			}
+		}
+
+		&-prev {
+			transform: rotate(180deg);
+			left: 0;
+		}
+
+		&-next {
+			right: 0;
+		}
+
+		&-disabled {
+			cursor: default !important;
+			opacity: $btn-disabled-opacity !important;
+			pointer-events: all !important;
+
+			&:hover,
+			&:focus-visible {
+				color: $swiper-btn-color-hover;
+			}
+		}
+
+		&-lock {
+			display: none !important;
+		}
+	}
+
+	&-pagination {
+		position: absolute;
+		z-index: 1;
+		bottom: $swiper-pagination-pos-bottom !important;
+		left: 50% !important;
+		display: flex;
+		width: auto !important;
+		transform: translateX(-50%);
+
+		&-bullet {
+			width: $swiper-pagination-bullet-size;
+			height: $swiper-pagination-bullet-size;
+			margin: $swiper-pagination-bullet-margin;
+			background: $swiper-pagination-bullet-bg;
+			border-radius: $swiper-pagination-bullet-border-radius;
+			opacity: 1;
+			transition: background-color $transition-base;
+
+			&:hover,
+			&:focus-visible {
+				background: $swiper-pagination-bullet-bg-hover;
+				outline: none;
+			}
+
+			&-active {
+				background: $swiper-pagination-bullet-bg-active;
+			}
+		}
+	}
+}

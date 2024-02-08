@@ -1,0 +1,32 @@
+{% if button.icon %}
+	{% set class = ' btn-icon' %}
+{% endif %}
+
+{% if button.span %}
+	<button class="btn{{ button.class ? ' ' ~ button.class }}{{ class }}">
+		{% if button.icon %}
+			<span>
+				{{ button.btn.title }}
+
+				<svgicon :name="`{{ button.icon }}`"></svgicon>
+			</span>
+		{% else %}
+			{{ button.btn.title }}
+		{% endif %}
+	</button>
+{% else %}
+	<a href="{{ button.btn.url }}"
+		title="{{ button.btn.title }}"
+		{{ button.btn.target ? 'target="' ~ button.btn.target ~ '" rel="noopener"' }}
+		class="btn{{ button.class ? ' ' ~ button.class }}{{ class }}">
+		{% if button.icon %}
+			<span>
+				{{ button.btn.title }}
+
+				<svgicon :name="`{{ button.icon }}`"></svgicon>
+			</span>
+		{% else %}
+			{{ button.btn.title }}
+		{% endif %}
+	</a>
+{% endif %}
