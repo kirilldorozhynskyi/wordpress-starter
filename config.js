@@ -12,73 +12,7 @@
  */
 
 const config = {
-	rootDir: 'src',
-	buildDir: 'dist',
-	assetsDir: 'src/public/assets',
-	fonts: {
-		dev: 'src/resources/fonts',
-		fix: '/assets/build/',
-		prod: './'
-	},
-	purgecss: {
-		enable: false,
-		safeList: []
-	},
-	critical: {
-		enable: false
-	},
-	htmlMinify: {
-		enable: false,
-		options: {
-			collapseWhitespace: true,
-			removeAttributeQuotes: false,
-			removeComments: true,
-			sortAttributes: true,
-			sortClassName: true
-		}
-	},
-	htmlBeautify: {
-		inDir: 'dist',
-		html: {
-			enabled: true
-		},
-		js: {
-			enabled: false
-		},
-		css: {
-			enabled: false
-		}
-	},
-	imagemin: {
-		gifsicle: {
-			optimizationLevel: 7,
-			interlaced: false
-		},
-		webp: {
-			quality: 75
-		},
-		optipng: {
-			optimizationLevel: 7
-		},
-		mozjpeg: {
-			quality: 20
-		},
-		pngquant: {
-			quality: [0.8, 0.9],
-			speed: 4
-		},
-		svgo: {
-			plugins: [
-				{
-					name: 'removeViewBox'
-				},
-				{
-					name: 'removeEmptyAttrs',
-					active: false
-				}
-			]
-		}
-	},
+	baseDir: 'wp-content/themes/template/resources/',
 	SvgSpritemap: {
 		prefix: 'icon-',
 		output: {
