@@ -1,0 +1,132 @@
+//
+// Muster specific variables
+//
+
+// Main components
+
+// Header
+$header-height: 3.5rem !default;
+$header-height-mobile: $header-height !default;
+$header-transition: transform $transition-base !default;
+
+// Form tooltips must come after regular tooltips
+// scss-docs-start tooltip-feedback-variables
+$form-feedback-tooltip-padding-y: $tooltip-padding-y !default;
+$form-feedback-tooltip-padding-x: $tooltip-padding-x !default;
+$form-feedback-tooltip-font-size: $tooltip-font-size !default;
+$form-feedback-tooltip-line-height: null !default;
+$form-feedback-tooltip-opacity: $tooltip-opacity !default;
+$form-feedback-tooltip-border-radius: $tooltip-border-radius !default;
+// scss-docs-end tooltip-feedback-variables
+
+// AOS
+$aos-durations: 500 !default;
+$aos-delays: null !default;
+$aos-easing: (
+	linear: cubic-bezier(0.25, 0.25, 0.75, 0.75),
+	ease: cubic-bezier(0.25, 0.1, 0.25, 1)
+) !default;
+$aos-transforms: (
+	fade-up: translate3d(0, 1rem, 0)
+) !default;
+$aos-properties: (
+	fade-up: (
+		opacity,
+		transform
+	)
+) !default;
+
+// Vue Components
+
+// Swiper
+$swiper-btn-bg: rgba($black, 0.75) !default;
+$swiper-btn-color: $gray-100 !default;
+$swiper-btn-color-hover: $white !default;
+$swiper-btn-icon-size: 1.5rem !default;
+$swiper-btn-margin: 0 !default;
+$swiper-btn-size: 3.5rem !default;
+$swiper-btn-size-mobile: 3rem !default;
+$swiper-btn-icon-size-mobile: 1.25rem !default;
+
+$swiper-pagination-pos-bottom: 1rem !default;
+$swiper-pagination-bullet-size: 0.5rem !default;
+$swiper-pagination-bullet-margin: 0 0.25rem !default;
+$swiper-pagination-bullet-bg: $gray-100 !default;
+$swiper-pagination-bullet-bg-hover: $white !default;
+$swiper-pagination-bullet-bg-active: $gray-900 !default;
+$swiper-pagination-bullet-border-radius: 0 !default;
+
+// Info panel
+$info-panel-width: null !default;
+$info-panel-bg: rgba($black, 0.8) !default;
+$info-panel-color: $gray-100 !default;
+$info-panel-box-shadow: 0 rem(2) rem(40) 0 rgba($black, 0.65) !default;
+
+$info-panel-link-color: $info-panel-color !default;
+$info-panel-link-color-hover: $primary !default;
+$info-panel-font-size: inherit !default;
+$info-panel-font-size-mobile: $info-panel-font-size !default;
+$info-panel-padding: 2rem !default;
+$info-panel-padding-mobile: 1.25rem !default;
+
+$info-panel-max-height: 80vh !default;
+$info-panel-max-width: 100% !default;
+
+$info-panel-position-left: 1rem !default;
+$info-panel-position-right: 1rem !default;
+$info-panel-position-top: null !default;
+$info-panel-position-bottom: 1rem !default;
+
+// Cookies Info Box
+$cookies-info-box-toggle-icon: get-icon(angle, $info-panel-link-color) !default;
+$cookies-info-box-toggle-icon-hover: get-icon(angle, $info-panel-link-color-hover) !default;
+$cookies-info-box-toggle-size: 0.75rem !default;
+$cookies-info-box-toggle-spacing: 0.75rem !default;
+$cookies-info-box-toggle-transform: rotate(90deg) !default;
+$cookies-info-box-toggle-opened-transform: rotate(-90deg) !default;
+$cookies-info-box-toggle-transition: transform $transition-base !default;
+
+$cookies-info-box-overlay-bg: $gray-100 !default;
+$cookies-info-box-overlay-text-padding: 1rem 1.5rem !default;
+$cookies-info-box-overlay-text-bg: $white !default;
+$cookies-info-box-overlay-text-hover-bg: rgba($white, 0.5) !default;
+
+// Main
+$main-padding-top: 4rem !default;
+$main-padding-top-mobile: 2rem !default;
+
+// Page
+$page-padding-top: $header-height !default;
+$page-padding-top-mobile: $header-height-mobile !default;
+
+// Page Preloader
+$preloader-size: 3rem !default;
+$preloader-color: $primary !default;
+$preloader-icon: escape-svg(
+	url("data:image/svg+xml,<svg width='38' height='38' viewBox='0 0 38 38' xmlns='http://www.w3.org/2000/svg' stroke='#{$preloader-color}'><g fill='none' fill-rule='evenodd'><g transform='translate(1 1)' stroke-width='2'><circle stroke-opacity='.5' cx='18' cy='18' r='18'/><path d='M36 18c0-9.94-8.06-18-18-18'><animateTransform attributeName='transform' type='rotate' from='0 18 18' to='360 18 18' dur='1.2s' repeatCount='indefinite'/></path></g></g></svg>")
+) !default;
+$preloader-animation-speed: $header-height-mobile !default;
+
+// Page
+$page-padding-top: $header-height !default;
+$page-padding-top-mobile: $header-height-mobile !default;
+
+// Mobile navigation
+$mobile-nav-breakpoint: lg !default;
+$mobile-nav-width: 100% !default;
+$mobile-nav-padding: 0 0 2rem 0 !default;
+$mobile-nav-transition: left 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out !default;
+
+// Scroll to top
+$scroll-to-top-bottom: rem(30) !default;
+$scroll-to-top-right: rem(30) !default;
+$scroll-to-top-width: rem(45) !default;
+$scroll-to-top-height: rem(45) !default;
+$scroll-to-top-color: $white !default;
+$scroll-to-top-color-active: $primary !default;
+$scroll-to-top-z-index: 999 !default;
+$scroll-to-top-bg-color: $primary !default;
+$scroll-to-top-bg-color-active: $white !default;
+$scroll-to-top-icon-width: rem(32) !default;
+$scroll-to-top-icon-color: $white !default;
+$scroll-to-top-icon-color-active: $primary !default;

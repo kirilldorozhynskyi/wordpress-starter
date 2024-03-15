@@ -1,9 +1,8 @@
 /* eslint-disable */
 // @ts-nocheck
-import '../Scss/style.scss'
+import '../Scss/app.scss'
 import AOS from 'aos'
 import 'dom-slider'
-import 'virtual:svg-icons-register'
 
 import { merge } from 'lodash'
 import LazyLoad from 'vanilla-lazyload'
@@ -17,7 +16,6 @@ import VueDsCookies from './plugins/cookies'
 // import PhotoSwipe from './plugins/photo-swipe'
 import VideoPlayer from './directives/video-player'
 import PageHeader from './components/PageHeader.vue'
-import Svgicon from './components/SvgIcon.vue'
 
 const CustomScript = defineAsyncComponent(() => import('./components/CustomScript.vue'))
 const CookiesInfoBox = defineAsyncComponent(() => import('./plugins/cookies/InfoBox.vue'))
@@ -64,8 +62,6 @@ export const rootComponent: Component = {
 	/* == GLOBAL COMPONENTS == */
 	components: {
 		CustomScript,
-		Svgicon,
-
 		CookiesInfoBox,
 		AjaxList,
 		PageHeader,

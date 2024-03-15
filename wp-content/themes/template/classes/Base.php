@@ -35,6 +35,7 @@ class Base
 		remove_action('wp_head', 'print_emoji_detection_script', 7);
 
 		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteScript'], 10, 3);
+		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteSprite'], 10, 3);
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 
 		add_action('init', [$this, 'email_notifications']);
@@ -57,6 +58,7 @@ class Base
 		add_filter('the_password_form', [$this, 'passwordForm']);
 
 		add_filter('upload_mimes', [$this, 'enable_vcard_upload']);
+		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
 
 		// load Vite manifest
 		$this->loadViteManifest();
@@ -100,6 +102,17 @@ class Base
 			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 			return $tag;
 		}
+	}
+
+	public function addModuleTypeToViteSprite($tag, $handle, $src)
+	{
+		if (file_exists(ABSPATH . 'hot')) {
+			if ('app_theme_sprite' === $handle || 'vite_client' === $handle) {
+				$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
+			}
+			return $tag;
+		}
+		return $tag;
 	}
 
 	/**
@@ -236,9 +249,12 @@ class Base
 		// JS
 		if (file_exists(ABSPATH . 'hot')) {
 			$url = file_get_contents(ABSPATH . 'hot');
-			$file = $url . '/wp-content/themes/template/resources/Private/Vue/app.ts';
+			$app = $url . '/wp-content/themes/template/resources/Private/Vue/app.ts';
+			$spritemap = $url . '/@vite-plugin-svg-spritemap/client';
 			$version = time();
-			wp_enqueue_script('app_theme', $file, [], $version, true);
+
+			wp_enqueue_script('app_theme_sprite', $spritemap, [], null, false);
+			wp_enqueue_script('app_theme', $app, [], $version, true);
 		} else {
 			// wp_enqueue_script('vendors', get_template_directory_uri() . '/resources/Public/' . (wp_get_environment_type() === 'production' ? 'Production' : 'Development') . '/js/chunk-vendors.js', [], false, true);
 			wp_enqueue_script(
@@ -274,10 +290,11 @@ class Base
 	public function addToContext($context)
 	{
 		$context['site'] = new Site();
+		$context['pageTitle'] = get_the_title();
 		$context['options'] = get_fields('options');
 		$context['menu'] = [
 			'main' => Timber::get_menu('main-menu'),
-			'footer' => Timber::get_menu('footer-menu-first'),
+			'footer' => Timber::get_menu('footer-menu'),
 			'languages' => $this->getLanguages(),
 		];
 		return $context;
@@ -315,6 +332,8 @@ class Base
 		$twig->addFunction(new TwigFunction('youtubeIframeSrc', [$this, 'youtubeIframeSrc']));
 		$twig->addFunction(new TwigFunction('vimeoIframeSrc', [$this, 'vimeoIframeSrc']));
 		$twig->addFunction(new TwigFunction('button', [$this, 'button']));
+		$twig->addFunction(new TwigFunction('GetImage', [$this, 'GetImage']));
+		$twig->addFunction(new TwigFunction('sprite', [$this, 'sprite']));
 		$twig->addFilter(new TwigFilter('mailLink', [$this, 'mailLink']));
 		$twig->addFilter(new TwigFilter('phoneLink', [$this, 'phoneLink']));
 		$twig->addFilter(new TwigFilter('antiSpam', [$this, 'antiSpam']));
@@ -573,8 +592,16 @@ class Base
 	 * @param $height
 	 * @return string
 	 */
-	public function getImagePlaceholder($width, $height)
+	public function getImagePlaceholder($size)
 	{
+		$sizes = explode(', ', $size);
+		if (count($sizes) == 1) {
+			$width = $size;
+			$height = $size;
+		} else {
+			$width = $sizes[0];
+			$height = $sizes[1];
+		}
 		return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 $width $height'%3E%3C/svg%3E";
 	}
 
@@ -707,15 +734,73 @@ class Base
 	 * @param $button
 	 * @return array
 	 */
-	public function button($button, $class = false, $icon = false, $span = false)
+	public function button($button = false, $class = false, $icon = false, $span = false)
 	{
-		$context['button'] = [
+		if ($button) {
+			$context['button'] = [
+				'class' => $class,
+				'btn' => $button,
+				'icon' => $icon,
+				'span' => $span,
+			];
+			return Timber::compile('components/_button.twig', $context);
+		}
+	}
+
+	/**
+	 * Create sprite
+	 *
+	 * @param $sprite
+	 * @return array
+	 */
+	public function sprite($id, $class = false)
+	{
+		// return '<svg class="sprite-icon icon-' . $id . '" aria-hidden="true" focusable="false"><use xlink:href="sprite-' . $id . '"></use></svg>';
+
+		if (file_exists(ABSPATH . 'hot')) {
+			$path = '';
+		} else {
+			$path = get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file'];
+		}
+
+		$class = $class ? ' ' . $class : '';
+
+		return '<svg class="sprite-icon icon-' .
+			$id .
+			$class .
+			'" aria-hidden="true" focusable="false"><use xlink:href="' .
+			$path .
+			'#icon-' .
+			$id .
+			'"></use></svg>';
+	}
+
+	/**
+	 * Create image
+	 *
+	 * @param $image
+	 * @return array
+	 */
+	public function GetImage($img, $size = false, $class = false)
+	{
+		if (count($size) == 1 || $size[0] == $size[1]) {
+			$normal_size = $size[0];
+			$retina_size = $size[0] * 2;
+		} elseif (count($size) == 2 && $size[0] != $size[1]) {
+			$normal_size = $size[0] . ', ' . $size[1];
+			$retina_size = $size[0] * 2 . ', ' . $size[1] * 2;
+		} else {
+			$normal_size = '';
+			$retina_size = '';
+		}
+
+		$context['image'] = [
+			'img' => $img,
 			'class' => $class,
-			'btn' => $button,
-			'icon' => $icon,
-			'span' => $span,
+			'size' => $normal_size,
+			'retina_size' => $retina_size,
 		];
-		return Timber::compile('components/_button.twig', $context);
+		return Timber::compile('components/_image.twig', $context);
 	}
 
 	/**
@@ -771,5 +856,11 @@ class Base
 		$mime_types['vcf'] = 'text/vcard';
 		$mime_types['vcard'] = 'text/vcard';
 		return $mime_types;
+	}
+
+	// Remove files
+	public function deleteImageSizes($sizes)
+	{
+		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'thumbnail', 'medium']);
 	}
 }

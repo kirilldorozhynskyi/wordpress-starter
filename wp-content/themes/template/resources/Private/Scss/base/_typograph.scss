@@ -1,3 +1,7 @@
+:root {
+	--#{$prefix}-font-secondary: #{$font-family-secondary};
+}
+
 .ff-secondary {
 	font-family: $font-family-secondary;
 }
@@ -84,4 +88,11 @@ h6,
 
 .lead {
 	@include font-size($lead-font-size, $lead-font-size-mobile);
+}
+
+.sprite-icon {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+	line-height: 1;
 }

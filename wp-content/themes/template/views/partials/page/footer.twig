@@ -21,16 +21,10 @@
 							<li class="d-flex align-items-center mb-1 footer-address-info">{{ options.footer_company_info }}</li>
 						{% endif %}
 						{% if options.footer_company_address %}
-							<li class="d-flex align-items-top py-half">
-								<span class="pe-half"><svgicon name="globe"></svgicon></span>
-
-								<span>{{ options.footer_company_address }}</span>
-							</li>
+							<li class="d-flex align-items-top py-half"><span>{{ options.footer_company_address }}</span></li>
 						{% endif %}
 						{% if options.footer_company_phone %}
 							<li class="d-flex align-items-top py-half">
-								<span class="pe-half"><svgicon name="phone"></svgicon></span>
-
 								<a href="{{ options.footer_company_phone|phoneLink }}" class="footer-address-link link-hover-underlined">
 									{{ options.footer_company_phone }}
 								</a>
@@ -38,7 +32,6 @@
 						{% endif %}
 						{% if options.footer_company_email %}
 							<li class="d-flex align-items-top py-half">
-								<span class="pe-half"><svgicon name="email"></svgicon></span>
 								<a href="{{ options.footer_company_email|mailLink }}" class="footer-address-link link-hover-underlined">
 									{{ options.footer_company_email }}
 								</a>
@@ -64,7 +57,7 @@
 								aria-label="{{ social.link.title }}"
 								href="{{ social.link.url }}"
 								{{ social.link.target ? 'target="' ~ social.link.target ~ '" rel="noopener"' }}>
-								<svgicon :name="`social-{{ social.icon }}`"></svgicon>
+								{{ sprite(social.icon, social.icon) }}
 								<span class="visually-hidden">{{ social.link.title }}</span>
 							</a>
 						</li>

@@ -4,11 +4,17 @@ import path from 'path'
 import laravel from 'laravel-vite-plugin'
 import mkcert from 'vite-plugin-mkcert'
 import sassGlobImports from 'vite-plugin-sass-glob-import'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
+
+// Config
+import config from './config.js'
 
 const theme = 'wp-content/themes/template/resources/'
 
+const { rootDir, assetsDir, imagemin, htmlBeautify, fonts, SvgSpritemap } = config
+
 export default defineConfig({
+	base: process.env.NODE_ENV == 'production' ? `/${theme}Public/Build/` : '',
 	build: {
 		outDir: path.join(__dirname, `${theme}Public/Build`),
 		manifest: true,
@@ -21,6 +27,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
+			'~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+			'~fonts': '/wp-content/themes/template/resources/Public/Fonts',
 			vue: 'vue/dist/vue.esm-bundler.js',
 		},
 	},
@@ -44,10 +52,6 @@ export default defineConfig({
 		mkcert(),
 		sassGlobImports(),
 		vue(),
-		createSvgIconsPlugin({
-			iconDirs: [path.resolve(process.cwd(), `${theme}Icons`)],
-			symbolId: 'icon-[dir]-[name]',
-			customDomId: '__svg__icons__dom__',
-		}),
+		VitePluginSvgSpritemap(path.resolve(process.cwd(), `${theme}/Icons/*.svg`), SvgSpritemap),
 	],
 })
