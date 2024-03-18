@@ -10,16 +10,15 @@ import type { App } from 'vue'
 import { createApp, defineAsyncComponent, ref } from 'vue'
 import type { Component } from '@vue/runtime-core'
 import VueScrollTo from 'vue-scrollto'
-import { SwiperSlide } from 'swiper/vue'
+// import { Swiper, SwiperSlide } from 'swiper/vue'
+// import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { i18n } from './util'
-import VueDsCookies from './plugins/cookies'
 // import PhotoSwipe from './plugins/photo-swipe'
-import VideoPlayer from './directives/video-player'
+// import VideoPlayer from './directives/video-player'
 import PageHeader from './components/PageHeader.vue'
 
 const CustomScript = defineAsyncComponent(() => import('./components/CustomScript.vue'))
-const CookiesInfoBox = defineAsyncComponent(() => import('./plugins/cookies/InfoBox.vue'))
-const AjaxList = defineAsyncComponent(() => import('./components/AjaxList.vue'))
+// const AjaxList = defineAsyncComponent(() => import('./components/AjaxList.vue'))
 // const Collapse = defineAsyncComponent(() => import('./components/Collapse.vue'))
 // const Gallery = defineAsyncComponent(() => import('./components/Gallery.vue'))
 // const PageHeroSlider = defineAsyncComponent(() => import('./components/PageHeroSlider.vue'))
@@ -62,7 +61,7 @@ export const rootComponent: Component = {
 	/* == GLOBAL COMPONENTS == */
 	components: {
 		CustomScript,
-		CookiesInfoBox,
+
 		AjaxList,
 		PageHeader,
 		// Collapse,
@@ -244,5 +243,4 @@ window.onpageshow = (event: PageTransitionEvent) => {
 }
 
 const app = createApp(rootComponent)
-app.use(VueDsCookies)
 app.mount('#page')

@@ -4,37 +4,19 @@
     "src": "spritemap.svg"
   },
   "wp-content/themes/template/resources/Private/Vue/app.ts": {
-    "file": "assets/main-nwEuPMYU.js",
+    "file": "assets/main-h-bYRjeK.js",
     "src": "wp-content/themes/template/resources/Private/Vue/app.ts",
     "isEntry": true,
     "dynamicImports": [
-      "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue",
-      "wp-content/themes/template/resources/Private/Vue/plugins/cookies/InfoBox.vue",
-      "wp-content/themes/template/resources/Private/Vue/components/AjaxList.vue"
+      "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue"
     ],
     "css": [
       "assets/main-izQsmbSU.css"
     ]
   },
-  "wp-content/themes/template/resources/Private/Vue/components/AjaxList.vue": {
-    "file": "assets/AjaxList-DBWnGiqp.js",
-    "src": "wp-content/themes/template/resources/Private/Vue/components/AjaxList.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "wp-content/themes/template/resources/Private/Vue/app.ts"
-    ]
-  },
   "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue": {
-    "file": "assets/CustomScript-rD6clrDx.js",
+    "file": "assets/CustomScript-chIKqgIa.js",
     "src": "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "wp-content/themes/template/resources/Private/Vue/app.ts"
-    ]
-  },
-  "wp-content/themes/template/resources/Private/Vue/plugins/cookies/InfoBox.vue": {
-    "file": "assets/InfoBox-XdVYjDt7.js",
-    "src": "wp-content/themes/template/resources/Private/Vue/plugins/cookies/InfoBox.vue",
     "isDynamicEntry": true,
     "imports": [
       "wp-content/themes/template/resources/Private/Vue/app.ts"
