@@ -35,9 +35,9 @@ if (!class_exists('ACF') or !$timber) {
 // Constants
 define('PAGES', [
 	'HOME' => 1,
-	'SEARCH' => 3,
-	'PRIVACY_POLICY' => 5,
-	// 'NEWS' => 7,
+	'PRIVACY_POLICY' => 2,
+	'NEWS' => 3,
+	'SEARCH' => 4,
 ]);
 
 // Autoload

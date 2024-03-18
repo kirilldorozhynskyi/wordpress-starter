@@ -8,7 +8,7 @@
 			<span>
 				{{ button.btn.title }}
 
-				<svgicon :name="`{{ button.icon }}`"></svgicon>
+				{{ sprite(button.icon, button.icon) }}
 			</span>
 		{% else %}
 			{{ button.btn.title }}
@@ -16,14 +16,14 @@
 	</button>
 {% else %}
 	<a href="{{ button.btn.url }}"
-		title="{{ button.btn.title }}"
+		aria-label="{{ button.btn.title }}"
 		{{ button.btn.target ? 'target="' ~ button.btn.target ~ '" rel="noopener"' }}
 		class="btn{{ button.class ? ' ' ~ button.class }}{{ class }}">
 		{% if button.icon %}
 			<span>
 				{{ button.btn.title }}
 
-				<svgicon :name="`{{ button.icon }}`"></svgicon>
+				{{ sprite(button.icon, button.icon) }}
 			</span>
 		{% else %}
 			{{ button.btn.title }}

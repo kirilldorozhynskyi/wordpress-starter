@@ -55,7 +55,7 @@ return [
 			'label' => 'Site logo',
 			'type' => 'image',
 			'return_format' => 'array',
-			'required' => true,
+			'required' => false,
 			'wpml_cf_preferences' => 3,
 			'wrapper' => [
 				'width' => 25,
@@ -323,6 +323,7 @@ return [
 			'label' => 'Title',
 			'type' => 'textarea',
 			'rows' => 1,
+			'default_value' => __('Cookie-Settings', 'jdev'),
 			'new_lines' => 'br',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
@@ -342,6 +343,12 @@ return [
 			'label' => 'Text',
 			'type' => 'wysiwyg',
 			'toolbar' => 'basic',
+			'default_value' => __(
+				'We use <strong>necessary cookies</strong> to make our website work and are installed automatically. They enable security, accessibility and network management. As we want to improve your experience with our website, we would like to set <strong>functional, analytical and social media cookies</strong> which measure how you use our site and enable more personalized content, and provide social media features. Therefore we share information about your use of our website with our partners. They may combine this information with other data that you have provided to them or that they have collected as part of your use of the services. Some of our partner services are located in the USA, which is regarded by the European Court of Justice as a country without an adequate level of data protection. There is a possibility and risk that your personal data will be processed by US authorities for control and surveillance, leaving you without effective remedies against it. With you clicking on "Accept all cookies", you agree that cookies on our website can be used by us as well as third party providers (also in the USA) and that data can be transferred (Art 49. GDPR) unless other suitable guarantees are exceptionally not available. Your consent is voluntary and can be revoked at any time. You can configure cookies under settings.
+
+			Detailed information can be found in our <a href="https://wordpress-starter.ddev.site/privacy-policy/">Privacy Statement – Cookies</a>.',
+				'jdev',
+			),
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
@@ -364,6 +371,7 @@ return [
 			'wrapper' => [
 				'width' => 50,
 			],
+			'default_value' => __('Confirm selection', 'jdev'),
 			'required' => true,
 			'conditional_logic' => [
 				[
@@ -381,6 +389,7 @@ return [
 			'label' => 'Accept all text',
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
+			'default_value' => __('Accept all', 'jdev'),
 			'wrapper' => [
 				'width' => 50,
 			],
@@ -402,6 +411,7 @@ return [
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __('How do we use Cookies:', 'jdev'),
 			'conditional_logic' => [
 				[
 					[
@@ -421,6 +431,10 @@ return [
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __(
+				'Cookies are pieces of information that a website transfers to your device when you access any website. Cookies allow our website to recognize your device and store information about your preferences or past actions. This information can be connected to you, your settings, your device or they take care, that a website you visit functions in line with your expectations. Information provided to us by cookies do not reveal your identity directly, but can enable you better user experience. You can say “no” to some cookies. Please review details on each cookies bellow and decide which you prefer in settings. Disabling cookies might influence use of our website or services on your device.',
+				'jdev',
+			),
 			'conditional_logic' => [
 				[
 					[
@@ -438,6 +452,7 @@ return [
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __('Neceassary cookies', 'jdev'),
 			'conditional_logic' => [
 				[
 					[
@@ -457,6 +472,10 @@ return [
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __(
+				'We use necessary cookies to make our website work: for security, accessibility and network management. They are installed automatically. For this purpose we do not need your consent as these cookies do not process personal data. You have the possibility to change your cookie settings in your browser at any time, but the website might then not work properly.',
+				'jdev',
+			),
 			'conditional_logic' => [
 				[
 					[
@@ -474,6 +493,7 @@ return [
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __('Functional cookies', 'jdev'),
 			'conditional_logic' => [
 				[
 					[
@@ -493,6 +513,10 @@ return [
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __(
+				'Functional cookies allow us to improve website performance and customization based on your choices that you make on the website. They are set by us or by our contractual partners who provide their services on our websites with our permission (e.g. website satisfaction survey service). If you do not accept these cookies, some or all of the website\'s features may not work.',
+				'jdev',
+			),
 			'conditional_logic' => [
 				[
 					[
@@ -510,6 +534,7 @@ return [
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __('Analytical cookies', 'jdev'),
 			'conditional_logic' => [
 				[
 					[
@@ -529,6 +554,10 @@ return [
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __(
+				'We use Google analytics to helps us understand how you use our website. It helps us to make decisions about general improvements to the functionality and content of the website. The cookies collect information in a way that does not directly identify you.',
+				'jdev',
+			),
 			'conditional_logic' => [
 				[
 					[
@@ -546,6 +575,7 @@ return [
 			'type' => 'text',
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __('Social Media Cookies', 'jdev'),
 			'conditional_logic' => [
 				[
 					[
@@ -565,6 +595,10 @@ return [
 			'media_upload' => 0,
 			'wpml_cf_preferences' => 3,
 			'required' => true,
+			'default_value' => __(
+				'These cookies are set by a number of social network providers that we have added to our website. These cookies enable you to share content with your friends and networks. When you “surf the internet” these cookies track your browser and build a profile of your interests. In doing so, they influence the content and messages you see on the websites you visit. If you refuse the use of these cookies, content sharing tools may not be available to you.',
+				'jdev',
+			),
 			'conditional_logic' => [
 				[
 					[
