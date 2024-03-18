@@ -3,11 +3,12 @@
 	"type": "project",
 	"description": "jD WordPress starter",
 	"homepage": "https://justdev.org",
+	"license": "MIT",
 	"keywords": [
 		"WordPress",
 		"Starter"
 	],
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
