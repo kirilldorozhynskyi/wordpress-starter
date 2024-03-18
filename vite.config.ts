@@ -4,23 +4,29 @@ import path from 'path'
 import laravel from 'laravel-vite-plugin'
 import mkcert from 'vite-plugin-mkcert'
 import sassGlobImports from 'vite-plugin-sass-glob-import'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 
-const theme = 'wp-content/themes/template/resources/'
+// Config
+import config from './config.js'
+
+const { baseDir, SvgSpritemap } = config
 
 export default defineConfig({
+	base: process.env.NODE_ENV == 'production' ? `/${baseDir}Public/Build/` : '',
 	build: {
-		outDir: path.join(__dirname, `${theme}Public/Build`),
+		outDir: path.join(__dirname, `${baseDir}Public/Build`),
 		manifest: true,
 		rollupOptions: {
 			input: {
-				main: path.resolve(__dirname, `${theme}Private/Vue/app.ts`),
-				// rte: path.resolve(__dirname, `${theme}Private/Scss/rte.scss`),
+				main: path.resolve(__dirname, `${baseDir}Private/Vue/app.ts`),
+				// rte: path.resolve(__dirname, `${baseDir}Private/Scss/rte.scss`),
 			},
 		},
 	},
 	resolve: {
 		alias: {
+			'~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+			'~fonts': `/${baseDir}}/Public/Fonts`,
 			vue: 'vue/dist/vue.esm-bundler.js',
 		},
 	},
@@ -44,10 +50,6 @@ export default defineConfig({
 		mkcert(),
 		sassGlobImports(),
 		vue(),
-		createSvgIconsPlugin({
-			iconDirs: [path.resolve(process.cwd(), `${theme}Icons`)],
-			symbolId: 'icon-[dir]-[name]',
-			customDomId: '__svg__icons__dom__',
-		}),
+		VitePluginSvgSpritemap(path.resolve(process.cwd(), `${baseDir}/Icons/*.svg`), SvgSpritemap),
 	],
 })

@@ -34,10 +34,6 @@ $env_files = file_exists($root_dir . '/.env.local') ? ['.env', '.env.local'] : [
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable($root_dir, $env_files, false);
 if (file_exists($root_dir . '/.env')) {
 	$dotenv->load();
-	$dotenv->required(['WP_ENV', 'ENV_DEVELOPMENT']);
-	if (!env('DATABASE_URL')) {
-		$dotenv->required(['DB_NAME', 'DB_USER', 'DB_PASSWORD']);
-	}
 }
 
 /**
@@ -53,6 +49,8 @@ $envs = [
 	'development' => env('ENV_DEVELOPMENT'),
 	'staging' => env('ENV_STAGING'),
 	'production' => env('ENV_PRODUCTION'),
+	'container1' => env('AWS_CONTAINER1'),
+	'container2' => env('AWS_CONTAINER2'),
 ];
 define('ENVIRONMENTS', serialize($envs));
 
@@ -61,10 +59,22 @@ define('ENVIRONMENTS', serialize($envs));
  */
 switch (WP_ENV) {
 	case 'staging':
-		$WP_HOME = $envs['staging'];
+		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+			$WP_HOME = 'https://' . $envs['container1'];
+		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+			$WP_HOME = 'https://' . $envs['container2'];
+		} else {
+			$WP_HOME = 'https://' . $envs['staging'];
+		}
 		break;
 	case 'production':
-		$WP_HOME = $envs['production'];
+		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+			$WP_HOME = 'https://' . $envs['container1'];
+		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+			$WP_HOME = 'https://' . $envs['container2'];
+		} else {
+			$WP_HOME = 'https://' . $envs['production'];
+		}
 		break;
 	default:
 		$WP_HOME = $envs['development'];
@@ -126,6 +136,9 @@ Config::define('DISALLOW_FILE_EDIT', true);
 Config::define('DISALLOW_FILE_MODS', true);
 // Limit the number of post revisions that Wordpress stores (true (default WP): store every revision)
 Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?: true);
+
+// Set default theme
+Config::define('WP_DEFAULT_THEME', 'template');
 
 /**
  * Debugging Settings
