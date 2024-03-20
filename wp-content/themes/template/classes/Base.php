@@ -211,6 +211,13 @@ class Base
 		add_post_type_support('page', 'excerpt');
 		add_theme_support('post-thumbnails');
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
+
+		$sizes = [];
+
+		foreach ($sizes as $key => $value) {
+			add_image_size($value['name'], $value['size'], $value['sizeH'] ? $value['sizeH'] : 0);
+			add_image_size($value['name'] . '2x', $value['size'] * 2, $value['sizeH'] ? $value['sizeH'] * 2 : 0);
+		}
 	}
 
 	/**
@@ -333,6 +340,7 @@ class Base
 		$twig->addFunction(new TwigFunction('vimeoIframeSrc', [$this, 'vimeoIframeSrc']));
 		$twig->addFunction(new TwigFunction('button', [$this, 'button']));
 		$twig->addFunction(new TwigFunction('GetImage', [$this, 'GetImage']));
+		$twig->addFunction(new TwigFunction('_Image', [$this, '_Image']));
 		$twig->addFunction(new TwigFunction('sprite', [$this, 'sprite']));
 		$twig->addFilter(new TwigFilter('mailLink', [$this, 'mailLink']));
 		$twig->addFilter(new TwigFilter('phoneLink', [$this, 'phoneLink']));
@@ -801,6 +809,34 @@ class Base
 			'retina_size' => $retina_size,
 		];
 		return Timber::compile('components/_image.twig', $context);
+	}
+
+	/**
+	 * Create image
+	 *
+	 * @param $image
+	 * @return array
+	 */
+	public function _Image($id, $class = '', $size = 'thumbnail', $array = false)
+	{
+		$src = wp_get_attachment_image_src($id, $size);
+		$src2x = wp_get_attachment_image_src($id, $size . '2x');
+		$alt_text = get_post_meta($id, '_wp_attachment_image_alt', true);
+
+		$context['image'] = [
+			'class' => $class,
+			'size' => $src[1] . ', ' . $src[2],
+			'src' => $src[0],
+			'width' => $src[1],
+			'height' => $src[2],
+			'retina' => $src2x[0],
+			'alt' => $alt_text,
+		];
+		if ($array) {
+			return $context['image'];
+		}
+
+		return Timber::compile('components/_image_wp.twig', $context);
 	}
 
 	/**
