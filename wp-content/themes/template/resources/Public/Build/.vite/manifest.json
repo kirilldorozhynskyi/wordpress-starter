@@ -1,12 +1,94 @@
 {
+  "_@popperjs-NtRVqJeX.js": {
+    "file": "assets/@popperjs-NtRVqJeX.js"
+  },
+  "_@vue-1lttQfaj.js": {
+    "file": "assets/@vue-1lttQfaj.js"
+  },
+  "_aos-pc3J11IJ.js": {
+    "file": "assets/aos-pc3J11IJ.js",
+    "imports": [
+      "_lodash.throttle-D6-4U_1b.js",
+      "_lodash.debounce-qMaUl166.js"
+    ]
+  },
+  "_bootstrap-ujtJ-9R9.js": {
+    "file": "assets/bootstrap-ujtJ-9R9.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_dom-slider-_ojymFDI.js": {
+    "file": "assets/dom-slider-_ojymFDI.js"
+  },
+  "_lodash-ScgP-jpX.js": {
+    "file": "assets/lodash-ScgP-jpX.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_lodash.debounce-qMaUl166.js": {
+    "file": "assets/lodash.debounce-qMaUl166.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_lodash.throttle-D6-4U_1b.js": {
+    "file": "assets/lodash.throttle-D6-4U_1b.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_postscribe-xOrHPg2m.js": {
+    "file": "assets/postscribe-xOrHPg2m.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_vanilla-lazyload-12OIww4J.js": {
+    "file": "assets/vanilla-lazyload-12OIww4J.js"
+  },
+  "_vue-TuAqirzV.js": {
+    "file": "assets/vue-TuAqirzV.js",
+    "imports": [
+      "_@vue-1lttQfaj.js"
+    ]
+  },
+  "_vue-scrollto-DAbD7NhE.js": {
+    "file": "assets/vue-scrollto-DAbD7NhE.js",
+    "imports": [
+      "_@popperjs-NtRVqJeX.js"
+    ]
+  },
+  "_vue3-i18n-R1xQAJpo.js": {
+    "file": "assets/vue3-i18n-R1xQAJpo.js",
+    "imports": [
+      "_vue-TuAqirzV.js",
+      "_@vue-1lttQfaj.js"
+    ]
+  },
   "spritemap.svg": {
     "file": "assets/spritemap.svg",
     "src": "spritemap.svg"
   },
   "wp-content/themes/template/resources/Private/Vue/app.ts": {
-    "file": "assets/main-h-bYRjeK.js",
+    "file": "assets/main-XpW-aqGx.js",
     "src": "wp-content/themes/template/resources/Private/Vue/app.ts",
     "isEntry": true,
+    "imports": [
+      "_aos-pc3J11IJ.js",
+      "_dom-slider-_ojymFDI.js",
+      "_lodash-ScgP-jpX.js",
+      "_vanilla-lazyload-12OIww4J.js",
+      "_vue-TuAqirzV.js",
+      "_vue-scrollto-DAbD7NhE.js",
+      "_vue3-i18n-R1xQAJpo.js",
+      "_bootstrap-ujtJ-9R9.js",
+      "_@vue-1lttQfaj.js",
+      "_lodash.throttle-D6-4U_1b.js",
+      "_@popperjs-NtRVqJeX.js",
+      "_lodash.debounce-qMaUl166.js"
+    ],
     "dynamicImports": [
       "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue"
     ],
@@ -15,11 +97,24 @@
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue": {
-    "file": "assets/CustomScript-chIKqgIa.js",
+    "file": "assets/CustomScript-3AswJAW7.js",
     "src": "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue",
     "isDynamicEntry": true,
     "imports": [
-      "wp-content/themes/template/resources/Private/Vue/app.ts"
+      "_postscribe-xOrHPg2m.js",
+      "_vue-TuAqirzV.js",
+      "wp-content/themes/template/resources/Private/Vue/app.ts",
+      "_@vue-1lttQfaj.js",
+      "_@popperjs-NtRVqJeX.js",
+      "_aos-pc3J11IJ.js",
+      "_lodash.throttle-D6-4U_1b.js",
+      "_lodash.debounce-qMaUl166.js",
+      "_dom-slider-_ojymFDI.js",
+      "_lodash-ScgP-jpX.js",
+      "_vanilla-lazyload-12OIww4J.js",
+      "_vue-scrollto-DAbD7NhE.js",
+      "_vue3-i18n-R1xQAJpo.js",
+      "_bootstrap-ujtJ-9R9.js"
     ]
   }
 }

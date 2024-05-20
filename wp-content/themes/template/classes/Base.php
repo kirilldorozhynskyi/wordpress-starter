@@ -210,6 +210,7 @@ class Base
 		add_theme_support('title-tag');
 		add_post_type_support('page', 'excerpt');
 		add_theme_support('post-thumbnails');
+		// add_post_type_support('news', 'thumbnail');
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
 
 		$sizes = [];

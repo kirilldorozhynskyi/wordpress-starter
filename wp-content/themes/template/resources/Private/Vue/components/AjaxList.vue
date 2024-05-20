@@ -1,18 +1,17 @@
 <template>
 	<div>
 		<!-- Slot for filter form -->
-		<slot name="filter" :filter="list.filter" />
+		<slot name="filter" v-bind="{ filter: list.filter }" />
 
 		<!-- Loader-->
 		<transition name="fade">
 			<div class="d-flex justify-content-center">
-				<!-- eslint-disable-next-line max-len -->
 				<div v-show="list.isLoading.value" class="spinner-border spinner-border-sm text-primary" role="status">
 					<span class="visually-hidden">Loading</span>
 				</div>
 			</div>
 		</transition>
-		<!-- Search status / no items found message -->
+		<!-- No items found message-->
 		<transition name="fade">
 			<div v-if="!list.isLoading.value && !list.visibleItems.value.length">
 				<span class="d-block font-weight-bold">Keine Einträge gefunden…</span>
@@ -20,32 +19,32 @@
 		</transition>
 		<!-- Items listing -->
 		<transition-group tag="div" class="row mb-2" name="arrange">
-			<div v-for="item in list.visibleItems.value" :key="item.uid" class="col-sm-6 col-lg-4 arrange-item" v-html="item.content" />
+			<div v-for="item in list.visibleItems.value" :key="item.uid" class="col-md-6 arrange-item" v-html="item.content" />
 		</transition-group>
-		<!-- Indexing -->
+		<!-- Pagination -->
 		<div class="text-center">
-			<!-- eslint-disable-next-line max-len -->
-			<button
-				v-if="!list.pagination.isLastPage.value && list.pagination.type.value === 'load-more-btn'"
-				:class="['btn btn-primary btn-loading', { loading: list.isLoading.value }]"
-				@click="list.pagination.nextPage()"
-			>
-				<transition name="fade">
-					<span v-show="list.isLoading.value" class="spinner-loader" role="status" />
-				</transition>
-				Load more
-			</button>
-			<!-- Pagination -->
-			<el-pagination
-				v-if="list.pagination.type.value === 'pagination'"
-				:current-page="list.pagination.currentPage.value"
-				@update:current-page="handlePaginationClick"
-				hide-on-single-page
-				layout="prev, pager, next"
-				:pager-count="5"
-				:page-size="list.pagination.itemsPerPage.value"
-				:total="list.pagination.totalItems.value"
-			/>
+			<template v-if="list.pagination.type.value === 'load-more-btn'">
+				<button
+					v-if="!list.pagination.isLastPage.value"
+					:class="['btn btn-primary btn-loading', { loading: list.isLoading.value }]"
+					@click="list.pagination.nextPage()"
+				>
+					<transition name="fade">
+						<span v-show="list.isLoading.value" class="spinner-border spinner-border-sm" role="status" />
+					</transition>
+					Mehr laden
+				</button>
+			</template>
+			<template v-if="list.pagination.type.value === 'pagination'">
+				<el-pagination
+					v-if="list.filteredItems.value.length > list.pagination.itemsPerPage.value"
+					v-model:currentPage="list.pagination.currentPage.value"
+					:page-size="list.pagination.itemsPerPage.value"
+					:total="list.filteredItems.value.length"
+					layout="prev, pager, next"
+					@current-change="list.handlePaginationClick"
+				/>
+			</template>
 		</div>
 	</div>
 </template>
@@ -55,27 +54,49 @@
 // @ts-nocheck
 import { defineComponent } from 'vue'
 import { ElPagination } from 'element-plus'
-import type { AjaxListProps } from '../composables/ajaxList'
-import { AjaxList, makeAjaxListProps } from '../composables/ajaxList'
+import type { AjaxListProps, AjaxListFilterData } from '../composables/ajaxList'
+import { AjaxList, AjaxListItem, makeAjaxListProps } from '../composables/ajaxList'
+
+type NewsListProps = AjaxListProps
+
+interface NewsListCategory {
+	uid: number
+}
+
+interface NewsListFilterData extends AjaxListFilterData {
+	category: number | ''
+}
+
+class NewsListItem extends AjaxListItem {
+	categories: Array<NewsListCategory> = []
+}
+
+class NewsList extends AjaxList<NewsListItem, NewsListFilterData> {
+	filterItems() {
+		this.filteredItems.value = this.items.value.filter((news) => {
+			if (this.filter.data.category) {
+				return news.categories.some((category) => category == this.filter.data.category)
+			}
+			return true
+		})
+	}
+}
 
 export default defineComponent({
-	name: 'ajax-list',
-	props: {
-		...makeAjaxListProps()
-	},
+	name: 'news-list',
 	components: {
 		ElPagination
 	},
+	props: {
+		...makeAjaxListProps()
+	},
 	setup(props) {
-		const list = new AjaxList(props as AjaxListProps)
-
-		const handlePaginationClick = (page: number) => {
-			list.pagination.handlePaginationClick(page)
-		}
+		const list = new NewsList(props as NewsListProps, {
+			category: ''
+		})
 
 		return {
-			list,
-			handlePaginationClick
+			list
 		}
 	}
 })
