@@ -1,20 +1,14 @@
 /* eslint-disable */
-// @ts-nocheck
 import '../Scss/app.scss'
 import AOS from 'aos'
 import 'dom-slider'
 
 import { merge } from 'lodash'
 import LazyLoad from 'vanilla-lazyload'
-import type { App } from 'vue'
-import { createApp, defineAsyncComponent, ref } from 'vue'
-import type { Component } from '@vue/runtime-core'
-import VueScrollTo from 'vue-scrollto'
-// import { Swiper, SwiperSlide } from 'swiper/vue'
-// import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+import { createApp, defineAsyncComponent, ref, onMounted, onBeforeUnmount, defineComponent, computed } from 'vue'
 import { i18n } from './util'
-// import PhotoSwipe from './plugins/photo-swipe'
-// import VideoPlayer from './directives/video-player'
+import VueScrollTo from 'vue-scrollto'
+
 import PageHeader from './components/PageHeader.vue'
 
 const CustomScript = defineAsyncComponent(() => import('./components/CustomScript.vue'))
@@ -26,11 +20,8 @@ const CustomScript = defineAsyncComponent(() => import('./components/CustomScrip
 // const Counter = defineAsyncComponent(() => import('./components/Counter.vue'))
 // const Logowall = defineAsyncComponent(() => import('./components/Logowall.vue'))
 // const TabNavigation = defineAsyncComponent(() => import('./components/TabNavigation.vue'))
-
 // const NewsList = defineAsyncComponent(() => import('./components/NewsList.vue'))
 // const Search = defineAsyncComponent(() => import('./components/Search.vue'))
-
-// // GravityForm component and inputs
 // const GravityForm = defineAsyncComponent(() => import('./components/GravityForm.vue'))
 // const GfCheckboxes = defineAsyncComponent(() => import('./components/GravityFormElements/Checkboxes.vue'))
 // const GfConsent = defineAsyncComponent(() => import('./components/GravityFormElements/Consent.vue'))
@@ -44,7 +35,6 @@ const PREVENT_UNLOAD_CLASSES = [
 	'.ajax',
 	'.download',
 	'#scroll-to-top',
-	// '[data-photoswipe]',
 	'[download]',
 	'[href^=\\#]',
 	'[href*=ajax]',
@@ -57,23 +47,20 @@ const PREVENT_UNLOAD_CLASSES = [
 const SCROLL_OFFSET = 64
 const DESKTOP_BREAKPOINT = 768
 
-export const rootComponent: Component = {
-	/* == GLOBAL COMPONENTS == */
+const rootComponent = defineComponent({
 	components: {
 		CustomScript,
-
-		AjaxList,
 		PageHeader,
+		// AjaxList,
 		// Collapse,
-		// gallery: Gallery,
+		// Gallery,
 		// PageHeroSlider,
-		// quote: Quote,
-		// counter: Counter,
-		// logowall: Logowall,
+		// Quote,
+		// Counter,
+		// Logowall,
 		// TabNavigation,
-		// SwiperSlide,
 		// NewsList,
-		// search: Search,
+		// Search,
 		// GravityForm,
 		// GfCheckboxes,
 		// GfConsent,
@@ -83,36 +70,11 @@ export const rootComponent: Component = {
 		// GfSelect,
 		// GfTextarea,
 	},
-
-	/* ======= OPTIONS ======= */
 	delimiters: ['<%', '%>'],
-
-	/* ======= DIRECTIVES ======= */
 	directives: {
 		'scroll-to': VueScrollTo,
 		// 'video-player': VideoPlayer,
 	},
-
-	computed: {
-		scrollOffset() {
-			let offset = -SCROLL_OFFSET
-
-			if (this.header && this.header.value) {
-				offset -= this.header.value.offsetHeight
-			}
-
-			return offset
-		},
-	},
-
-	provide() {
-		return {
-			lazyLoad: this.lazyLoad,
-			scrollOffset: this.scrollOffset,
-		}
-	},
-
-	/* ======== SETUP ======== */
 	setup() {
 		const header = ref<HTMLElement | null>(null)
 		const lazyLoad = new LazyLoad({
@@ -123,59 +85,44 @@ export const rootComponent: Component = {
 			class_applied: 'lazy-bg-loaded',
 			class_error: 'lazy-error',
 		})
-		// const photoSwipe = new PhotoSwipe()
 
-		return {
-			header,
-			lazyLoad,
-			// photoSwipe,
-		}
-	},
-
-	/* === LIFECYCLE HOOKS === */
-	created() {
-		window.addEventListener('load', this.onLoad)
-		window.addEventListener('scroll', this.onScroll)
-		window.addEventListener('beforeunload', this.beforeUnloadListener)
-		this.createdHook()
-	},
-	mounted() {
-		AOS.init({
-			duration: 900,
-			once: true,
-			disable: window.innerWidth < DESKTOP_BREAKPOINT,
+		const scrollOffset = computed(() => {
+			let offset = -SCROLL_OFFSET
+			if (header.value) {
+				offset -= header.value.offsetHeight
+			}
+			return offset
 		})
 
-		this.lazyLoad.update()
-		document.body.classList.add('loaded')
-		this.mountedHook()
-	},
+		const onLoad = () => {
+			document.body.classList.add('loaded')
+			initUnload()
+			loadedHook()
+		}
 
-	/* ======= METHODS ======= */
-	methods: {
-		/* === LIFECYCLE METHODS HOOKS === */
-		createdHook() {
-			/* Placeholder function used to extend Vue created hook in projects */
-		},
-		loadedHook() {
-			/* Placeholder function used to extend document on-load event in projects */
-		},
-		mountedHook() {
-			/* Placeholder function used to extend Vue mounted hook in projects */
-		},
+		const onScroll = () => {
+			const scrollToTopButton = document.querySelector('.page-return-top')
+			if (scrollToTopButton) {
+				if (window.scrollY >= 200) {
+					scrollToTopButton.classList.add('active')
+				} else {
+					scrollToTopButton.classList.remove('active')
+				}
+			}
+		}
 
-		/* ======= GENERAL METHODS ======= */
-		initUnload() {
+		const beforeUnloadListener = () => {
+			/* Placeholder for unload listener logic */
+		}
+
+		const initUnload = () => {
 			let links = 'a'
-
 			PREVENT_UNLOAD_CLASSES.forEach((className) => {
 				links += `:not(${className})`
 			})
-
 			document.querySelectorAll<HTMLAnchorElement>(links).forEach((link) => {
 				link.addEventListener('click', (event) => {
 					const target = event.currentTarget as HTMLAnchorElement | null
-
 					if (event.ctrlKey || event.shiftKey || event.metaKey || event.button === 1) {
 						return true
 					}
@@ -187,56 +134,70 @@ export const rootComponent: Component = {
 						if (window.history.length > 1) {
 							window.history.back()
 						}
-
 						return false
 					}
 					document.body.classList.remove('loaded')
-
 					return true
 				})
 			})
-		},
-		onLoad() {
+		}
+
+		const createdHook = () => {
+			/* Placeholder function used to extend Vue created hook in projects */
+		}
+		const loadedHook = () => {
+			/* Placeholder function used to extend document on-load event in projects */
+		}
+		const mountedHook = () => {
+			/* Placeholder function used to extend Vue mounted hook in projects */
+		}
+
+		onMounted(() => {
+			window.addEventListener('load', onLoad)
+			window.addEventListener('scroll', onScroll)
+			window.addEventListener('beforeunload', beforeUnloadListener)
+
+			AOS.init({
+				duration: 900,
+				once: true,
+				disable: window.innerWidth < DESKTOP_BREAKPOINT,
+			})
+			lazyLoad.update()
 			document.body.classList.add('loaded')
-			this.initUnload()
-			this.loadedHook()
-		},
-		onScroll() {
-			/* Scroll to top show/hide */
-			const scrollToTopButton = document.querySelector('.page-return-top')
-			if (scrollToTopButton) {
-				if (window.scrollY >= 200) {
-					scrollToTopButton.classList.add('active')
-				} else {
-					scrollToTopButton.classList.remove('active')
-				}
-			}
-		},
-		scrollToTop() {
-			window.scrollTo({ top: 0, behavior: 'smooth' })
-		},
+			mountedHook()
+		})
+
+		onBeforeUnmount(() => {
+			window.removeEventListener('load', onLoad)
+			window.removeEventListener('scroll', onScroll)
+			window.removeEventListener('beforeunload', beforeUnloadListener)
+		})
+
+		return {
+			header,
+			lazyLoad,
+			scrollOffset,
+			initUnload,
+			createdHook,
+			loadedHook,
+			mountedHook,
+		}
 	},
-}
+})
 
-export default function (projectRootComponent: Component): App<Element> {
+export default function (projectRootComponent) {
 	const app = createApp(merge(rootComponent, projectRootComponent))
-
 	app.use(i18n)
-
 	return app
 }
 
-// back button fixes
-window.addEventListener(
-	'pagehide',
-	(event) => {
-		if (event.persisted) {
-			/* the page isn't being discarded, so it can be reused later */
-		}
-	},
-	false
-)
-window.onpageshow = (event: PageTransitionEvent) => {
+window.addEventListener('pagehide', (event) => {
+	if (event.persisted) {
+		/* the page isn't being discarded, so it can be reused later */
+	}
+})
+
+window.onpageshow = (event) => {
 	if (event.persisted) {
 		window.location.reload()
 	}

@@ -8,31 +8,31 @@
 		"WordPress",
 		"Starter"
 	],
-	"version": "3.0.3",
+	"version": "3.1.0",
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
-		"roots/wordpress": "^6.4",
-		"vlucas/phpdotenv": "^5.5",
+		"roots/wordpress": "^6.5.2",
+		"vlucas/phpdotenv": "^5.6",
 		"oscarotero/env": "^2.1",
 		"roots/wp-config": "1.0.0",
 		"ext-json": "*",
-		"timber/timber": "^2.0",
-		"roots/bedrock-autoloader": "^1.0",
-		"roots/wp-stage-switcher": "^2.1",
+		"timber/timber": "^2.1",
+		"roots/bedrock-autoloader": "^1.0.4",
+		"roots/wp-stage-switcher": "^2.2",
 		"jdlocal/gravityforms": "2.8.5.1",
 		"jdlocal/wp-rocket": "^1.0",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
-		"yoast/wordpress-seo": "^22.2",
+		"yoast/wordpress-seo": "^22.5",
 		"wpackagist-plugin/wp-mail-smtp": "^4.0.1",
 		"wpackagist-plugin/all-in-one-wp-security-and-firewall": "^5.2.9",
-		"wpackagist-plugin/filebird": "^5.6.3",
-		"wpackagist-plugin/safe-svg": "^2.1.1",
+		"wpackagist-plugin/filebird": "^5.6.4",
+		"wpackagist-plugin/safe-svg": "^2.2.4",
 		"wpackagist-plugin/simple-301-redirects": "^2.0.7",
 		"wpackagist-plugin/wp-smushit": "^3.14.1",
 		"wpackagist-plugin/webp-express": "^0.25.6",
-		"justdev/jd-support": "^1.1.5",
+		"justdev/jd-support": "^1.1.6",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*"
@@ -138,7 +138,7 @@
 				"type:wordpress-theme"
 			]
 		},
-		"wordpress-install-dir": "./"
+		"wordpress-install-dir": "vendor/roots/wordpress"
 	},
 	"autoload": {
 		"psr-4": {
@@ -161,11 +161,20 @@
 	},
 	"scripts": {
 		"post-create-project-cmd": [
+			"composer config extra.wordpress-install-dir '.'",
 			"@install"
 		],
 		"install": [
 			"git init",
 			"npm i"
+		],
+		"post-install-cmd": [
+			"rsync -av --exclude='.git' vendor/roots/wordpress/ ./",
+			"rm -rf vendor/roots/wordpress/"
+		],
+		"post-update-cmd": [
+			"rsync -av --exclude='.git' vendor/roots/wordpress/ ./",
+			"rm -rf vendor/roots/wordpress/"
 		]
 	}
 }

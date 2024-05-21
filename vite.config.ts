@@ -12,6 +12,9 @@ import config from './config.js'
 const { baseDir, SvgSpritemap } = config
 
 export default defineConfig({
+	esbuild: {
+		drop: ['console', 'debugger'],
+	},
 	base: process.env.NODE_ENV == 'production' ? `/${baseDir}Public/Build/` : '',
 	build: {
 		outDir: path.join(__dirname, `${baseDir}Public/Build`),
@@ -20,6 +23,13 @@ export default defineConfig({
 			input: {
 				main: path.resolve(__dirname, `${baseDir}Private/Vue/app.ts`),
 				// rte: path.resolve(__dirname, `${baseDir}Private/Scss/rte.scss`),
+			},
+			output: {
+				manualChunks(id) {
+					if (id.includes('node_modules')) {
+						return id.toString().split('node_modules/')[1].split('/')[0].toString()
+					}
+				},
 			},
 		},
 	},
