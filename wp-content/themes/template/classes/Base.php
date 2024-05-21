@@ -53,7 +53,6 @@ class Base
 		add_filter('image_resize_dimensions', '__return_false');
 		add_filter('timber/context', [$this, 'addToContext']);
 		add_filter('timber/twig', [$this, 'addToTwig']);
-		add_filter('wp_sentry_options', [$this, 'sentryErrorsCapturing']);
 
 		add_filter('the_password_form', [$this, 'passwordForm']);
 
@@ -210,6 +209,7 @@ class Base
 		add_theme_support('title-tag');
 		add_post_type_support('page', 'excerpt');
 		add_theme_support('post-thumbnails');
+		// add_theme_support('woocommerce');
 		// add_post_type_support('news', 'thumbnail');
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
 
@@ -232,7 +232,7 @@ class Base
 		wp_deregister_style('wp-block-style');
 		// scripts
 		wp_deregister_script('wp-embed');
-		wp_deregister_script('jquery');
+		// wp_deregister_script('jquery');
 	}
 
 	/**
@@ -343,57 +343,12 @@ class Base
 		$twig->addFunction(new TwigFunction('GetImage', [$this, 'GetImage']));
 		$twig->addFunction(new TwigFunction('_Image', [$this, '_Image']));
 		$twig->addFunction(new TwigFunction('sprite', [$this, 'sprite']));
+		$twig->addFunction(new TwigFunction('timber_set_product', [$this, 'timber_set_product']));
 		$twig->addFilter(new TwigFilter('mailLink', [$this, 'mailLink']));
 		$twig->addFilter(new TwigFilter('phoneLink', [$this, 'phoneLink']));
 		$twig->addFilter(new TwigFilter('antiSpam', [$this, 'antiSpam']));
 
 		return $twig;
-	}
-
-	/**
-	 * Sentry - capturing errors
-	 */
-	public function sentryErrorsCapturing(\Sentry\Options $options)
-	{
-		$options->setBeforeSendCallback(function (\Sentry\Event $event) {
-			$exceptions = $event->getExceptions();
-
-			// No exceptions in the event? Send the event to Sentry, it's most likely a log message
-			if (empty($exceptions)) {
-				return $event;
-			}
-
-			$stacktrace = $exceptions[0]->getStacktrace();
-
-			// No stacktrace in the first exception? Send it to Sentry just to be safe then
-			if ($stacktrace === null) {
-				return $event;
-			}
-
-			// Little helper and fallback for PHP versions without the str_contains function
-			$strContainsHelper = function ($haystack, $needle) {
-				if (function_exists('str_contains')) {
-					return str_contains($haystack, $needle);
-				}
-
-				return $needle !== '' && mb_strpos($haystack, $needle) !== false;
-			};
-
-			foreach ($stacktrace->getFrames() as $frame) {
-				// Check the the frame happened inside our theme or plugin
-				// Change THEME_NAME and PLUGIN_NAME to whatever is required
-				// And / or modify this `if` statement to detect other variables
-				if ($strContainsHelper($frame->getFile(), 'themes/template')) {
-					// Send the event to Sentry
-					return $event;
-				}
-			}
-
-			// Stacktrace contained no frames in our theme and/or plugin? We send nothing to Sentry
-			return null;
-		});
-
-		return $options;
 	}
 
 	/**
@@ -899,5 +854,16 @@ class Base
 	public function deleteImageSizes($sizes)
 	{
 		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'thumbnail', 'medium']);
+	}
+
+	// Woo
+
+	public function timber_set_product($post)
+	{
+		global $product;
+
+		if (is_woocommerce()) {
+			$product = wc_get_product($post->ID);
+		}
 	}
 }

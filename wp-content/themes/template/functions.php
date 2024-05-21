@@ -49,7 +49,7 @@ new JDEV\RTEConfig();
 new JDEV\ACFConfig();
 
 // Models
-// new JDEV\Model\Search();
+new JDEV\Model\Search();
 // new JDEV\Model\GravityForm();
 // new JDEV\Model\Person();
 // new JDEV\Model\News();

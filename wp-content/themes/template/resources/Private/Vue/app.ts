@@ -1,12 +1,12 @@
 /* eslint-disable */
 import '../Scss/app.scss'
-import AOS from 'aos'
+// import AOS from 'aos'
 import 'dom-slider'
 
 import { merge } from 'lodash'
 import LazyLoad from 'vanilla-lazyload'
 import { createApp, defineAsyncComponent, ref, onMounted, onBeforeUnmount, defineComponent, computed } from 'vue'
-import { i18n } from './util'
+// import { i18n } from './util'
 import VueScrollTo from 'vue-scrollto'
 
 import PageHeader from './components/PageHeader.vue'
@@ -21,7 +21,7 @@ const CustomScript = defineAsyncComponent(() => import('./components/CustomScrip
 // const Logowall = defineAsyncComponent(() => import('./components/Logowall.vue'))
 // const TabNavigation = defineAsyncComponent(() => import('./components/TabNavigation.vue'))
 // const NewsList = defineAsyncComponent(() => import('./components/NewsList.vue'))
-// const Search = defineAsyncComponent(() => import('./components/Search.vue'))
+const Search = defineAsyncComponent(() => import('./components/Search.vue'))
 // const GravityForm = defineAsyncComponent(() => import('./components/GravityForm.vue'))
 // const GfCheckboxes = defineAsyncComponent(() => import('./components/GravityFormElements/Checkboxes.vue'))
 // const GfConsent = defineAsyncComponent(() => import('./components/GravityFormElements/Consent.vue'))
@@ -60,7 +60,7 @@ const rootComponent = defineComponent({
 		// Logowall,
 		// TabNavigation,
 		// NewsList,
-		// Search,
+		Search,
 		// GravityForm,
 		// GfCheckboxes,
 		// GfConsent,
@@ -157,11 +157,12 @@ const rootComponent = defineComponent({
 			window.addEventListener('scroll', onScroll)
 			window.addEventListener('beforeunload', beforeUnloadListener)
 
-			AOS.init({
-				duration: 900,
-				once: true,
-				disable: window.innerWidth < DESKTOP_BREAKPOINT,
-			})
+			// AOS.init({
+			// 	duration: 900,
+			// 	once: true,
+			// 	disable: window.innerWidth < DESKTOP_BREAKPOINT,
+			// })
+
 			lazyLoad.update()
 			document.body.classList.add('loaded')
 			mountedHook()
@@ -185,9 +186,9 @@ const rootComponent = defineComponent({
 	},
 })
 
-export default function (projectRootComponent) {
+export default function (projectRootComponent: any) {
 	const app = createApp(merge(rootComponent, projectRootComponent))
-	app.use(i18n)
+	// app.use(i18n)
 	return app
 }
 
@@ -197,7 +198,7 @@ window.addEventListener('pagehide', (event) => {
 	}
 })
 
-window.onpageshow = (event) => {
+window.onpageshow = (event: { persisted: any }) => {
 	if (event.persisted) {
 		window.location.reload()
 	}

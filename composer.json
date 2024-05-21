@@ -17,7 +17,7 @@
 		"oscarotero/env": "^2.1",
 		"roots/wp-config": "1.0.0",
 		"ext-json": "*",
-		"timber/timber": "^2.1",
+		"timber/timber": "^2.2",
 		"roots/bedrock-autoloader": "^1.0.4",
 		"roots/wp-stage-switcher": "^2.2",
 		"jdlocal/gravityforms": "2.8.5.1",
@@ -33,6 +33,7 @@
 		"wpackagist-plugin/wp-smushit": "^3.14.1",
 		"wpackagist-plugin/webp-express": "^0.25.6",
 		"justdev/jd-support": "^1.1.6",
+		"wpackagist-plugin/woocommerce": "^8.9.0",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*"
