@@ -1,8 +1,18 @@
-<picture class="picture">
-	<img lazy
-		src="{{ getImagePlaceholder(image.size) }}"
-		data-srcset="{{ get_image(image.img)|resize(image.size) }} 1x, {{ get_image(image.img)|resize(image.retina_size) }} 2x"
-		width="486"
+{% if image.img.mime_type == 'image/svg+xml' %}
+	<object src="{{ getImagePlaceholder(image.size) }}"
 		class="img-fluid{{ image.class ? ' ' ~ image.class }}"
-		alt="{{ get_image(image.img).alt }}" />
-</picture>
+		width="{{ image.width }}"
+		height="{{ image.height }}"
+		lazy
+		type="image/svg+xml"
+		data-src="{{ image.img.url }}"></object>
+{% else %}
+	<picture class="picture">
+		<img lazy
+			data-srcset="{{ get_image(image.img)|resize(image.size) }} 1x, {{ get_image(image.img)|resize(image.retina_size) }} 2x"
+			width="{{ image.width }}"
+			height="{{ image.height }}"
+			class="img-fluid{{ image.class ? ' ' ~ image.class }}"
+			alt="{{ get_image(image.img).alt }}" />
+	</picture>
+{% endif %}

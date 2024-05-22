@@ -8,15 +8,7 @@
 		{{ function('wp_head') }}
 
 		{# Favicons #}
-		<link rel="apple-touch-icon" sizes="180x180" href="{{ theme.uri }}/resources/Public/Favicons/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="{{ theme.uri }}/resources/Public/Favicons/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="{{ theme.uri }}/resources/Public/Favicons/favicon-16x16.png" />
-		<link rel="manifest" href="{{ theme.uri }}/resources/Public/Favicons/site.webmanifest" />
-		<link rel="mask-icon" href="{{ theme.uri }}/resources/Public/Favicons/safari-pinned-tab.svg" color="#5bbad5" />
-		<link rel="shortcut icon" href="{{ theme.uri }}/resources/Public/Favicons/favicon.ico" />
-		<meta name="msapplication-TileColor" content="#da532c" />
-		<meta name="msapplication-config" content="{{ theme.uri }}/resources/Public/Favicons/browserconfig.xml" />
-		<meta name="theme-color" content="#ffffff" />
+		{{ getFavicon() }}
 
 		{# Google Tag Manager #}
 		{% if fn('wp_get_environment_type') == 'production' and options.general_gtm %}

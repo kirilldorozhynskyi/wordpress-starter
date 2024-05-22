@@ -333,6 +333,7 @@ class Base
 		$twig->addFunction(new TwigFunction('getBreadcrumbs', [$this, 'getBreadcrumbs']));
 		$twig->addFunction(new TwigFunction('getGalleryImage', [$this, 'getGalleryImage']));
 		$twig->addFunction(new TwigFunction('getImagePlaceholder', [$this, 'getImagePlaceholder']));
+		$twig->addFunction(new TwigFunction('getFavicon', [$this, 'getFavicon']));
 		$twig->addFunction(new TwigFunction('isChildOf', [$this, 'isChildOf']));
 		$twig->addFunction(new TwigFunction('setType', [$this, 'setType']));
 		$twig->addFunction(new TwigFunction('truncateText', [$this, 'truncateText']));
@@ -341,7 +342,6 @@ class Base
 		$twig->addFunction(new TwigFunction('vimeoIframeSrc', [$this, 'vimeoIframeSrc']));
 		$twig->addFunction(new TwigFunction('button', [$this, 'button']));
 		$twig->addFunction(new TwigFunction('GetImage', [$this, 'GetImage']));
-		$twig->addFunction(new TwigFunction('_Image', [$this, '_Image']));
 		$twig->addFunction(new TwigFunction('sprite', [$this, 'sprite']));
 		$twig->addFunction(new TwigFunction('timber_set_product', [$this, 'timber_set_product']));
 		$twig->addFilter(new TwigFilter('mailLink', [$this, 'mailLink']));
@@ -570,6 +570,66 @@ class Base
 	}
 
 	/**
+	 * Get Favicon
+	 */
+	public function getFavicon()
+	{
+		$path = get_template_directory_uri() . '/resources/Public/Build/';
+		$extpath = get_template_directory_uri() . '/resources/Public/ext/';
+		$ext = get_template_directory() . '/resources/Public/ext/';
+
+		$webmanifest = str_replace('assets/', '', $this->viteManifest['manifest.webmanifest']['file']);
+
+		if (!file_exists($ext . $webmanifest)) {
+			$files = glob($ext . '/*');
+
+			foreach ($files as $file) {
+				if (is_file($file)) {
+					unlink($file);
+				}
+			}
+
+			$manifestContent = file_get_contents($path . $this->viteManifest['manifest.webmanifest']['file']);
+
+			$json = json_decode(str_replace('/assets/', $path . 'assets/', $manifestContent));
+
+			$json->name = get_bloginfo();
+			$json->short_name = get_bloginfo();
+			$json->description = get_bloginfo('description');
+			$json->lang = get_locale();
+			$json->background_color = get_fields('options')['general_background_color'];
+			$json->theme_color = get_fields('options')['general_theme_color'];
+
+			file_put_contents($ext . $webmanifest, json_encode($json));
+		}
+
+		$context['fav'] = [
+			'manifest' => $extpath . $webmanifest,
+			'theme_color' => get_fields('options')['general_theme_color'],
+			'favicons' => [
+				'favicon-16x16.png' => $path . $this->viteManifest['favicon-16x16.png']['file'],
+				'favicon-32x32.png' => $path . $this->viteManifest['favicon-32x32.png']['file'],
+				'favicon-48x48.png' => $path . $this->viteManifest['favicon-48x48.png']['file'],
+				'favicon.ico' => $path . $this->viteManifest['favicon.ico']['file'],
+			],
+			'apple' => [
+				'apple-touch-icon-1024x1024.png' => $path . $this->viteManifest['apple-touch-icon-1024x1024.png']['file'],
+				'apple-touch-icon-114x114.png' => $path . $this->viteManifest['apple-touch-icon-114x114.png']['file'],
+				'apple-touch-icon-120x120.png' => $path . $this->viteManifest['apple-touch-icon-120x120.png']['file'],
+				'apple-touch-icon-144x144.png' => $path . $this->viteManifest['apple-touch-icon-144x144.png']['file'],
+				'apple-touch-icon-152x152.png' => $path . $this->viteManifest['apple-touch-icon-152x152.png']['file'],
+				'apple-touch-icon-167x167.png' => $path . $this->viteManifest['apple-touch-icon-167x167.png']['file'],
+				'apple-touch-icon-180x180.png' => $path . $this->viteManifest['apple-touch-icon-180x180.png']['file'],
+				'apple-touch-icon-57x57.png' => $path . $this->viteManifest['apple-touch-icon-57x57.png']['file'],
+				'apple-touch-icon-60x60.png' => $path . $this->viteManifest['apple-touch-icon-60x60.png']['file'],
+				'apple-touch-icon-72x72.png' => $path . $this->viteManifest['apple-touch-icon-72x72.png']['file'],
+				'apple-touch-icon-76x76.png' => $path . $this->viteManifest['apple-touch-icon-76x76.png']['file'],
+			],
+		];
+		return Timber::compile('partials/elements/favicon.twig', $context);
+	}
+
+	/**
 	 * Determines if current post is child of given parent post ID
 	 *
 	 * @param $pid
@@ -762,38 +822,40 @@ class Base
 			'img' => $img,
 			'class' => $class,
 			'size' => $normal_size,
+			'width' => $size[0] ?? '',
+			'height' => $size[1] ?? '',
 			'retina_size' => $retina_size,
 		];
 		return Timber::compile('components/_image.twig', $context);
 	}
 
-	/**
-	 * Create image
-	 *
-	 * @param $image
-	 * @return array
-	 */
-	public function _Image($id, $class = '', $size = 'thumbnail', $array = false)
-	{
-		$src = wp_get_attachment_image_src($id, $size);
-		$src2x = wp_get_attachment_image_src($id, $size . '2x');
-		$alt_text = get_post_meta($id, '_wp_attachment_image_alt', true);
+	// /**
+	//  * Create image
+	//  *
+	//  * @param $image
+	//  * @return array
+	//  */
+	// public function _Image($id, $class = '', $size = 'thumbnail', $array = false)
+	// {
+	// 	$src = wp_get_attachment_image_src($id, $size);
+	// 	$src2x = wp_get_attachment_image_src($id, $size . '2x');
+	// 	$alt_text = get_post_meta($id, '_wp_attachment_image_alt', true);
 
-		$context['image'] = [
-			'class' => $class,
-			'size' => $src[1] . ', ' . $src[2],
-			'src' => $src[0],
-			'width' => $src[1],
-			'height' => $src[2],
-			'retina' => $src2x[0],
-			'alt' => $alt_text,
-		];
-		if ($array) {
-			return $context['image'];
-		}
+	// 	$context['image'] = [
+	// 		'class' => $class,
+	// 		'size' => $src[1] . ', ' . $src[2],
+	// 		'src' => $src[0],
+	// 		'width' => $src[1],
+	// 		'height' => $src[2],
+	// 		'retina' => $src2x[0],
+	// 		'alt' => $alt_text,
+	// 	];
+	// 	if ($array) {
+	// 		return $context['image'];
+	// 	}
 
-		return Timber::compile('components/_image_wp.twig', $context);
-	}
+	// 	return Timber::compile('components/_image_wp.twig', $context);
+	// }
 
 	/**
 	 * Create href with `mailto:` prefix and e-mail address
