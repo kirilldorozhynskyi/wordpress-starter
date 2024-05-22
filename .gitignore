@@ -54,3 +54,4 @@ wp-admin
 
 
 package-lock.json
+wp-content/themes/template/resources/Public/ext
