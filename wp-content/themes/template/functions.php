@@ -50,6 +50,12 @@ new JDEV\ACFConfig();
 
 // Models
 new JDEV\Model\Search();
-// new JDEV\Model\GravityForm();
+// if (!class_exists('GFAPI')) {
+// 	add_action('admin_notices', function () {
+// 		echo '<div class="error"><p>GravityForm not activated. Make sure you activate the plugin</p></div>';
+// 	});
+// } else {
+// 	new JDEV\Model\GravityForm();
+// }
 // new JDEV\Model\Person();
 // new JDEV\Model\News();

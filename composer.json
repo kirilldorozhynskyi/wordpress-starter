@@ -12,6 +12,8 @@
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
+		"symfony/yaml": "*",
+		"symfony/console": "*",
 		"roots/wordpress": "^6.5.2",
 		"vlucas/phpdotenv": "^5.6",
 		"oscarotero/env": "^2.1",
@@ -143,7 +145,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"JDEV\\": "wp-content/themes/template/classes"
+			"JDEV\\": "wp-content/themes/template/classes",
+			"JDEVINT\\": "scripts/"
 		}
 	},
 	"require-dev": {
@@ -163,20 +166,20 @@
 	"scripts": {
 		"post-create-project-cmd": [
 			"composer config extra.wordpress-install-dir '.'",
+			"JDEVINT\\Installer::create",
 			"@install"
 		],
-		"install": [
-			"git init",
-			"npm i"
-		],
 		"post-install-cmd": [
-			"rsync -av --exclude='.git' vendor/wordpress/ ./",
-			"rm -rf vendor/roots/wordpress/"
+			"JDEVINT\\Installer::install"
 		],
 		"post-update-cmd": [
 			"rsync -av --exclude='.git' vendor/wordpress/ ./",
 			"rm -rf vendor/roots/wordpress/"
+		],
+		"install": [
+			"git init",
+			"npm i",
+			"git commit -a -m '[INT] Starter initial'"
 		]
 	}
-}
 }
