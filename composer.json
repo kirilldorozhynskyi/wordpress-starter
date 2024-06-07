@@ -12,8 +12,6 @@
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
-		"symfony/yaml": "*",
-		"symfony/console": "*",
 		"roots/wordpress": "^6.5.2",
 		"vlucas/phpdotenv": "^5.6",
 		"oscarotero/env": "^2.1",
@@ -170,11 +168,11 @@
 			"@install"
 		],
 		"post-install-cmd": [
-			"JDEVINT\\Installer::install"
-		],
-		"post-update-cmd": [
 			"rsync -av --exclude='.git' vendor/wordpress/ ./",
 			"rm -rf vendor/roots/wordpress/"
+		],
+		"post-update-cmd": [
+			"JDEVINT\\Installer::install"
 		],
 		"install": [
 			"git init",
