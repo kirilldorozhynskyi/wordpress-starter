@@ -5,6 +5,7 @@ import laravel from 'laravel-vite-plugin'
 import mkcert from 'vite-plugin-mkcert'
 import sassGlobImports from 'vite-plugin-sass-glob-import'
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
+import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
 
 // Config
 import config from './config.js'
@@ -36,7 +37,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
-			'~fonts': `/${baseDir}}/Public/Fonts`,
+			'~fonts': `/${baseDir}Public/Fonts`,
 			vue: 'vue/dist/vue.esm-bundler.js',
 		},
 	},
@@ -61,5 +62,21 @@ export default defineConfig({
 		sassGlobImports(),
 		vue(),
 		VitePluginSvgSpritemap(path.resolve(process.cwd(), `${baseDir}/Icons/*.svg`), SvgSpritemap),
+		faviconsPlugin({
+			inject: false,
+			cache: true,
+
+			icons: {
+				favicons: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
+				},
+				android: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
+				},
+				appleIcon: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
+				},
+			},
+		}),
 	],
 })
