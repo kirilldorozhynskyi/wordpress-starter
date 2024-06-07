@@ -54,4 +54,8 @@ wp-admin
 
 
 package-lock.json
+<<<<<<< HEAD
 wp-content/themes/template/resources/Public/ext
+=======
+wordpress-muster.code-workspace
+>>>>>>> 3.1.2
