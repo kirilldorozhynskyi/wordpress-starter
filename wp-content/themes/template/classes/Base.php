@@ -574,9 +574,12 @@ class Base
 	 */
 	public function getFavicon()
 	{
+		if (file_exists(ABSPATH . 'hot')) {
+			return false;
+		}
 		$path = get_template_directory_uri() . '/resources/Public/Build/';
-		$extpath = get_template_directory_uri() . '/resources/Public/ext/';
-		$ext = get_template_directory() . '/resources/Public/ext/';
+		$extpath = get_template_directory_uri() . '/resources/Public/';
+		$ext = get_template_directory() . '/resources/Public/';
 
 		$webmanifest = str_replace('assets/', '', $this->viteManifest['manifest.webmanifest']['file']);
 
