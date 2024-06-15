@@ -151,11 +151,12 @@
 			"@install"
 		],
 		"post-install-cmd": [
-			"rsync -av --exclude='.git' vendor/wordpress/ ./",
-			"rm -rf vendor/roots/wordpress/"
+			"JDEVINT\\Installer::install",
+			"rm -rf vendor/wordpress/"
 		],
 		"post-update-cmd": [
-			"JDEVINT\\Installer::install"
+			"rsync -av --exclude='.git' vendor/wordpress/ ./",
+			"rm -rf vendor/wordpress/"
 		],
 		"install": [
 			"git init",
