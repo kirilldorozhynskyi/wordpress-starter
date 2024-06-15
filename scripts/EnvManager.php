@@ -45,7 +45,7 @@ class EnvManager
 		if (DDevManager::useDdev()) {
 			[$DB_NAME, $DB_USER, $DB_PASSWORD, $DB_HOST] = ['db', 'db', 'db', 'db'];
 			$WP_ENV = 'development';
-			$ENV_DEVELOPMENT = DDevManager::useProjectName();
+			$ENV_DEVELOPMENT = 'https://' . DDevManager::useProjectName() . '.ddev.site';
 		} else {
 			[$DB_NAME, $DB_USER, $DB_PASSWORD, $DB_HOST] = self::getDBCredentials($io);
 
