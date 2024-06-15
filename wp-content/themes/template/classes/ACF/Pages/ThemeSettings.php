@@ -88,6 +88,26 @@ return [
 			],
 		],
 		[
+			'key' => 'general_background_color',
+			'name' => 'general_background_color',
+			'label' => 'Background color',
+			'type' => 'color_picker',
+			'wpml_cf_preferences' => 3,
+			'wrapper' => [
+				'width' => 25,
+			],
+		],
+		[
+			'key' => 'general_theme_color',
+			'name' => 'general_theme_color',
+			'label' => 'Theme color',
+			'type' => 'color_picker',
+			'wpml_cf_preferences' => 3,
+			'wrapper' => [
+				'width' => 25,
+			],
+		],
+		[
 			'key' => 'footer',
 			'label' => 'Footer',
 			'type' => 'tab',

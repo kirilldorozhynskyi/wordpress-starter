@@ -34,7 +34,8 @@
 		"wpackagist-plugin/woocommerce": "^8.9.0",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
-		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*"
+		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*",
+		"wp-graphql/wp-graphql": "^1.27"
 	},
 	"repositories": [
 		{

@@ -12,6 +12,7 @@ import VueScrollTo from 'vue-scrollto'
 import PageHeader from './components/PageHeader.vue'
 
 const CustomScript = defineAsyncComponent(() => import('./components/CustomScript.vue'))
+// const GForm = defineAsyncComponent(() => import('./components/GForm.vue'))
 // const AjaxList = defineAsyncComponent(() => import('./components/AjaxList.vue'))
 // const Collapse = defineAsyncComponent(() => import('./components/Collapse.vue'))
 // const Gallery = defineAsyncComponent(() => import('./components/Gallery.vue'))
