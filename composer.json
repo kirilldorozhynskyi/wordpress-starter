@@ -8,7 +8,7 @@
 		"WordPress",
 		"Starter"
 	],
-	"version": "3.1.0",
+	"version": "3.1.4",
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
@@ -21,17 +21,15 @@
 		"roots/bedrock-autoloader": "^1.0.4",
 		"roots/wp-stage-switcher": "^2.2",
 		"jdlocal/gravityforms": "2.8.5.1",
-		"jdlocal/wp-rocket": "^1.0",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
 		"yoast/wordpress-seo": "^22.5",
 		"wpackagist-plugin/wp-mail-smtp": "^4.0.1",
-		"wpackagist-plugin/all-in-one-wp-security-and-firewall": "^5.2.9",
-		"wpackagist-plugin/filebird": "^5.6.4",
+		"wpackagist-plugin/all-in-one-wp-security-and-firewall": "^5.3.0",
 		"wpackagist-plugin/safe-svg": "^2.2.4",
-		"wpackagist-plugin/simple-301-redirects": "^2.0.7",
-		"wpackagist-plugin/wp-smushit": "^3.14.1",
-		"wpackagist-plugin/webp-express": "^0.25.6",
+		"wpackagist-plugin/simple-301-redirects": "^2.0.9",
+		"wpackagist-plugin/wp-smushit": "^3.16.4",
+		"wpackagist-plugin/webp-express": "^0.25.9",
 		"justdev/jd-support": "^1.1.6",
 		"wpackagist-plugin/woocommerce": "^8.9.0",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
@@ -61,21 +59,6 @@
 			"type": "vcs",
 			"url": "git@github.com:kirilldorozhynskyi/cm-gdpr-cookie-consent",
 			"branch": "master"
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "jdlocal/wp-rocket",
-				"type": "wordpress-plugin",
-				"version": "1.0",
-				"dist": {
-					"type": "zip",
-					"url": "https://cms.justdev.link/wp-rocket.zip"
-				},
-				"require": {
-					"composer/installers": "^2.0"
-				}
-			}
 		},
 		{
 			"type": "package",
