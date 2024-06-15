@@ -34,6 +34,8 @@ $env_files = file_exists($root_dir . '/.env.local') ? ['.env', '.env.local'] : [
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable($root_dir, $env_files, false);
 if (file_exists($root_dir . '/.env')) {
 	$dotenv->load();
+} else {
+	echo '.env is missing or contains an error. Please check it.';
 }
 
 /**
@@ -64,7 +66,7 @@ switch (WP_ENV) {
 		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
-			$WP_HOME = 'https://' . $envs['staging'];
+			$WP_HOME = $envs['staging'];
 		}
 		break;
 	case 'production':
@@ -73,7 +75,7 @@ switch (WP_ENV) {
 		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
-			$WP_HOME = 'https://' . $envs['production'];
+			$WP_HOME = $envs['production'];
 		}
 		break;
 	default:
