@@ -12,6 +12,61 @@ $context = Timber::context();
 $post = Timber::get_post();
 
 switch (true) {
+	// Woocommerce Single Product
+	case is_singular('product'):
+		$context['page'] = $post;
+		$product = wc_get_product($context['post']->ID);
+		$context['product'] = $product;
+
+		// Get related products
+		$related_limit = wc_get_loop_prop('columns');
+		$related_ids = wc_get_related_products($context['post']->id, $related_limit);
+		$context['related_products'] = Timber::get_posts($related_ids);
+
+		// Restore the context and loop back to the main query loop.
+		wp_reset_postdata();
+		$template = 'woo/single-product';
+		break;
+
+	case is_product_category():
+		// $context['products'] = Timber::get_posts();
+
+		// $args = [
+		// 	'limit' => 1,
+		// 	'page' => 1,
+		// ];
+
+		// $products = wc_get_products($arg);
+
+		$args = [
+			'paginate' => true,
+		];
+
+		$results = wc_get_products($args);
+		// echo $results->total . ' products found\n';
+		// echo 'Page 1 of ' . $results->max_num_pages . '\n';
+		// echo 'First product id is: ' . $results->products[0]->get_id() . '\n';
+		$context['woo'] = $results;
+
+		$template = 'woo/archive';
+		break;
+
+	case is_account_page():
+		$context['page'] = $post;
+		$template = 'woo/account';
+		break;
+
+	case is_cart():
+		$context['page'] = $post;
+		$template = 'woo/cart';
+		break;
+
+	case is_checkout():
+		$context['page'] = $post;
+		$template = 'woo/checkout';
+		break;
+	// End Woocommerce Single Product
+
 	case post_password_required():
 		$context['page'] = $post;
 		$template = 'password';
@@ -50,8 +105,8 @@ switch (true) {
 	// Default
 	default:
 		$context['page'] = $post;
-		$template = 'default';
+		$template = 'page';
 		break;
 }
 
-Timber::render(['templates/' . $template . '.twig', 'templates/default.twig'], $context);
+Timber::render(['templates/' . $template . '.twig', 'templates/page.twig'], $context);
