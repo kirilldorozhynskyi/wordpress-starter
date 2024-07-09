@@ -1,0 +1,39 @@
+{#
+ # File: /wp-content/themes/template/blocks/my-block/my-block.twig
+ # Project: wordpress-starter
+ # Version: 3.2.2
+ # Created Date: Monday, July 8th 2024, 14:37:12
+ # Author: Kirill Dorozhynskyi - kirilldy@justdev.org
+ # -----
+ # Last Modified: Monday, July 8th 2024 14:37:12
+ # Modified By: Kirill Dorozhynskyi
+ # -----
+ # Copyright (c) 2024 justDev
+ #}
+<div class="hero">
+	<div class="container">
+		<div class="row align-items-center">
+			{% if ce.title or ce.text %}
+				<div class="col-lg-6">
+					{% if ce.title %}
+						<h2>
+							{{ ce.title }}
+						</h2>
+					{% endif %}
+					{% if ce.text %}
+						<p>
+							{{ ce.text }}
+						</p>
+					{% endif %}
+
+					{{ sprite('facebook', 'facebook') }}
+				</div>
+			{% endif %}
+			{% if ce.image %}
+				<div class="col-lg-6">
+					{{ GetImage(ce.image, [740, 740], 'hero-image') }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

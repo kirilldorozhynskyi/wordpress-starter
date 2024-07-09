@@ -1,13 +1,17 @@
-/* eslint-disable */
 import '../Scss/app.scss'
 // import AOS from 'aos'
-import 'dom-slider'
+// import 'dom-slider'
 
 import { merge } from 'lodash'
 import LazyLoad from 'vanilla-lazyload'
 import { createApp, defineAsyncComponent, ref, onMounted, onBeforeUnmount, defineComponent, computed } from 'vue'
 // import { i18n } from './util'
 import VueScrollTo from 'vue-scrollto'
+
+// Directives
+// import PhotoSwipeDirective from './directives/photoswipe'
+// import TooltipDirective from './directives/tooltip'
+// import CopyClipboard from './directives/clipboard'
 
 import PageHeader from './components/PageHeader.vue'
 
@@ -52,6 +56,8 @@ const rootComponent = defineComponent({
 	components: {
 		CustomScript,
 		PageHeader,
+		Search,
+		// GForm,
 		// AjaxList,
 		// Collapse,
 		// Gallery,
@@ -61,7 +67,6 @@ const rootComponent = defineComponent({
 		// Logowall,
 		// TabNavigation,
 		// NewsList,
-		Search,
 		// GravityForm,
 		// GfCheckboxes,
 		// GfConsent,
@@ -74,6 +79,9 @@ const rootComponent = defineComponent({
 	delimiters: ['<%', '%>'],
 	directives: {
 		'scroll-to': VueScrollTo,
+		// photoswipe: PhotoSwipeDirective,
+		// tooltip: TooltipDirective,
+		// clipboard: CopyClipboard,
 		// 'video-player': VideoPlayer,
 	},
 	setup() {

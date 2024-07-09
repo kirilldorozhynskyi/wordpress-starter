@@ -1,0 +1,56 @@
+<header is="vue:page-header" class="header">
+	<template v-slot:default="slotProps">
+		<div class="header-top py-1 py-lg-1-half">
+			<div class="container">
+				<div class="row justify-content-between g-1">
+					<div class="col-auto col-lg-3 d-flex">
+						{# Site logo #}
+						<a class="header-logo" href="/" aria-label="{{ site_title }}">
+							{% if logoRaw %}
+								<object aria-label="{{ site.title }}"
+									lazy
+									type="image/svg+xml"
+									data-src="{{ theme.uri }}/resources/Public/Images/logo.svg"></object>
+							{% else %}
+								<img src="{{ get_image(options.general_logo)|resize(0, 50) }}"
+									class="header-site-logo"
+									alt="{{ get_image(options.general_logo).alt }}"
+									width="50"
+									height="50" />
+							{% endif %}
+						</a>
+					</div>
+
+					<div class="col-auto d-lg-flex justify-content-end">
+						<div class="main-nav">
+							<div class="container main-nav-container">
+								{% include 'partials/navigations/main_navigation.twig' %}
+							</div>
+						</div>
+					</div>
+
+					<div class="col-auto col-lg-3 d-flex gap-half gap-lg-1 justify-content-end align-items-center">
+						{# Search #}
+						{% if options.general_search %}
+							<div class="header-search d-flex">
+								<button data-bs-toggle="modal" data-bs-target="#searchModal" class="btn btn-link d-flex lh-1 p-quarter">
+									{{ sprite('search', 'search') }}
+								</button>
+							</div>
+						{% endif %}
+
+						{# Mobile nv toggle button #}
+						<button class="header-btn mobile-nav-toggle" v-on:click="slotProps.toggleMobileNav">
+							<div class="icon-menu">
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+							<span class="visually-hidden">Toggle mobile navigation</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+</header>

@@ -383,7 +383,7 @@ $color-mode-type: data !default; // `data` or `media-query`
 
 // Prefix for :root CSS variables
 
-$variable-prefix: bs- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
+$variable-prefix: jd- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
 $prefix: $variable-prefix !default;
 
 // Gradient
@@ -404,11 +404,17 @@ $gradient: linear-gradient(180deg, rgba($white, 0.15), rgba($white, 0)) !default
 $spacer: 1rem !default;
 $spacers: (
 	0: 0,
-	1: $spacer * 0.25,
-	2: $spacer * 0.5,
-	3: $spacer,
-	4: $spacer * 1.5,
-	5: $spacer * 3
+	'quarter': $spacer * 0.25,
+	'half': $spacer * 0.5,
+	1: $spacer,
+	'1-half': $spacer * 1.5,
+	2: $spacer * 2,
+	'2-half': $spacer * 2.5,
+	3: $spacer * 3,
+	'3-half': $spacer * 3.5,
+	4: $spacer * 4,
+	'4-half': $spacer * 4.5,
+	5: $spacer * 5
 ) !default;
 // scss-docs-end spacer-variables-maps
 
@@ -482,6 +488,7 @@ $grid-breakpoints: (
 	xl: 1200px,
 	xxl: 1400px
 ) !default;
+$mobile-breakpoint: lg !default;
 // scss-docs-end grid-breakpoints
 
 @include _assert-ascending($grid-breakpoints, '$grid-breakpoints');
@@ -595,6 +602,9 @@ $aspect-ratios: (
 // stylelint-disable value-keyword-case
 $font-family-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
 	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !default;
+
+$font-family-sans-next: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
+	'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !default;
 $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
 // stylelint-enable value-keyword-case
 $font-family-base: var(--#{$prefix}font-sans-serif) !default;
@@ -604,8 +614,12 @@ $font-family-code: var(--#{$prefix}font-monospace) !default;
 // $font-size-base affects the font size of the body text
 $font-size-root: null !default;
 $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-mobile: $font-size-base !default;
 $font-size-sm: $font-size-base * 0.875 !default;
 $font-size-lg: $font-size-base * 1.25 !default;
+
+$rfs-breakpoint-min: md !default;
+$rfs-breakpoint-max: xl !default;
 
 $font-weight-lighter: lighter !default;
 $font-weight-light: 300 !default;
@@ -627,16 +641,24 @@ $h3-font-size: $font-size-base * 1.75 !default;
 $h4-font-size: $font-size-base * 1.5 !default;
 $h5-font-size: $font-size-base * 1.25 !default;
 $h6-font-size: $font-size-base !default;
+
+$h1-font-size-mobile: $font-size-base * 2 !default; // 32px
+$h2-font-size-mobile: $font-size-base * 1.75 !default; // 28px
+$h3-font-size-mobile: $font-size-base * 1.5 !default; // 24px
+$h4-font-size-mobile: $font-size-base * 1.25 !default; // 20px
+$h5-font-size-mobile: $font-size-base * 1 !default; // 16px
+$h6-font-size-mobile: $font-size-base * 0.75 !default; // 12px
 // scss-docs-end font-variables
 
 // scss-docs-start font-sizes
 $font-sizes: (
-	1: $h1-font-size,
-	2: $h2-font-size,
-	3: $h3-font-size,
-	4: $h4-font-size,
-	5: $h5-font-size,
-	6: $h6-font-size
+	h1: $h1-font-size,
+	h2: $h2-font-size,
+	h3: $h3-font-size,
+	h4: $h4-font-size,
+	base: $font-size-base,
+	sm: $font-size-sm,
+	lg: $font-size-lg
 ) !default;
 // scss-docs-end font-sizes
 
@@ -667,6 +689,7 @@ $display-line-height: $headings-line-height !default;
 
 // scss-docs-start type-variables
 $lead-font-size: $font-size-base * 1.25 !default;
+$lead-font-size-mobile: $font-size-base * 1.25 !default;
 $lead-font-weight: 300 !default;
 
 $small-font-size: 0.875em !default;
@@ -1127,6 +1150,8 @@ $zindex-modal: 1055 !default;
 $zindex-popover: 1070 !default;
 $zindex-tooltip: 1080 !default;
 $zindex-toast: 1090 !default;
+$z-index-debugger: 9999 !default;
+$zindex-video-placeholder: 900 !default;
 // scss-docs-end zindex-stack
 
 // scss-docs-start zindex-levels-map

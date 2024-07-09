@@ -1,0 +1,12 @@
+{
+	"name": "acf/hero",
+	"title": "Hero",
+	"description": "Page hero",
+	"category": "formatting",
+	"icon": "format-aside",
+	"keywords": ["hero", " page hero"],
+	"acf": {
+		"mode": "preview",
+		"renderCallback": "myAcfBlockRenderCallback"
+	}
+}
