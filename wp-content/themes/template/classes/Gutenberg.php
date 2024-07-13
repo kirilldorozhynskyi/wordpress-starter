@@ -17,6 +17,7 @@ class Gutenberg
 	{
 		add_action('init', [$this, 'registerAcfBlocks']);
 		add_filter('render_block', [$this, 'wporgBlockWrapper'], 10, 2);
+		add_filter('block_categories_all', [$this, 'blockCategoriesAll']);
 	}
 
 	public function registerAcfBlocks()
@@ -51,11 +52,54 @@ class Gutenberg
 	public function wporgBlockWrapper($block_content, $block)
 	{
 		if (isset($block['blockName']) && str_contains($block['blockName'], 'core/')) {
-			$content = '<section class="wp-block-paragraph"><div class="container">';
+			$content = '<section class="wpg-block ' . str_replace('/', '-', $block['blockName']) . '"><div class="container">';
 			$content .= $block_content;
 			$content .= '</div></section>';
 			return $content;
 		}
 		return $block_content;
+	}
+
+	public function blockCategoriesAll($categories)
+	{
+		$custom_category = [
+			'slug' => 'custom-design-category',
+			'title' => 'jD | ' . __('Design', 'jdev'),
+		];
+
+		array_unshift($categories, $custom_category);
+
+		return $categories;
+	}
+
+	/**
+	 * Render callback to prepare and display a registered block using Timber.
+	 *
+	 * @param    array    $attributes The block attributes.
+	 * @param    string   $content The block content.
+	 * @param    bool     $is_preview Whether or not the block is being rendered for editing preview.
+	 * @param    int      $post_id The current post being edited or viewed.
+	 * @param    WP_Block $wp_block The block instance (since WP 5.5).
+	 * @return   void
+	 */
+	public static function jDBlockRender($attributes, $content = '', $is_preview = false, $post_id = 0, $wp_block = null)
+	{
+		// Create the slug of the block using the name property in the block.json.
+		$slug = str_replace('jd/', '', $attributes['name']);
+		$slug = str_replace('-', '_', $slug);
+
+		$context = Timber::context();
+
+		// Store block attributes.
+		$context['attributes'] = $attributes;
+
+		// Store field values. These are the fields from your ACF field group for the block.
+		$context['ce'] = get_fields();
+
+		// Store whether the block is being rendered in the editor or on the frontend.
+		$context['is_preview'] = $is_preview;
+
+		// Render the block.
+		Timber::render('views/blocks/' . $slug . '/' . $slug . '.twig', $context);
 	}
 }

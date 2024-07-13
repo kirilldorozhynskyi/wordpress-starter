@@ -21,6 +21,7 @@ class WorkspaceManager
 		        "psi-header.changes-tracking": {
 		            "isActive": false
 		        },
+				"npm.exclude": "**/@(vendor|node_modules|bower_components|dist|static|wp-content)/**",
 		        "files.exclude": {
 		            "vendor": false,
 		            "node_modules": false,

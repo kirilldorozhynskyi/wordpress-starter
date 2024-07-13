@@ -27,8 +27,8 @@
 	@return strip-unit($rem) * $base * 1px;
 }
 
-@function get-icon($icon, $color: currentColor, $icons-map: $icons) {
-	@return escape-svg(
-		url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='#{$color}' d='#{map-get($icons-map, $icon)}'/></svg>")
-	);
-}
+// @function get-icon($icon, $color: currentColor, $icons-map: $icons) {
+// 	@return escape-svg(
+// 		url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='#{$color}' d='#{map-get($icons-map, $icon)}'/></svg>")
+// 	);
+// }

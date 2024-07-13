@@ -63,6 +63,7 @@ class Base
 		add_filter('the_password_form', [$this, 'passwordForm']);
 		add_filter('upload_mimes', [$this, 'enable_vcard_upload']);
 		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
+		add_filter('acf/settings/remove_wp_meta_box', '__return_false');
 	}
 
 	protected function loadViteManifest($manifestPath = ''): void
@@ -613,7 +614,7 @@ class Base
 	 * @param $image
 	 * @return array
 	 */
-	public function GetImage($img, $size = false, $class = false, $lazyLoad = true, $bg = false): string
+	public function GetImage($img, $size = false, $class = false, $lazyLoad = true, $bg = false, $is_preview = false): string
 	{
 		if (count($size) === 1) {
 			$normal_size = [$size[0], 0];
@@ -643,6 +644,7 @@ class Base
 			'retina_size' => $retina_size,
 			'lazyLoad' => $lazyLoad,
 			'bg' => $bg,
+			'is_preview' => $is_preview,
 		];
 		return Timber::compile('components/_image.twig', $context);
 	}

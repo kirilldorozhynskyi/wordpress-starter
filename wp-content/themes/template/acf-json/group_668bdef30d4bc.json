@@ -76,7 +76,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/hero"
+                "value": "jd\/hero"
             }
         ]
     ],
@@ -89,5 +89,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1720527075
+    "modified": 1720537315
 }

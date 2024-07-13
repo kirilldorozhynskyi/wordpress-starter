@@ -1,4 +1,5 @@
 import '../Scss/app.scss'
+import 'swiper/css/bundle'
 // import AOS from 'aos'
 // import 'dom-slider'
 
@@ -14,6 +15,9 @@ import VueScrollTo from 'vue-scrollto'
 // import CopyClipboard from './directives/clipboard'
 
 import PageHeader from './components/PageHeader.vue'
+
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
 
 const CustomScript = defineAsyncComponent(() => import('./components/CustomScript.vue'))
 // const GForm = defineAsyncComponent(() => import('./components/GForm.vue'))
@@ -57,6 +61,8 @@ const rootComponent = defineComponent({
 		CustomScript,
 		PageHeader,
 		Search,
+		Swiper,
+		SwiperSlide,
 		// GForm,
 		// AjaxList,
 		// Collapse,
@@ -191,6 +197,8 @@ const rootComponent = defineComponent({
 			createdHook,
 			loadedHook,
 			mountedHook,
+			Navigation,
+			Pagination,
 		}
 	},
 })

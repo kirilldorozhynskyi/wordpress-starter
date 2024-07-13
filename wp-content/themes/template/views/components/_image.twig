@@ -4,13 +4,22 @@
 	}}"
 {% else %}
 	{% if image.img.mime_type == 'image/svg+xml' %}
-		<object class="img-fluid{{ image.class ? ' ' ~ image.class }}"
-			width="{{ image.width }}"
-			height="{{ image.height }}"
-			lazy
-			type="image/svg+xml"
-			data-src="{{ image.img.url }}"
-			alt="{{ get_image(image.img).alt }}"></object>
+		{% if image.is_preview %}
+			<img class="img-fluid{{ image.class ? ' ' ~ image.class }}"
+				width="{{ image.width }}"
+				height="{{ image.height }}"
+				type="image/svg+xml"
+				src="{{ image.img.url }}"
+				alt="{{ get_image(image.img).alt }}" />
+		{% else %}
+			<object class="img-fluid{{ image.class ? ' ' ~ image.class }}"
+				width="{{ image.width }}"
+				height="{{ image.height }}"
+				lazy
+				type="image/svg+xml"
+				data-src="{{ image.img.url }}"
+				alt="{{ get_image(image.img).alt }}"></object>
+		{% endif %}
 	{% else %}
 		<picture class="picture">
 			<img {{ image.lazyLoad ? 'lazy' }}
