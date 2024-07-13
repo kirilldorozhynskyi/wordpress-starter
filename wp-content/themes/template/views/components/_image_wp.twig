@@ -1,9 +1,0 @@
-<picture class="picture">
-	<img lazy
-		src="{{ getImagePlaceholder(image.size) }}"
-		data-srcset="{{ image.src }} 1x, {{ image.retina }} 2x"
-		class="img-fluid{{ image.class ? ' ' ~ image.class }}"
-		alt="{{ image.alt }}"
-		width="{{ image.width }}"
-		height="{{ image.height }}" />
-</picture>

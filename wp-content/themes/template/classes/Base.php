@@ -29,15 +29,25 @@ class Base
 
 	public function __construct()
 	{
+		$this->removeEmojiSupport();
+		$this->addThemeActionsAndFilters();
+		$this->loadViteManifest();
+	}
+
+	protected function removeEmojiSupport(): void
+	{
 		remove_action('admin_print_styles', 'print_emoji_styles');
 		remove_action('admin_print_scripts', 'print_emoji_detection_script');
 		remove_action('wp_print_styles', 'print_emoji_styles');
 		remove_action('wp_head', 'print_emoji_detection_script', 7);
+	}
 
+	protected function addThemeActionsAndFilters(): void
+	{
 		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteScript'], 10, 3);
 		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteSprite'], 10, 3);
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
-
+		add_action('admin_enqueue_scripts', [$this, 'loadAdminThemeAssets']);
 		add_action('init', [$this, 'email_notifications']);
 		add_action('admin_menu', [$this, 'modifyAdminMenu']);
 		add_action('admin_bar_menu', [$this, 'modifyAdminBar'], 99);
@@ -47,29 +57,19 @@ class Base
 		add_action('after_setup_theme', [$this, 'setupTheme']);
 		add_action('wp_print_styles', [$this, 'unloadDefaultAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
-		// add_action('admin_init', [$this, 'loadRTEStyles']);
-
-		add_filter('use_block_editor_for_post', '__return_false');
 		add_filter('image_resize_dimensions', '__return_false');
 		add_filter('timber/context', [$this, 'addToContext']);
 		add_filter('timber/twig', [$this, 'addToTwig']);
-
 		add_filter('the_password_form', [$this, 'passwordForm']);
-
 		add_filter('upload_mimes', [$this, 'enable_vcard_upload']);
 		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
-
-		// load Vite manifest
-		$this->loadViteManifest();
+		add_filter('acf/settings/remove_wp_meta_box', '__return_false');
 	}
 
-	protected function loadViteManifest($manifestPath = '')
+	protected function loadViteManifest($manifestPath = ''): void
 	{
 		if (!file_exists(ABSPATH . 'hot')) {
-			if (empty($manifestPath)) {
-				$manifestPath = get_template_directory() . self::VITE_MANIFEST_PATH;
-			}
-
+			$manifestPath = $manifestPath ?: get_template_directory() . self::VITE_MANIFEST_PATH;
 			$manifestContent = file_get_contents($manifestPath);
 
 			if (!$manifestContent) {
@@ -84,32 +84,21 @@ class Base
 		}
 	}
 
-	public function addModuleTypeToViteScript($tag, $handle, $src)
+	public function addModuleTypeToViteScript($tag, $handle, $src): string
 	{
-		if (file_exists(ABSPATH . 'hot')) {
-			if ('app_theme' === $handle || 'vite_client' === $handle) {
-				$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-			}
-			return $tag;
-		} else {
-			if ('app' !== $handle) {
-				return $tag;
-			}
-
-			// remove version from src & change the script tag by adding type="module" and return it.
+		if (file_exists(ABSPATH . 'hot') && ($handle === 'app_theme' || $handle === 'vite_client')) {
+			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
+		} elseif ($handle === 'app') {
 			$src = remove_query_arg('ver', $src);
 			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-			return $tag;
 		}
+		return $tag;
 	}
 
-	public function addModuleTypeToViteSprite($tag, $handle, $src)
+	public function addModuleTypeToViteSprite($tag, $handle, $src): string
 	{
-		if (file_exists(ABSPATH . 'hot')) {
-			if ('app_theme_sprite' === $handle || 'vite_client' === $handle) {
-				$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
-			}
-			return $tag;
+		if (file_exists(ABSPATH . 'hot') && ($handle === 'app_theme_sprite' || $handle === 'vite_client')) {
+			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 		}
 		return $tag;
 	}
@@ -135,7 +124,7 @@ class Base
 	/**
 	 * Modify admin menu
 	 */
-	public function modifyAdminMenu()
+	public function modifyAdminMenu(): void
 	{
 		remove_menu_page('edit.php');
 		remove_menu_page('edit-comments.php');
@@ -146,9 +135,8 @@ class Base
 	 *
 	 * @param $adminBar
 	 */
-	public function modifyAdminBar($adminBar)
+	public function modifyAdminBar($adminBar): void
 	{
-		// $adminBar->remove_node('wp-logo');
 		$adminBar->remove_node('new-content');
 		$adminBar->remove_node('comments');
 	}
@@ -158,7 +146,7 @@ class Base
 	 *
 	 * @param $customizer
 	 */
-	public function modifyCustomizer($customizer)
+	public function modifyCustomizer($customizer): void
 	{
 		$customizer->remove_section('custom_css');
 	}
@@ -166,17 +154,17 @@ class Base
 	/*
 	 * Modify editor's capabilities
 	 */
-	public function modifyEditorCapabilities()
+	public function modifyEditorCapabilities(): void
 	{
 		$editor = get_role('editor');
-		// General
-		$editor->remove_cap('manage_options');
-		$editor->add_cap('edit_theme_options');
-		// WP Rocket
-		$editor->add_cap('rocket_purge_posts');
-		$editor->add_cap('rocket_purge_cache');
-		$editor->add_cap('rocket_purge_opcache');
-		$editor->add_cap('rocket_preload_cache');
+		if ($editor) {
+			$editor->remove_cap('manage_options');
+			$editor->add_cap('edit_theme_options');
+			$editor->add_cap('rocket_purge_posts');
+			$editor->add_cap('rocket_purge_cache');
+			$editor->add_cap('rocket_purge_opcache');
+			$editor->add_cap('rocket_preload_cache');
+		}
 	}
 
 	/*
@@ -187,23 +175,26 @@ class Base
 	 * @param $userId
 	 * @return array
 	 */
-	public function modifyPrivacyPolicyCapabilities($capabilities, $capability, $userId)
+	public function modifyPrivacyPolicyCapabilities($capabilities, $capability, $userId): array
 	{
 		if (!is_user_logged_in()) {
 			return $capabilities;
 		}
-		if (array_intersect(['administrator', 'editor'], get_userdata($userId)->roles)) {
+
+		$user = get_userdata($userId);
+		if ($user && array_intersect(['administrator', 'editor'], $user->roles)) {
 			if ($capability === 'manage_privacy_options') {
 				$capabilities = array_diff($capabilities, ['manage_options']);
 			}
 		}
+
 		return $capabilities;
 	}
 
 	/**
 	 * Setup theme
 	 */
-	public function setupTheme()
+	public function setupTheme(): void
 	{
 		add_theme_support('menus');
 		add_theme_support('title-tag');
@@ -213,18 +204,17 @@ class Base
 		// add_post_type_support('news', 'thumbnail');
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
 
-		$sizes = [];
-
-		foreach ($sizes as $key => $value) {
-			add_image_size($value['name'], $value['size'], $value['sizeH'] ? $value['sizeH'] : 0);
-			add_image_size($value['name'] . '2x', $value['size'] * 2, $value['sizeH'] ? $value['sizeH'] * 2 : 0);
+		$sizes = []; // Add your sizes here
+		foreach ($sizes as $size) {
+			add_image_size($size['name'], $size['size'], $size['sizeH'] ?? 0);
+			add_image_size($size['name'] . '2x', $size['size'] * 2, $size['sizeH'] ? $size['sizeH'] * 2 : 0);
 		}
 	}
 
 	/**
 	 * Unload default WP styles and scripts
 	 */
-	public function unloadDefaultAssets()
+	public function unloadDefaultAssets(): void
 	{
 		// styles
 		wp_deregister_style('wp-block-library');
@@ -232,13 +222,13 @@ class Base
 		wp_deregister_style('wp-block-style');
 		// scripts
 		wp_deregister_script('wp-embed');
-		// wp_deregister_script('jquery');
+		wp_deregister_script('jquery');
 	}
 
 	/**
 	 * Load theme styles
 	 */
-	public function loadHeadThemeAssets()
+	public function loadHeadThemeAssets(): void
 	{
 		if (empty($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'])) {
 			return;
@@ -252,7 +242,7 @@ class Base
 	/**
 	 * Load theme scripts
 	 */
-	public function loadBodyThemeAssets()
+	public function loadBodyThemeAssets(): void
 	{
 		// JS
 		if (file_exists(ABSPATH . 'hot')) {
@@ -277,25 +267,31 @@ class Base
 		}
 	}
 
-	// /**
-	//  * Load RTE styles
-	//  */
-	// public function loadRTEStyles()
-	// {
-	// 	add_editor_style(
-	// 		get_template_directory_uri() .
-	// 			'/resources/Public/Build/' .
-	// 			$this->viteManifest['wp-content/themes/template/resources/Private/Scss/rte.scss']['file']
-	// 	);
-	// }
+	public function loadAdminThemeAssets(): void
+	{
+		$screen = get_current_screen();
+		if ($screen->is_block_editor) {
+			if (file_exists(ABSPATH . 'hot')) {
+				$url = file_get_contents(ABSPATH . 'hot');
+				$app = $url . '/wp-content/themes/template/resources/Private/Vue/app.ts';
+				$spritemap = $url . '/@vite-plugin-svg-spritemap/client';
+				$version = time();
 
-	/**
-	 * Add to Timber's context
-	 *
-	 * @param $context
-	 * @return array
-	 */
-	public function addToContext($context)
+				wp_enqueue_script('app_theme_sprite', $spritemap, [], null, false);
+				wp_enqueue_script('app_theme', $app, [], $version, true);
+			} else {
+				if (empty($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'])) {
+					return;
+				}
+
+				foreach ($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'] as $css) {
+					wp_enqueue_style('stylesheet', get_template_directory_uri() . '/resources/Public/Build/' . $css, [], false);
+				}
+			}
+		}
+	}
+
+	public function addToContext($context): array
 	{
 		$context['site'] = new Site();
 		$context['pageTitle'] = get_the_title();
@@ -325,13 +321,10 @@ class Base
 	 * @param $twig
 	 * @return Environment
 	 */
-	public function addToTwig($twig)
+	public function addToTwig($twig): Environment
 	{
 		$twig->addFunction(new TwigFunction('getSiteLanguage', [$this, 'getSiteLanguage']));
-		$twig->addFunction(new TwigFunction('languageSwitcher', [$this, 'languageSwitcher']));
-		$twig->addFunction(new TwigFunction('languageSwitcherMobile', [$this, 'languageSwitcherMobile']));
 		$twig->addFunction(new TwigFunction('getBreadcrumbs', [$this, 'getBreadcrumbs']));
-		$twig->addFunction(new TwigFunction('getGalleryImage', [$this, 'getGalleryImage']));
 		$twig->addFunction(new TwigFunction('getImagePlaceholder', [$this, 'getImagePlaceholder']));
 		$twig->addFunction(new TwigFunction('getFavicon', [$this, 'getFavicon']));
 		$twig->addFunction(new TwigFunction('isChildOf', [$this, 'isChildOf']));
@@ -343,7 +336,7 @@ class Base
 		$twig->addFunction(new TwigFunction('button', [$this, 'button']));
 		$twig->addFunction(new TwigFunction('GetImage', [$this, 'GetImage']));
 		$twig->addFunction(new TwigFunction('sprite', [$this, 'sprite']));
-		$twig->addFunction(new TwigFunction('timber_set_product', [$this, 'timber_set_product']));
+
 		$twig->addFilter(new TwigFilter('mailLink', [$this, 'mailLink']));
 		$twig->addFilter(new TwigFilter('phoneLink', [$this, 'phoneLink']));
 		$twig->addFilter(new TwigFilter('antiSpam', [$this, 'antiSpam']));
@@ -357,235 +350,62 @@ class Base
 	 * @param $fallbackLanguage
 	 * @return string
 	 */
-	public function getSiteLanguage()
+	public function getSiteLanguage(): string
 	{
-		$twigSite = new Site();
-		$siteLanguage = strtolower($twigSite->language);
-		if ($siteLanguage) {
-			$lang = explode('_', $siteLanguage)[0];
-		} else {
-			$lang = 'de';
-		}
-
-		return $lang;
+		$site = new Site();
+		$siteLanguage = strtolower($site->language);
+		return $siteLanguage ? explode('_', $siteLanguage)[0] : 'de';
 	}
 
-	/**
-	 * Create WPML language switcher panel
-	 *
-	 * @return string
-	 */
-	public function languageSwitcher()
-	{
-		$print = null;
-		$list = apply_filters('wpml_active_languages', null, 'orderby=id&order=asc');
-		if ($list) {
-			if (count($list) > 1) {
-				$temp[0] = '';
-				foreach ($list as $l) {
-					// DE lang is default
-					if ($l['language_code'] == 'de') {
-						$temp[0] = $l; // assign default language to first position of temp array
-					} else {
-						$temp[] = $l; // push other languages to temp
-					}
-				}
-
-				// change original with temp, then remove temp
-				$list = $temp;
-				unset($temp);
-
-				// output
-				$print = '<ul class="main-nav"><li class="d-inline-block main-nav-item sub">';
-				// get active language
-				for ($i = 0; $i < count($list); $i++) {
-					if ($list[$i]['active'] == '1') {
-						$print .=
-							'<div class="main-nav-link d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-label="Globe icon" class="icon icon-globe me-1">
-                            <path d="M10.16,11.33c-.62,2.47-1.7,4-2.16,4.67-.47-.67-1.55-2.2-2.16-4.67h4.33Zm5.11,0c-1.04,2.26-3.1,3.96-5.59,4.49,.88-1.38,1.49-2.91,1.85-4.49h3.74ZM.73,11.33h3.74c.36,1.59,.98,3.12,1.85,4.49-2.49-.53-4.55-2.23-5.59-4.49Zm9.7-1.33H5.57c-.19-1.32-.19-2.68,0-4h4.85c.19,1.32,.19,2.68,0,4Zm-6.2,0H.25C.09,9.36,0,8.69,0,8s.09-1.36,.25-2h3.97c-.18,1.33-.18,2.67,0,4Zm11.52,0h-3.98c.18-1.33,.18-2.67,0-4h3.97c.16,.64,.25,1.31,.25,2s-.09,1.36-.25,2Zm-5.58-5.33H5.84C6.45,2.2,7.53,.67,8,0c.8,1.14,1.63,2.53,2.16,4.67Zm-5.7,0H.73C1.77,2.41,3.83,.71,6.32,.18c-.82,1.29-1.48,2.82-1.85,4.49Zm10.81,0h-3.74c-.37-1.64-1.01-3.17-1.85-4.49,2.49,.53,4.55,2.23,5.59,4.49Z" style="fill-rule:evenodd;"/>
-                        </svg>
-                        <span>' .
-							$list[$i]['translated_name'] .
-							'</span>
-                        </div>';
-					}
-				}
-
-				$print .= '<nav class="main-sub-nav"><ul class="list-unstyled main-sub-nav-list">';
-				// get other languages
-				for ($j = 0; $j < count($list); $j++) {
-					if ($list[$j]['active'] != '1') {
-						$print .=
-							'<li class="main-sub-nav-item"><a class="main-sub-nav-link" href="' .
-							$list[$j]['url'] .
-							'" target="_self">' .
-							$list[$j]['translated_name'] .
-							'</a></li>';
-					}
-				}
-				$print .= '</ul></nav></li></ul>';
-			} else {
-				foreach ($list as $l) {
-					// output
-					$print = '<ul class="main-nav"><li class="d-inline-block main-nav-item sub">';
-					$print .= '<div class="main-nav-link">' . $l['translated_name'] . '</div>';
-					$print .= '</li></ul>';
-				}
-			}
-		}
-
-		return $print;
-	}
-
-	/**
-	 * Create WPML language switcher panel for mobile
-	 *
-	 * @return string
-	 */
-	public function languageSwitcherMobile()
-	{
-		$print = null;
-		$list = apply_filters('wpml_active_languages', null, 'orderby=id&order=desc');
-		if ($list) {
-			$print .= '<div class="d-flex justify-content-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-label="Globe icon" class="icon icon-globe">
-            <path d="M10.16,11.33c-.62,2.47-1.7,4-2.16,4.67-.47-.67-1.55-2.2-2.16-4.67h4.33Zm5.11,0c-1.04,2.26-3.1,3.96-5.59,4.49,.88-1.38,1.49-2.91,1.85-4.49h3.74ZM.73,11.33h3.74c.36,1.59,.98,3.12,1.85,4.49-2.49-.53-4.55-2.23-5.59-4.49Zm9.7-1.33H5.57c-.19-1.32-.19-2.68,0-4h4.85c.19,1.32,.19,2.68,0,4Zm-6.2,0H.25C.09,9.36,0,8.69,0,8s.09-1.36,.25-2h3.97c-.18,1.33-.18,2.67,0,4Zm11.52,0h-3.98c.18-1.33,.18-2.67,0-4h3.97c.16,.64,.25,1.31,.25,2s-.09,1.36-.25,2Zm-5.58-5.33H5.84C6.45,2.2,7.53,.67,8,0c.8,1.14,1.63,2.53,2.16,4.67Zm-5.7,0H.73C1.77,2.41,3.83,.71,6.32,.18c-.82,1.29-1.48,2.82-1.85,4.49Zm10.81,0h-3.74c-.37-1.64-1.01-3.17-1.85-4.49,2.49,.53,4.55,2.23,5.59,4.49Z" style="fill-rule:evenodd;"/>
-            </svg></div>';
-			$print .= '<ul class="list-unstyled main-nav-list d-flex justify-content-center pt-0">';
-			foreach ($list as $l) {
-				$print .=
-					'<li class="p-1"><a class="main-nav-link link-hover-underlined" href="' .
-					$l['url'] .
-					'" target="_self">' .
-					$l['translated_name'] .
-					'</a></li>';
-			}
-			$print .= '</ul>';
-		}
-
-		return $print;
-	}
-
-	/**
-	 * Generate and return breadcrumbs for current post
-	 *
-	 * @param $startFromLevel
-	 * @return array
-	 */
-	public function getBreadcrumbs($startFromLevel = 0)
+	public function getBreadcrumbs($startFromLevel = 0): array
 	{
 		$breadcrumbs = [];
-		function createBreadcrumb($post)
-		{
-			return [
+		$post = get_post();
+
+		while ($post) {
+			$breadcrumbs[] = [
 				'id' => $post->ID,
 				'title' => $post->post_title,
 				'link' => get_permalink($post),
 			];
+			$post = $post->post_parent ? get_post($post->post_parent) : null;
 		}
 
-		// current object breadcrumb
-		$post = get_post();
-		$breadcrumbs[] = createBreadcrumb($post);
-		// find post parent
-		if (is_single()) {
-			$parent = $post->meta_post_parent;
-			if ($parent) {
-				$breadcrumbs[] = createBreadcrumb(get_post($parent));
-			}
-		}
-		// find page parents recursively
-		if (is_page()) {
-			$parent = $post->post_parent;
-			while ($parent) {
-				$parent = get_post($parent);
-				$breadcrumbs[] = createBreadcrumb($parent);
-				if ($parent->post_parent) {
-					$parent = get_post($parent->post_parent);
-				} else {
-					$parent = null;
-				}
-			}
-		}
-		// add homepage to end of array - if current object is not homepage
 		if (!is_front_page() && array_key_exists('HOME', PAGES) && get_post_status(PAGES['HOME']) == 'publish') {
-			$breadcrumbs[] = createBreadcrumb(get_post(PAGES['HOME']));
+			$breadcrumbs[] = [
+				'id' => PAGES['HOME'],
+				'title' => get_the_title(PAGES['HOME']),
+				'link' => get_permalink(PAGES['HOME']),
+			];
 		}
-		// return reversed array
-		$breadcrumbsReversed = array_reverse($breadcrumbs);
-		return array_splice($breadcrumbsReversed, $startFromLevel);
+
+		return array_reverse(array_splice($breadcrumbs, $startFromLevel));
 	}
 
-	/**
-	 * Create 2 image arrays from given source
-	 * First - cropped image for gallery
-	 * Second - full-size image for photoswipe
-	 *
-	 * @param $source
-	 * @param $galleryMaxWidth
-	 * @param $galleryMaxHeight
-	 * @return array
-	 */
-	public function getGalleryImage($source, $galleryMaxWidth, $galleryMaxHeight)
-	{
-		$photoswipeMaxWidth = 1920;
-		$photoswipeMaxHeight = 1080;
-		$image = new Image($source);
-		$imageWidth = $image->width();
-		$imageHeight = $image->height();
-		$slideImage = new Image(ImageHelper::resize($image, $imageWidth > $imageHeight ? $galleryMaxWidth : 0, $galleryMaxHeight, 'center'));
-		$photoswipeImage = new Image(
-			ImageHelper::resize(
-				$image,
-				$imageWidth > $imageHeight ? ($imageWidth > $photoswipeMaxWidth ? $photoswipeMaxWidth : $imageWidth) : 0,
-				$imageHeight > $photoswipeMaxHeight ? $photoswipeMaxHeight : $imageHeight,
-				'center',
-			),
-		);
-		return [
-			'slide' => $slideImage,
-			'pswp' => $photoswipeImage,
-		];
-	}
-
-	/**
-	 * Create image loader placeholder with given dimensions
-	 * Usage: lazy-loading
-	 *
-	 * @param $width
-	 * @param $height
-	 * @return string
-	 */
-	public function getImagePlaceholder($size)
+	public function getImagePlaceholder($size): string
 	{
 		$sizes = explode(', ', $size);
-		if (count($sizes) == 1) {
-			$width = $size;
-			$height = $size;
-		} else {
-			$width = $sizes[0];
-			$height = $sizes[1];
-		}
+		$width = $sizes[0];
+		$height = $sizes[1] ?? $width;
 		return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 $width $height'%3E%3C/svg%3E";
 	}
 
 	/**
 	 * Get Favicon
 	 */
-	public function getFavicon()
+	public function getFavicon(): string
 	{
 		if (file_exists(ABSPATH . 'hot')) {
-			return false;
+			return '';
 		}
+
 		$path = get_template_directory_uri() . '/resources/Public/Build/';
 		$extpath = get_template_directory_uri() . '/resources/Public/';
 		$ext = get_template_directory() . '/resources/Public/';
-
 		$webmanifest = str_replace('assets/', '', $this->viteManifest['manifest.webmanifest']['file']);
 
 		if (!file_exists($ext . $webmanifest)) {
 			$files = glob($ext . '/*');
-
 			foreach ($files as $file) {
 				if (is_file($file)) {
 					unlink($file);
@@ -593,22 +413,19 @@ class Base
 			}
 
 			$manifestContent = file_get_contents($path . $this->viteManifest['manifest.webmanifest']['file']);
-
 			$json = json_decode(str_replace('/assets/', $path . 'assets/', $manifestContent));
-
 			$json->name = get_bloginfo();
 			$json->short_name = get_bloginfo();
 			$json->description = get_bloginfo('description');
 			$json->lang = get_locale();
 			$json->background_color = get_fields('options')['general_background_color'];
 			$json->theme_color = get_fields('options')['general_theme_color'];
-
 			file_put_contents($ext . $webmanifest, json_encode($json));
 		}
 
 		$context['fav'] = [
 			'manifest' => $extpath . $webmanifest,
-			'theme_color' => get_fields('options')['general_theme_color'],
+			'theme_color' => get_fields('options')['general_theme_color'] ?? '#000000',
 			'favicons' => [
 				'favicon-16x16.png' => $path . $this->viteManifest['favicon-16x16.png']['file'],
 				'favicon-32x32.png' => $path . $this->viteManifest['favicon-32x32.png']['file'],
@@ -638,20 +455,15 @@ class Base
 	 * @param $pid
 	 * @return boolean
 	 */
-	public function isChildOf($pid)
+	public function isChildOf($pid): bool
 	{
 		$queriedObject = get_queried_object();
 		if ($queriedObject->ID == $pid) {
 			return true;
-		} else {
-			$ancestors = get_post_ancestors($queriedObject->ID);
-			foreach ($ancestors as $ancestor) {
-				if ($ancestor == $pid) {
-					return true;
-				}
-			}
 		}
-		return false;
+
+		$ancestors = get_post_ancestors($queriedObject->ID);
+		return in_array($pid, $ancestors, true);
 	}
 
 	/**
@@ -675,7 +487,7 @@ class Base
 	 * @param $ellipsis
 	 * @return string
 	 */
-	public function truncateText($text, $chars, $ellipsis = '…')
+	public function truncateText($text, $chars, $ellipsis = '…'): string
 	{
 		return strlen($text) <= $chars ? $text : mb_substr(strip_tags($text), 0, $chars) . $ellipsis;
 	}
@@ -688,12 +500,13 @@ class Base
 	 * @param $postId
 	 * @return string
 	 */
-	public function renderCE($elements, $gridElName = null, $postId = null, $page = null)
+	public function renderCE($elements, $gridElName = null, $postId = null, $page = null): string
 	{
 		$elements = $gridElName ? $elements : get_field($elements, $postId);
 		if (!$elements || !is_array($elements) || !count($elements)) {
-			return false;
+			return '';
 		}
+
 		$queriedObject = get_queried_object();
 		if (!$postId) {
 			if (is_archive()) {
@@ -732,12 +545,12 @@ class Base
 	 * @param $playInBackground
 	 * @return string
 	 */
-	public function youtubeIframeSrc($url, $playInBackground = false)
+	public function youtubeIframeSrc($url, $playInBackground = false): string
 	{
 		preg_match('/^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|&v(?:i)?=))([^#&?]*).*/', $url, $videoIdArray);
 		$parameters =
 			'?autohide=1&rel=0&enablejsapi=1&rel=0&showinfo=0' . ($playInBackground ? '&autoplay=1&loop=1&mute=1&controls=0&playlist=' . $videoIdArray[1] : '');
-		$siteUrl = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 's' : '') . '://' . $_SERVER['SERVER_NAME'];
+		$siteUrl = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['SERVER_NAME'];
 		return 'https://www.youtube-nocookie.com/embed/' . $videoIdArray[1] . $parameters . '&origin=' . urlencode($siteUrl);
 	}
 
@@ -748,7 +561,7 @@ class Base
 	 * @param $playInBackground
 	 * @return string
 	 */
-	public function vimeoIframeSrc($url, $playInBackground = false)
+	public function vimeoIframeSrc($url, $playInBackground = false): string
 	{
 		preg_match('/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/', $url, $videoIdArray);
 		$parameters = '?title=0&byline=0&portrait=0' . ($playInBackground ? '&autoplay=1&muted=1&loop=1&background=1&api=1' : '');
@@ -761,7 +574,7 @@ class Base
 	 * @param $button
 	 * @return array
 	 */
-	public function button($button = false, $class = false, $icon = false, $span = false)
+	public function button($button = false, $class = false, $icon = false, $span = false): string
 	{
 		if ($button) {
 			$context['button'] = [
@@ -772,6 +585,7 @@ class Base
 			];
 			return Timber::compile('components/_button.twig', $context);
 		}
+		return '';
 	}
 
 	/**
@@ -780,18 +594,10 @@ class Base
 	 * @param $sprite
 	 * @return array
 	 */
-	public function sprite($id, $class = false)
+	public function sprite($id, $class = false): string
 	{
-		// return '<svg class="sprite-icon icon-' . $id . '" aria-hidden="true" focusable="false"><use xlink:href="sprite-' . $id . '"></use></svg>';
-
-		if (file_exists(ABSPATH . 'hot')) {
-			$path = '';
-		} else {
-			$path = get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file'];
-		}
-
+		$path = file_exists(ABSPATH . 'hot') ? '' : get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file'];
 		$class = $class ? ' ' . $class : '';
-
 		return '<svg class="sprite-icon icon-' .
 			$id .
 			$class .
@@ -808,14 +614,22 @@ class Base
 	 * @param $image
 	 * @return array
 	 */
-	public function GetImage($img, $size = false, $class = false)
+	public function GetImage($img, $size = false, $class = false, $lazyLoad = true, $bg = false, $is_preview = false): string
 	{
-		if (count($size) == 1 || $size[0] == $size[1]) {
-			$normal_size = $size[0];
-			$retina_size = $size[0] * 2;
-		} elseif (count($size) == 2 && $size[0] != $size[1]) {
-			$normal_size = $size[0] . ', ' . $size[1];
-			$retina_size = $size[0] * 2 . ', ' . $size[1] * 2;
+		if (count($size) === 1) {
+			$normal_size = [$size[0], 0];
+			$height = $size[0] * 2 > 2560 ? 2560 : $size[0] * 2;
+			$retina_size = [$height, 0];
+		} elseif (count($size) === 2) {
+			$normal_size = $size;
+			if ($size[0] * 2 > 2560) {
+				$height = 2560;
+				$width = (2560 / $size[0]) * $size[1];
+			} else {
+				$height = $size[0] * 2;
+				$width = $size[1] * 2;
+			}
+			$retina_size = [$height, $width];
 		} else {
 			$normal_size = '';
 			$retina_size = '';
@@ -828,45 +642,14 @@ class Base
 			'width' => $size[0] ?? '',
 			'height' => $size[1] ?? '',
 			'retina_size' => $retina_size,
+			'lazyLoad' => $lazyLoad,
+			'bg' => $bg,
+			'is_preview' => $is_preview,
 		];
 		return Timber::compile('components/_image.twig', $context);
 	}
 
-	// /**
-	//  * Create image
-	//  *
-	//  * @param $image
-	//  * @return array
-	//  */
-	// public function _Image($id, $class = '', $size = 'thumbnail', $array = false)
-	// {
-	// 	$src = wp_get_attachment_image_src($id, $size);
-	// 	$src2x = wp_get_attachment_image_src($id, $size . '2x');
-	// 	$alt_text = get_post_meta($id, '_wp_attachment_image_alt', true);
-
-	// 	$context['image'] = [
-	// 		'class' => $class,
-	// 		'size' => $src[1] . ', ' . $src[2],
-	// 		'src' => $src[0],
-	// 		'width' => $src[1],
-	// 		'height' => $src[2],
-	// 		'retina' => $src2x[0],
-	// 		'alt' => $alt_text,
-	// 	];
-	// 	if ($array) {
-	// 		return $context['image'];
-	// 	}
-
-	// 	return Timber::compile('components/_image_wp.twig', $context);
-	// }
-
-	/**
-	 * Create href with `mailto:` prefix and e-mail address
-	 *
-	 * @param $mail
-	 * @return string
-	 */
-	public function mailLink($mail)
+	public function mailLink($mail): string
 	{
 		return 'mailto:' . strtolower(preg_replace('/\s+/', '', $mail));
 	}
@@ -877,7 +660,7 @@ class Base
 	 * @param $number
 	 * @return string
 	 */
-	public function phoneLink($number)
+	public function phoneLink($number): string
 	{
 		return 'tel:' . preg_replace('/(?!\+)[^0-9,.]/', '', $number);
 	}
@@ -888,18 +671,12 @@ class Base
 	 * @param $mail
 	 * @return string
 	 */
-	public function antiSpam($mail)
+	public function antiSpam($mail): string
 	{
 		return antispambot($mail);
 	}
 
-	/**
-	 * Custom password form template for password protected pages
-	 * https://wordpress.org/documentation/article/protect-posts-with-password/
-	 *
-	 * @param string  $output The password form HTML output.
-	 */
-	public function passwordForm($output)
+	public function passwordForm($output): string
 	{
 		$context['password'] = [
 			'action' => esc_url(site_url('wp-login.php?action=postpass', 'login_post')),
@@ -907,28 +684,15 @@ class Base
 		return Timber::compile('partials/page/password.twig', $context);
 	}
 
-	// Enable vcard upload
-	public function enable_vcard_upload($mime_types = [])
+	public function enable_vcard_upload($mime_types = []): array
 	{
 		$mime_types['vcf'] = 'text/vcard';
 		$mime_types['vcard'] = 'text/vcard';
 		return $mime_types;
 	}
 
-	// Remove files
-	public function deleteImageSizes($sizes)
+	public function deleteImageSizes($sizes): array
 	{
-		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'thumbnail', 'medium']);
-	}
-
-	// Woo
-
-	public function timber_set_product($post)
-	{
-		global $product;
-
-		if (is_woocommerce()) {
-			$product = wc_get_product($post->ID);
-		}
+		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'medium']);
 	}
 }

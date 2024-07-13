@@ -8,7 +8,7 @@
 		"WordPress",
 		"Starter"
 	],
-	"version": "3.2.2",
+	"version": "3.3.0",
 	"require": {
 		"php": ">=8.1",
 		"composer/installers": "^2.2",
@@ -19,23 +19,23 @@
 		"ext-json": "*",
 		"timber/timber": "^2.2",
 		"roots/bedrock-autoloader": "^1.0.4",
-		"roots/wp-stage-switcher": "^2.2",
 		"jdlocal/gravityforms": "2.8.5.1",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
-		"yoast/wordpress-seo": "^22.5",
+		"yoast/wordpress-seo": "^23.0",
 		"wpackagist-plugin/wp-mail-smtp": "^4.0.1",
 		"wpackagist-plugin/all-in-one-wp-security-and-firewall": "^5.3.0",
 		"wpackagist-plugin/safe-svg": "^2.2.4",
 		"wpackagist-plugin/simple-301-redirects": "^2.0.9",
-		"wpackagist-plugin/wp-smushit": "^3.16.4",
+		"wpackagist-plugin/ewww-image-optimizer": "7.7.0",
 		"wpackagist-plugin/webp-express": "^0.25.9",
 		"justdev/jd-support": "^1.1.6",
-		"wpackagist-plugin/woocommerce": "^8.9.0",
+		"wpackagist-plugin/woocommerce": "^9.1.0",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
+		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*",
-		"wp-graphql/wp-graphql": "^1.27"
+		"wpackagist-plugin/simple-custom-post-order": "^2.5.7"
 	},
 	"repositories": [
 		{
@@ -45,6 +45,11 @@
 				"wpackagist-plugin/*",
 				"wpackagist-theme/*"
 			]
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:kirilldorozhynskyi/wp-stage-switcher.git",
+			"branch": "master"
 		},
 		{
 			"type": "vcs",
@@ -153,6 +158,7 @@
 		],
 		"post-install-cmd": [
 			"JDEVINT\\Installer::install",
+			"rsync -av --exclude='.git' vendor/wordpress/ ./",
 			"rm -rf vendor/wordpress/"
 		],
 		"post-update-cmd": [
@@ -160,9 +166,10 @@
 			"rm -rf vendor/wordpress/"
 		],
 		"install": [
-			"git init",
-			"npm i",
-			"git commit -a -m '[INT] Starter initial'"
+			"git init -b master",
+			"git add .",
+			"git commit -m'[INT] Starter initial'",
+			"npm i"
 		]
 	}
 }

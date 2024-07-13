@@ -34,10 +34,10 @@ if (!class_exists('ACF') or !$timber) {
 
 // Constants
 define('PAGES', [
-	'HOME' => 1,
-	'PRIVACY_POLICY' => 2,
-	'NEWS' => 3,
-	'SEARCH' => 4,
+	'HOME' => 2,
+	'PRIVACY_POLICY' => 3,
+	'ESHOP' => 5,
+	'SEARCH' => 7,
 ]);
 
 // Autoload
@@ -45,8 +45,12 @@ require ABSPATH . '/vendor/autoload.php';
 
 // Classes
 new JDEV\Base();
+new JDEV\Gutenberg();
+new JDEV\WC();
 new JDEV\RTEConfig();
 new JDEV\ACFConfig();
+new JDEV\Model\Person();
+new JDEV\Model\News();
 
 // Models
 new JDEV\Model\Search();
@@ -57,5 +61,3 @@ if (!class_exists('GFAPI')) {
 } else {
 	new JDEV\Model\GravityForm();
 }
-new JDEV\Model\Person();
-new JDEV\Model\News();
