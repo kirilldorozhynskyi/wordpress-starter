@@ -8,7 +8,7 @@ import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
 
 // Config
-import config from './config.js'
+import config from './config.ts'
 
 const { baseDir, SvgSpritemap } = config
 
@@ -23,7 +23,6 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: path.resolve(__dirname, `${baseDir}Private/Vue/app.ts`),
-				// rte: path.resolve(__dirname, `${baseDir}Private/Scss/rte.scss`),
 			},
 			output: {
 				manualChunks(id) {
@@ -44,14 +43,14 @@ export default defineConfig({
 	plugins: [
 		laravel({
 			publicDirectory: '.',
-			input: ['Scss/style.scss', 'Scss/**/**/*.scss', 'Vue/app.ts'],
-			refresh: true,
+			input: ['Scss/app.scss', 'Scss/**/**/*.scss', 'Vue/app.ts'],
+			refresh: false,
 		}),
 		{
 			name: 'wordpress',
 			handleHotUpdate({ file, server }) {
 				if (file.endsWith('.php') || file.endsWith('.twig')) {
-					server.hot.send({
+					server.ws.send({
 						type: 'full-reload',
 						path: '*',
 					})
@@ -61,11 +60,10 @@ export default defineConfig({
 		mkcert(),
 		sassGlobImports(),
 		vue(),
-		VitePluginSvgSpritemap(path.resolve(process.cwd(), `${baseDir}/Icons/*.svg`), SvgSpritemap),
+		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), SvgSpritemap),
 		faviconsPlugin({
 			inject: false,
 			cache: true,
-
 			icons: {
 				favicons: {
 					source: `${baseDir}/Public/Favicons/favicon.svg`,

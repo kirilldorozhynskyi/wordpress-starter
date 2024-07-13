@@ -6,7 +6,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import Dropdown from 'bootstrap/js/dist/dropdown'
+import { useMediaQuery } from '@vueuse/core'
+
+const mobile = useMediaQuery('(min-width: 992px)')
+const mobileDown = useMediaQuery('(max-width: 992px)')
 
 const SCROLL_DELTA = 50
 
@@ -31,25 +34,29 @@ onUnmounted(() => {
 })
 
 const toggleMobileNav = () => {
-	const mobileNav = document.querySelector('.mobile-nav')
+	const mobileNav = document.querySelector('.main-nav')
 	if (mobileNav) {
 		document.body.classList.toggle('mobile-nav-opened')
-		if (document.body.classList.contains('mobile-nav-opened')) {
-			const activeNavItems: HTMLElement[] = Array.from(mobileNav.querySelectorAll('a.active'))
-				.map((link) => link.parentElement)
-				.filter((item) => item && item.classList.contains('sub')) as HTMLElement[]
-
-			activeNavItems.forEach((item) => {
-				item.classList.add('js-opened')
-				window.domSlider.slideDown({ element: item.querySelector('nav') })
-			})
-		} else {
-			Array.from(mobileNav.querySelectorAll('.js-opened')).forEach((item) => {
-				item.classList.remove('js-opened')
-				window.domSlider.slideUp({ element: item.querySelector('nav') })
-			})
-		}
 	}
+}
+
+const setupChildrenNav = () => {
+	const children = root.value ? Array.from(root.value.querySelectorAll('.has-children')) : []
+	children.forEach((item: Element) => {
+		item.querySelector('.subnav-toggle')?.addEventListener('click', (event: Event) => {
+			if (mobileDown.value) {
+				event.preventDefault()
+				item.querySelector('.subnav-menu')?.classList.toggle('show')
+			}
+		})
+
+		item.querySelector('.subnav-menu-back')?.addEventListener('click', (event: Event) => {
+			if (mobileDown.value) {
+				event.preventDefault()
+				item.querySelector('.subnav-menu')?.classList.toggle('show')
+			}
+		})
+	})
 }
 
 const toggleSubNav = (event: Event) => {
@@ -75,9 +82,6 @@ const showSearch = () => {
 }
 
 onMounted(() => {
-	if (root.value) {
-		const dropdownElements = root.value.querySelectorAll('[data-bs-toggle="dropdown"]')
-		dropdownElements.forEach((item) => new Dropdown(item))
-	}
+	setupChildrenNav()
 })
 </script>

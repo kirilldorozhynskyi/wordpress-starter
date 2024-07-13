@@ -1,0 +1,29 @@
+/*
+ * File: /wp-content/themes/template/resources/Private/Scss/base/_gutenberg.scss
+ * Project: wordpress-starter
+ * Version: 3.2.2
+ * Created Date: Monday, July 8th 2024, 15:15:43
+ * Author: Kirill Dorozhynskyi - kirilldy@justdev.org
+ * -----
+ * Last Modified: Monday, July 8th 2024 15:15:43
+ * Modified By: Kirill Dorozhynskyi
+ * -----
+ * Copyright (c) 2024 justDev
+ */
+
+html :where(.wp-block) {
+	&:not(.acf-block-body) {
+		@extend .container;
+	}
+
+	&.acf-block-body {
+		max-width: 100% !important;
+	}
+}
+
+.wp-block-image {
+	@extend .img-fluid;
+	img {
+		@extend .img-fluid;
+	}
+}

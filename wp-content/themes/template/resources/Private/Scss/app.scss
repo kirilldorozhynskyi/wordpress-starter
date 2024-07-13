@@ -9,14 +9,15 @@
 @import 'base/fonts';
 
 @import '_variables/variablesGlobal';
-@import '_variables/variablesCustom';
 @import '_variables/variablesContent';
 
 @import '~bootstrap/scss/bootstrap.scss';
 
 @import 'base/mixins/alignment';
 @import 'base/mixins/rfs';
+@import 'base/mixins/container';
 
+@import 'base/gutenberg';
 @import 'base/typograph';
 
 // Mixins
@@ -25,12 +26,14 @@
 // Vendor
 @import 'aos/dist/aos';
 
-// Elements
-@import 'elements/**/*.scss';
-
 // Page
 @import 'page/**/*.scss';
 @import 'global/**/*.scss';
 @import 'posts/**/*.scss';
 
-@import '../../../views/elements/**/*.scss';
+// Elements
+@import 'elements/**/*.scss';
+
+// Content
+@import '../../../views/partials/page/**/**/*.scss';
+@import '../../../views/blocks/**/*.scss';
