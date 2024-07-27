@@ -7,7 +7,7 @@
 	"keywords": ["hero", " page hero"],
 	"textdomain": "jdev",
 	"acf": {
-		"mode": "preview",
-		"renderCallback": "jDBlockRender"
+		"mode": "auto",
+		"renderCallback": "JDEV\\Gutenberg::jDBlockRender"
 	}
 }

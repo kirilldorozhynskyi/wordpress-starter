@@ -393,60 +393,64 @@ class Base
 	/**
 	 * Get Favicon
 	 */
-	public function getFavicon(): string
+	public function GetFavicon()
 	{
-		if (file_exists(ABSPATH . 'hot')) {
-			return '';
-		}
+		if (!file_exists(ABSPATH . 'hot')) {
+			$path = get_template_directory_uri() . '/resources/Public/Build/';
+			$extpath = get_template_directory_uri() . '/resources/Public/ext/';
+			$ext = get_template_directory() . '/resources/Public/ext/';
 
-		$path = get_template_directory_uri() . '/resources/Public/Build/';
-		$extpath = get_template_directory_uri() . '/resources/Public/';
-		$ext = get_template_directory() . '/resources/Public/';
-		$webmanifest = str_replace('assets/', '', $this->viteManifest['manifest.webmanifest']['file']);
+			$webmanifest = str_replace('assets/', '', $this->viteManifest['manifest.webmanifest']['file']);
 
-		if (!file_exists($ext . $webmanifest)) {
-			$files = glob($ext . '/*');
-			foreach ($files as $file) {
-				if (is_file($file)) {
-					unlink($file);
+			if (!file_exists($ext . $webmanifest)) {
+				$files = glob($ext . '/*');
+
+				foreach ($files as $file) {
+					if (is_file($file) && $file != '.gitkeep') {
+						unlink($file);
+					}
 				}
+
+				$manifestContent = file_get_contents($path . $this->viteManifest['manifest.webmanifest']['file']);
+
+				$json = json_decode(str_replace('/assets/', $path . 'assets/', $manifestContent));
+
+				$json->name = get_bloginfo();
+				$json->short_name = get_bloginfo();
+				$json->description = get_bloginfo('description');
+				$json->lang = get_locale();
+				$json->background_color = get_fields('options')['general_background_color'];
+				$json->theme_color = get_fields('options')['general_theme_color'];
+
+				file_put_contents($ext . $webmanifest, json_encode($json));
 			}
 
-			$manifestContent = file_get_contents($path . $this->viteManifest['manifest.webmanifest']['file']);
-			$json = json_decode(str_replace('/assets/', $path . 'assets/', $manifestContent));
-			$json->name = get_bloginfo();
-			$json->short_name = get_bloginfo();
-			$json->description = get_bloginfo('description');
-			$json->lang = get_locale();
-			$json->background_color = get_fields('options')['general_background_color'];
-			$json->theme_color = get_fields('options')['general_theme_color'];
-			file_put_contents($ext . $webmanifest, json_encode($json));
+			$context['fav'] = [
+				'manifest' => $extpath . $webmanifest,
+				'theme_color' => get_fields('options')['general_theme_color'],
+				'favicons' => [
+					'favicon-16x16.png' => $path . $this->viteManifest['favicon-16x16.png']['file'],
+					'favicon-32x32.png' => $path . $this->viteManifest['favicon-32x32.png']['file'],
+					'favicon-48x48.png' => $path . $this->viteManifest['favicon-48x48.png']['file'],
+					'favicon.ico' => $path . $this->viteManifest['favicon.ico']['file'],
+				],
+				'apple' => [
+					'apple-touch-icon-1024x1024.png' => $path . $this->viteManifest['apple-touch-icon-1024x1024.png']['file'],
+					'apple-touch-icon-114x114.png' => $path . $this->viteManifest['apple-touch-icon-114x114.png']['file'],
+					'apple-touch-icon-120x120.png' => $path . $this->viteManifest['apple-touch-icon-120x120.png']['file'],
+					'apple-touch-icon-144x144.png' => $path . $this->viteManifest['apple-touch-icon-144x144.png']['file'],
+					'apple-touch-icon-152x152.png' => $path . $this->viteManifest['apple-touch-icon-152x152.png']['file'],
+					'apple-touch-icon-167x167.png' => $path . $this->viteManifest['apple-touch-icon-167x167.png']['file'],
+					'apple-touch-icon-180x180.png' => $path . $this->viteManifest['apple-touch-icon-180x180.png']['file'],
+					'apple-touch-icon-57x57.png' => $path . $this->viteManifest['apple-touch-icon-57x57.png']['file'],
+					'apple-touch-icon-60x60.png' => $path . $this->viteManifest['apple-touch-icon-60x60.png']['file'],
+					'apple-touch-icon-72x72.png' => $path . $this->viteManifest['apple-touch-icon-72x72.png']['file'],
+					'apple-touch-icon-76x76.png' => $path . $this->viteManifest['apple-touch-icon-76x76.png']['file'],
+				],
+			];
+			return Timber::compile('partials/elements/favicon.twig', $context);
 		}
-
-		$context['fav'] = [
-			'manifest' => $extpath . $webmanifest,
-			'theme_color' => get_fields('options')['general_theme_color'] ?? '#000000',
-			'favicons' => [
-				'favicon-16x16.png' => $path . $this->viteManifest['favicon-16x16.png']['file'],
-				'favicon-32x32.png' => $path . $this->viteManifest['favicon-32x32.png']['file'],
-				'favicon-48x48.png' => $path . $this->viteManifest['favicon-48x48.png']['file'],
-				'favicon.ico' => $path . $this->viteManifest['favicon.ico']['file'],
-			],
-			'apple' => [
-				'apple-touch-icon-1024x1024.png' => $path . $this->viteManifest['apple-touch-icon-1024x1024.png']['file'],
-				'apple-touch-icon-114x114.png' => $path . $this->viteManifest['apple-touch-icon-114x114.png']['file'],
-				'apple-touch-icon-120x120.png' => $path . $this->viteManifest['apple-touch-icon-120x120.png']['file'],
-				'apple-touch-icon-144x144.png' => $path . $this->viteManifest['apple-touch-icon-144x144.png']['file'],
-				'apple-touch-icon-152x152.png' => $path . $this->viteManifest['apple-touch-icon-152x152.png']['file'],
-				'apple-touch-icon-167x167.png' => $path . $this->viteManifest['apple-touch-icon-167x167.png']['file'],
-				'apple-touch-icon-180x180.png' => $path . $this->viteManifest['apple-touch-icon-180x180.png']['file'],
-				'apple-touch-icon-57x57.png' => $path . $this->viteManifest['apple-touch-icon-57x57.png']['file'],
-				'apple-touch-icon-60x60.png' => $path . $this->viteManifest['apple-touch-icon-60x60.png']['file'],
-				'apple-touch-icon-72x72.png' => $path . $this->viteManifest['apple-touch-icon-72x72.png']['file'],
-				'apple-touch-icon-76x76.png' => $path . $this->viteManifest['apple-touch-icon-76x76.png']['file'],
-			],
-		];
-		return Timber::compile('partials/elements/favicon.twig', $context);
+		return '';
 	}
 
 	/**
