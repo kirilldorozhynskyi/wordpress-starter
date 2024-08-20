@@ -15,7 +15,6 @@ if (function_exists('WPSEO_FILE')) {
 
 if (is_front_page()) {
 	return Inertia::render('Index', [
-		'page' => Timber::get_post(),
 		'fields' => get_fields(),
 		'seo' => [
 			'title' => $ogtitle,
@@ -26,7 +25,6 @@ if (is_front_page()) {
 
 if (is_single()) {
 	return Inertia::render('Single', [
-		'page' => Timber::get_post(),
 		'fields' => get_fields(),
 		'seo' => [
 			'title' => $ogtitle,
@@ -37,7 +35,6 @@ if (is_single()) {
 
 if (is_page()) {
 	return Inertia::render('Page', [
-		'page' => Timber::get_post(),
 		'seo' => [
 			'title' => $ogtitle,
 			'description' => $description,
@@ -48,7 +45,6 @@ if (is_page()) {
 if (is_404()) {
 	return Inertia::render('404', [
 		'content' => '404 - Not Found',
-		'page' => Timber::get_post(),
 		'seo' => [
 			'title' => $ogtitle,
 			'description' => $description,
