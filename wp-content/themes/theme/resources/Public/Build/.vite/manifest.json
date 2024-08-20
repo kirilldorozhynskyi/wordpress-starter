@@ -167,7 +167,7 @@
     "name": "vue"
   },
   "wp-content/themes/theme/resources/Private/Vue/Pages/404.vue": {
-    "file": "assets/404-yQ29MV2G.js",
+    "file": "assets/404-Csihodze.js",
     "name": "404",
     "src": "wp-content/themes/theme/resources/Private/Vue/Pages/404.vue",
     "isDynamicEntry": true,
@@ -199,7 +199,7 @@
     ]
   },
   "wp-content/themes/theme/resources/Private/Vue/Pages/Index.vue": {
-    "file": "assets/Index-0IIq_GWF.js",
+    "file": "assets/Index-_DfGfMyl.js",
     "name": "Index",
     "src": "wp-content/themes/theme/resources/Private/Vue/Pages/Index.vue",
     "isDynamicEntry": true,
@@ -291,7 +291,7 @@
     ]
   },
   "wp-content/themes/theme/resources/Private/Vue/app.ts": {
-    "file": "assets/main-2c8waZnW.js",
+    "file": "assets/main-B-hZ28IK.js",
     "name": "main",
     "src": "wp-content/themes/theme/resources/Private/Vue/app.ts",
     "isEntry": true,

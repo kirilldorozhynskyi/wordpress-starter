@@ -16,6 +16,7 @@ class Base
 	protected function addThemeActionsAndFilters(): void
 	{
 		add_action('after_setup_theme', [$this, 'setupTheme']);
+		add_filter('use_block_editor_for_post', '__return_false');
 	}
 
 	/**

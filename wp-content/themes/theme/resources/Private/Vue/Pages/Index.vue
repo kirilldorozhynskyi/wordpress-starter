@@ -15,7 +15,7 @@
 					width="640"
 					height="640"
 					class="img-fluid"
-					:alt="item.image.filename.alt"
+					:alt="item.image.alt"
 				/>
 			</picture>
 		</div>
