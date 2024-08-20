@@ -1,10 +1,25 @@
+
+<?php if (function_exists('WPSEO_FILE')) {
+	var_dump(function_exists('WPSEO_FILE'));
+	$yoast_meta = YoastSEO()->meta->for_current_page();
+	$ogtitle = $yoast_meta->open_graph_title;
+	$description = $yoast_meta->open_graph_description;
+} else {
+	$ogtitle = get_the_title();
+	$description = get_bloginfo('description');
+} ?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0" />
-    <title inertia><?php echo get_the_title(); ?></title>
+	<title inertia><?php echo $ogtitle; ?></title>
+
+	<meta inertia name="description" content="<?php echo $description; ?>" />
+
+
     <?php wp_head(); ?>
 </head>
 

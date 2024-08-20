@@ -28,7 +28,6 @@
 		"wpackagist-plugin/safe-svg": "^2.2.4",
 		"wpackagist-plugin/simple-301-redirects": "^2.0.9",
 		"wpackagist-plugin/ewww-image-optimizer": "7.7.0",
-		"wpackagist-plugin/webp-express": "^0.25.9",
 		"justdev/jd-support": "^1.1.6",
 		"wpackagist-plugin/woocommerce": "^9.1.0",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",

@@ -1,0 +1,50 @@
+{
+  "wp-content/themes/theme/resources/Private/Vue/Pages/404.vue": {
+    "file": "assets/404-BwisZgt0.js",
+    "name": "404",
+    "src": "wp-content/themes/theme/resources/Private/Vue/Pages/404.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/theme/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/theme/resources/Private/Vue/Pages/Index.vue": {
+    "file": "assets/Index-C96kObi1.js",
+    "name": "Index",
+    "src": "wp-content/themes/theme/resources/Private/Vue/Pages/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/theme/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/theme/resources/Private/Vue/Pages/Page.vue": {
+    "file": "assets/Page-CoAzMwiY.js",
+    "name": "Page",
+    "src": "wp-content/themes/theme/resources/Private/Vue/Pages/Page.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/theme/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/theme/resources/Private/Vue/Pages/Single.vue": {
+    "file": "assets/Single-BxbxQYfC.js",
+    "name": "Single",
+    "src": "wp-content/themes/theme/resources/Private/Vue/Pages/Single.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/theme/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/theme/resources/Private/Vue/app.ts": {
+    "file": "assets/main-DFloBIad.js",
+    "name": "main",
+    "src": "wp-content/themes/theme/resources/Private/Vue/app.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "wp-content/themes/theme/resources/Private/Vue/Pages/404.vue",
+      "wp-content/themes/theme/resources/Private/Vue/Pages/Index.vue",
+      "wp-content/themes/theme/resources/Private/Vue/Pages/Page.vue",
+      "wp-content/themes/theme/resources/Private/Vue/Pages/Single.vue"
+    ]
+  }
+}

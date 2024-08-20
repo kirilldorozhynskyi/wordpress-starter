@@ -1,5 +1,5 @@
 // @ts-nocheck
-import '../Scss/app.scss'
+// import '../Scss/app.scss'
 
 import { createApp, h, DefineComponent, App as VueApp } from 'vue'
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
@@ -13,8 +13,6 @@ InertiaProgress.init()
 
 // Define the Inertia App
 createInertiaApp({
-	title: (title) => `${title}`,
-
 	resolve: (name) => {
 		const page = resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
 		page.then((module) => {
@@ -27,7 +25,6 @@ createInertiaApp({
 			.use(plugin)
 			.component('Link', Link)
 			.component('Head', Head)
-
 			.mount(el)
 	},
 
