@@ -34,4 +34,5 @@ new JDEV\InertiaWP();
 // new JDEV\Gutenberg();
 new JDEV\ACFConfig();
 new JDEV\Deregister();
+new JDEV\DynamicImages();
 new JDEV\Vite();
