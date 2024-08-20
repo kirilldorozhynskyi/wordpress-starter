@@ -6,6 +6,10 @@
 					:srcset="`/wp-json/jdev/get-image/${item.image.filename}?w=640&h=640&webp=true 1x, /wp-json/jdev/get-image/${item.image.filename}?w=1280&h=1280&webp=true 2x`"
 					type="image/webp"
 				/>
+				<source
+					:srcset="`/wp-json/jdev/get-image/${item.image.filename}?w=640&h=640 1x, /wp-json/jdev/get-image/${item.image.filename}?w=1280&h=1280 2x`"
+					type="image/jpeg"
+				/>
 				<img
 					:srcset="`/wp-json/jdev/get-image/${item.image.filename}?w=640&h=640 1x, /wp-json/jdev/get-image/${item.image.filename}?w=1280&h=1280 2x`"
 					width="640"

@@ -14,12 +14,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0" />
+	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no" />
 	<title inertia><?php echo $ogtitle; ?></title>
-
 	<meta inertia name="description" content="<?php echo $description; ?>" />
-
-
     <?php wp_head(); ?>
 </head>
 
@@ -31,3 +28,4 @@
 </body>
 
 </html>
+
