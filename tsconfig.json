@@ -1,19 +1,24 @@
 {
 	"compilerOptions": {
-		"types": ["node"],
-		"importHelpers": true,
+		"target": "esnext",
+		"module": "esnext",
 		"moduleResolution": "node",
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"allowJs": true,
-		"checkJs": false,
+		"jsx": "preserve",
+		"strict": true,
 		"esModuleInterop": true,
-		"sourceMap": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
-			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
+			"@/*": ["src/*"]
 		}
 	},
-	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"vite-env.d.ts" // Ensure this line is included
+	],
 	"exclude": ["node_modules"]
 }

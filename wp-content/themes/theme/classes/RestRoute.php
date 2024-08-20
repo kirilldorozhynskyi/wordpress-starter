@@ -1,16 +1,12 @@
 <?php
+
 namespace JDEV;
 
 use WP_REST_Server;
 
-/**
- * Class RestRoute
- *
- * @package JDEV
- */
 class RestRoute
 {
-	public static function registerRoute($methods, $route, $callback, $args)
+	public static function registerRoute($methods, $route, $callback, $args = [])
 	{
 		$route = str_replace('{', '(?P<', $route);
 		$route = str_replace('}', '>\S+)', $route);
@@ -19,7 +15,7 @@ class RestRoute
 			register_rest_route('jdev', $route, [
 				'methods' => $methods,
 				'callback' => $callback,
-				'permission_callback' => '__return_true', // Adjust if permissions are needed
+				'permission_callback' => '__return_true', // Настройте, если требуется проверка прав
 				'args' => $args,
 			]);
 		});
@@ -32,7 +28,7 @@ class RestRoute
 
 	public static function getWithWildcards($route, $callback, $args = [])
 	{
-		$route .= '(?P<extra_path>.*)'; // Allow capturing everything after /get-image/
+		$route .= '(?P<extra_path>.*)'; // Захват всего после /get-image/
 		self::get($route, $callback, $args);
 	}
 

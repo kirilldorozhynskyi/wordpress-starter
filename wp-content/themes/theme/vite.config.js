@@ -6,16 +6,12 @@ import mkcert from 'vite-plugin-mkcert'
 
 const projectRootDir = resolve(__dirname)
 
-import config from './config.ts'
-
-const { baseDir } = config
-
 export default defineConfig({
 	plugins: [
 		laravel({
 			publicDirectory: '.',
-			input: ['resources/Private/Scss/app.scss', 'resources/Private/Vue/app.ts'],
-			refresh: true,
+			input: ['resources/Private/Scss/app.scss', 'resources/Private/Vue/app.js'],
+			refresh: true
 		}),
 		{
 			name: 'wordpress',
@@ -23,25 +19,25 @@ export default defineConfig({
 				if (file.endsWith('.php') || file.endsWith('.json')) {
 					server.ws.send({
 						type: 'full-reload',
-						path: '*',
+						path: '*'
 					})
 				}
-			},
+			}
 		},
 		mkcert(),
 		vue({
 			template: {
 				transformAssetUrls: {
 					base: null,
-					includeAbsolute: false,
-				},
-			},
-		}),
+					includeAbsolute: false
+				}
+			}
+		})
 	],
 	resolve: {
 		alias: {
-			js: resolve(baseDir, 'Private/Vue'),
-			scss: resolve(baseDir, 'Private/scss'),
-		},
-	},
+			js: resolve(projectRootDir, 'resources/Private/Vue'),
+			scss: resolve(projectRootDir, 'resources/Private/scss')
+		}
+	}
 })

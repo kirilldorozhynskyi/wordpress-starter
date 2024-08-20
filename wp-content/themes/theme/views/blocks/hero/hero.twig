@@ -1,0 +1,64 @@
+{#
+ # File: /wp-content/themes/template/views/blocks/hero/hero.twig
+ # Project: GLENDEA
+ # Version: 1.0.0
+ # Created Date: Wednesday, July 24th 2024, 23:20:46
+ # Author: Kirill Dorozhynskyi - kirilldy@justdev.org
+ # -----
+ # Last Modified: Friday, July 26th 2024 13:02:49
+ # Modified By: Kirill Dorozhynskyi
+ # -----
+ # Copyright (c) 2024 justDev
+ #}
+
+<section class="hero {{ ce.type == 'ver_2' ? ' hero--next' : '' }}">
+	<div class="container-fluid">
+		<div class="hero-wrapper rounded-5">
+			{% if ce.images %}
+				<div class="hero-image-wrapper">
+					{% for item in ce.images %}
+						{# {{ GetImage(item, [240, 240], 'hero-image rounded-1') }} #}
+					{% endfor %}
+				</div>
+			{% endif %}
+			<div class="d-flex h-100 position-relative z-1 {{ ce.type == 'ver_1' ? 'justify-content-center align-items-center' : 'align-items-end' }}">
+				<div class="d-flex flex-column gap-5 align-items-start">
+					{% if ce.title %}
+						{{ ce.title }}
+					{% endif %}
+
+					{% if ce.button %}
+						{# {{ button(ce.button, 'btn-outline-dark ') }} #}
+					{% endif %}
+				</div>
+
+				{% if ce.text %}
+					<div class="hero-text">
+						<p class="text-dark fs-lg">
+							{{ ce.text }}
+						</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if ce.type == 'ver_2' %}
+			{% if ce.left_image or ce.right_image %}
+				<div class="section-wrapper hero-next-images">
+					<div class="row">
+						{% if ce.left_image %}
+							<div class="col-lg-8">
+								{# {{ GetImage(ce.left_image, [1142, 576], 'rounded-3') }} #}
+							</div>
+						{% endif %}
+						{% if ce.right_image %}
+							<div class="col-lg-4">
+								{# {{ GetImage(ce.right_image, [548, 576], 'rounded-3') }} #}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+</section>

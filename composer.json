@@ -35,7 +35,8 @@
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
 		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*",
-		"wpackagist-plugin/simple-custom-post-order": "^2.5.7"
+		"wpackagist-plugin/simple-custom-post-order": "^2.5.7",
+		"justdev/inertia-wordpress": "^0.5.6"
 	},
 	"repositories": [
 		{
@@ -132,7 +133,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"JDEV\\": "wp-content/themes/template/classes",
+			"JDEV\\": "wp-content/themes/theme/classes",
 			"JDEVINT\\": "scripts/"
 		}
 	},

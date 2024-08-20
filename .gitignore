@@ -14,6 +14,7 @@ node_modules/
 /sql/
 wp-content/themes/*
 !wp-content/themes/template/
+!wp-content/themes/theme/
 
 wp-content/plugins/akismet/
 

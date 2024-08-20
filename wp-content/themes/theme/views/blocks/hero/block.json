@@ -1,0 +1,13 @@
+{
+	"name": "jd/hero",
+	"title": "Hero",
+	"description": "Page hero",
+	"category": "custom-design-category",
+	"icon": "format-aside",
+	"keywords": ["hero", " page hero"],
+	"textdomain": "jdev",
+	"acf": {
+		"mode": "auto",
+		"renderCallback": "JDEV\\Gutenberg::jDBlockRender"
+	}
+}

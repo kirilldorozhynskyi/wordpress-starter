@@ -11,6 +11,9 @@
 		"build": "vite build"
 	},
 	"dependencies": {
+		"@inertiajs/progress": "^0.2.7",
+		"@inertiajs/vue3": "^1.2.0",
+		"@vue/apollo-composable": "^4.0.2",
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^5.3.3",
 		"dom-slider": "^2.1.6",
@@ -48,7 +51,7 @@
 		"vite-plugin-mkcert": "^1.17.5",
 		"vite-plugin-sass-glob-import": "^3.0.2",
 		"vite-plugin-svg-icons": "^2.0.1",
-		"vue": "^3.4.31",
+		"vue": "^3.4.34",
 		"vue-scrollto": "^2.20.0",
 		"vue-tsc": "^2.0.26",
 		"vue3-i18n": "^1.1.5"
