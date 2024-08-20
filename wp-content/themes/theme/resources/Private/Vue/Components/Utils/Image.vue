@@ -1,5 +1,5 @@
 <template>
-	<picture class="picture">
+	<picture class="picture" v-if="image">
 		<source :srcset="webpSrcset" type="image/webp" />
 		<source :srcset="jpegSrcset" type="image/jpeg" />
 		<img :class="imgClass" lazy :data-srcset="jpegSrcset" :width="width" :height="height" :alt="alt" />
