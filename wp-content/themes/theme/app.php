@@ -1,5 +1,6 @@
 
-<?php if (function_exists('WPSEO_FILE')) {
+<?php
+if (function_exists('WPSEO_FILE')) {
 	var_dump(function_exists('WPSEO_FILE'));
 	$yoast_meta = YoastSEO()->meta->for_current_page();
 	$ogtitle = $yoast_meta->open_graph_title;
@@ -7,10 +8,15 @@
 } else {
 	$ogtitle = get_the_title();
 	$description = get_bloginfo('description');
-} ?>
+}
+$base = new \JDEV\Base();
+
+// Call the method through the instance
+$language = $base->getSiteLanguage();
+?>
 
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html lang="<?php echo $language; ?>">
 
 <head>
     <meta charset="UTF-8">

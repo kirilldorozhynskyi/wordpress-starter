@@ -36,3 +36,4 @@ new JDEV\ACFConfig();
 new JDEV\Deregister();
 new JDEV\DynamicImages();
 new JDEV\Vite();
+// Add this code to your theme's functions.php or a custom plugin

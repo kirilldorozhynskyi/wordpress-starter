@@ -2,6 +2,8 @@
 
 namespace JDEV;
 
+use Timber\Site;
+
 /**
  * Class Base
  *
@@ -13,6 +15,7 @@ class Base
 	{
 		$this->addThemeActionsAndFilters();
 	}
+
 	protected function addThemeActionsAndFilters(): void
 	{
 		add_action('after_setup_theme', [$this, 'setupTheme']);
@@ -21,8 +24,7 @@ class Base
 		add_action('admin_menu', [$this, 'modifyAdminMenu']);
 		add_action('admin_bar_menu', [$this, 'modifyAdminBar'], 99);
 		add_action('customize_register', [$this, 'modifyCustomizer']);
-
-		// add_filter('image_resize_dimensions', '__return_false');
+		add_filter('image_resize_dimensions', '__return_false');
 		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
 		add_filter('acf/settings/remove_wp_meta_box', '__return_false');
 	}
@@ -61,6 +63,7 @@ class Base
 		// new user registration
 		remove_action('register_new_user', 'wp_send_new_user_notifications');
 		remove_action('edit_user_created_user', 'wp_send_new_user_notifications');
+		// Uncomment if you want to re-enable notifications for new user registration
 		// add_action('register_new_user', fn($user_id) => wp_send_new_user_notifications($user_id, 'user'));
 		// add_action('edit_user_created_user', fn($user_id) => wp_send_new_user_notifications($user_id, 'user'));
 	}
@@ -85,7 +88,7 @@ class Base
 		$adminBar->remove_node('comments');
 	}
 
-	/*
+	/**
 	 * Modify appearance > customize menu items
 	 *
 	 * @param $customizer
@@ -95,6 +98,25 @@ class Base
 		$customizer->remove_section('custom_css');
 	}
 
+	/**
+	 * Get Timber language and fix it to ISO 639-1 standard to prevent SEO warnings
+	 *
+	 * @param $fallbackLanguage
+	 * @return string
+	 */
+	public function getSiteLanguage(): string
+	{
+		$site = new Site();
+		$siteLanguage = strtolower($site->language);
+		return $siteLanguage ? explode('_', $siteLanguage)[0] : 'de';
+	}
+
+	/**
+	 * Remove unnecessary image sizes
+	 *
+	 * @param array $sizes
+	 * @return array
+	 */
 	public function deleteImageSizes($sizes): array
 	{
 		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'thumbnail']);
