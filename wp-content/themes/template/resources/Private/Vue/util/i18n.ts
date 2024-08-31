@@ -1,21 +1,5 @@
-import { createI18n } from 'vue3-i18n'
+import translate from './translate.ts'
 
-const messages = {
-	en: {
-		cookies: {
-			button: {
-				accept: 'Accept',
-				close: 'Close',
-			},
-			info: {
-				disabled: 'Please enable cookies to view this content',
-			},
-		},
-	},
-}
+const i18nConfig = translate
 
-// eslint-disable-next-line import/prefer-default-export
-export const i18n = createI18n({
-	locale: 'en',
-	messages,
-})
+export default i18nConfig

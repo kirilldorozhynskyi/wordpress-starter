@@ -127,6 +127,6 @@ class ACFConfig
 	public function register()
 	{
 		// Theme settings page
-		acf_add_local_field_group(include_once 'ACF/Pages/ThemeSettings.php');
+		// acf_add_local_field_group(include_once 'ACF/Pages/ThemeSettings.php');
 	}
 }

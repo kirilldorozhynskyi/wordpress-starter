@@ -15,7 +15,7 @@ interface SvgSpritemapConfig {
 	}
 }
 
-const baseDir = 'wp-content/themes/theme/resources/'
+const baseDir = 'wp-content/themes/template/resources/'
 
 const config: SvgSpritemapConfig = {
 	baseDir: baseDir,

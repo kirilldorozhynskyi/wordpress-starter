@@ -1,17 +1,22 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
 import laravel from 'laravel-vite-plugin'
 import path from 'path'
-
 import vue from '@vitejs/plugin-vue'
 import mkcert from 'vite-plugin-mkcert'
+import sassGlobImports from 'vite-plugin-sass-glob-import'
+import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
+import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
 
+// Config
 import config from './config.ts'
 
-const { baseDir } = config
+const { baseDir, SvgSpritemap } = config
 
 export default defineConfig({
-	base: process.env.NODE_ENV == 'production' ? `/${baseDir}Public/Build/` : '',
+	esbuild: {
+		drop: process.env.NODE_ENV == 'production' ? ['console', 'debugger'] : [],
+	},
+	base: process.env.NODE_ENV === 'production' ? `/${baseDir}Public/Build/` : '',
 	build: {
 		outDir: path.join(__dirname, `${baseDir}Public/Build`),
 		manifest: true,
@@ -19,16 +24,15 @@ export default defineConfig({
 			input: {
 				main: path.resolve(__dirname, `${baseDir}Private/Vue/app.ts`),
 			},
-			output: {
-				manualChunks(id) {
-					if (id.includes('node_modules')) {
-						return id.toString().split('node_modules/')[1].split('/')[0].toString()
-					}
-				},
-			},
+			// output: {
+			// 	manualChunks(id: string) {
+			// 		if (id.includes('node_modules')) {
+			// 			return id.toString().split('node_modules/')[1].split('/')[0].toString()
+			// 		}
+			// 	},
+			// },
 		},
 	},
-
 	plugins: [
 		laravel({
 			publicDirectory: '.',
@@ -38,7 +42,7 @@ export default defineConfig({
 		{
 			name: 'wordpress',
 			handleHotUpdate({ file, server }) {
-				if (file.endsWith('.php') || file.endsWith('.json')) {
+				if (file.endsWith('.php') || file.endsWith('.json') || file.endsWith('.twig')) {
 					server.ws.send({
 						type: 'full-reload',
 						path: '*',
@@ -47,11 +51,28 @@ export default defineConfig({
 			},
 		},
 		mkcert(),
+		sassGlobImports(),
 		vue({
 			template: {
 				transformAssetUrls: {
 					base: null,
 					includeAbsolute: false,
+				},
+			},
+		}),
+		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), SvgSpritemap),
+		faviconsPlugin({
+			inject: false,
+			cache: true,
+			icons: {
+				favicons: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
+				},
+				android: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
+				},
+				appleIcon: {
+					source: `${baseDir}/Public/Favicons/favicon.svg`,
 				},
 			},
 		}),

@@ -15,12 +15,19 @@
 		"vue-i18n": "^9.14.0"
 	},
 	"devDependencies": {
+		"@darkobits/vite-plugin-favicons": "^0.3.2",
 		"@inertiajs/progress": "^0.2.7",
 		"@inertiajs/vue3": "^1.2.0",
+		"@spiriit/vite-plugin-svg-spritemap": "^2.2.4",
 		"@vitejs/plugin-vue": "^5.1.2",
+		"autoprefixer": "^10.4.20",
 		"laravel-vite-plugin": "^1.0.5",
+		"postcss": "^8.4.41",
+		"sass": "^1.77.8",
+		"tailwindcss": "^3.4.10",
 		"vite": "^5.4.2",
 		"vite-plugin-mkcert": "^1.17.6",
+		"vite-plugin-sass-glob-import": "^3.0.2",
 		"vue": "^3.4.38"
 	}
 }

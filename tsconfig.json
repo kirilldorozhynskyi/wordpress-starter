@@ -1,24 +1,20 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
-		"module": "esnext",
+		"types": ["node"],
+		"importHelpers": true,
 		"moduleResolution": "node",
-		"jsx": "preserve",
-		"strict": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"allowJs": true,
+		"checkJs": false,
 		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
+		"sourceMap": true,
 		"baseUrl": ".",
+		"lib": ["es2015", "dom"], // Add this line
 		"paths": {
-			"@/*": ["src/*"]
+			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
 		}
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"vite-env.d.ts" // Ensure this line is included
-	],
+	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"],
 	"exclude": ["node_modules"]
 }
