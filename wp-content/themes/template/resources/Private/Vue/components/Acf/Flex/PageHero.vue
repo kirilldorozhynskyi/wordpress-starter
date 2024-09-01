@@ -1,7 +1,5 @@
 <template>
 	<section>
-		{{ $tc('default.company_id') }}
-
 		<h2>{{ ce.text }}</h2>
 
 		<svg class="sprite-icon icon-facebook facebook" aria-hidden="true" focusable="false"><use :xlink:href="`${$page.props.sprite}#icon-facebook`"></use></svg>

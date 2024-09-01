@@ -34,6 +34,16 @@ class Base
 	 */
 	public function setupTheme(): void
 	{
+		$default_posts = get_posts([
+			'post_type' => 'post',
+			'numberposts' => -1, // Get all posts
+			'post_status' => 'publish',
+		]);
+
+		foreach ($default_posts as $post) {
+			wp_delete_post($post->ID, true); // The second argument ensures permanent deletion
+		}
+
 		add_theme_support('menus');
 		// add_theme_support('title-tag');
 		add_post_type_support('page', 'excerpt');

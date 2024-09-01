@@ -1,6 +1,10 @@
 const sk = {
 	default: {
-		company_id: 'Company ID11',
+		404: {
+			title: 'Ľutujeme, túto stránku sme nenašli.',
+			text: 'Ale nebojte sa, na našej domovskej stránke nájdete množstvo ďalších vecí.',
+			btn: 'Späť na domovskú stránku',
+		},
 	},
 	datetimeFormats: {
 		short: {

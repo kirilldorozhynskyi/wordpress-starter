@@ -1,6 +1,10 @@
 const en = {
 	default: {
-		company_id: 'Company ID',
+		404: {
+			title: "Sorry, we couldn't find this page.",
+			text: "But don't worry, you can find many other things on our homepage.",
+			btn: 'Back to homepage',
+		},
 	},
 	datetimeFormats: {
 		short: {

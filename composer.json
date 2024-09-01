@@ -19,6 +19,7 @@
 		"ext-json": "*",
 		"timber/timber": "^2.2",
 		"roots/bedrock-autoloader": "^1.0.4",
+		"justdev/inertia-wordpress": "^0.5.6",
 		"jdlocal/gravityforms": "2.8.5.1",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
@@ -27,14 +28,13 @@
 		"wpackagist-plugin/all-in-one-wp-security-and-firewall": "^5.3.0",
 		"wpackagist-plugin/safe-svg": "^2.2.4",
 		"wpackagist-plugin/simple-301-redirects": "^2.0.9",
-		"wpackagist-plugin/ewww-image-optimizer": "7.7.0",
+		"wpackagist-plugin/ewww-image-optimizer": "7.8.0",
 		"justdev/jd-support": "^1.1.6",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
 		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*",
-		"wpackagist-plugin/simple-custom-post-order": "^2.5.7",
-		"justdev/inertia-wordpress": "^0.5.6"
+		"wpackagist-plugin/simple-custom-post-order": "^2.5.7"
 	},
 	"repositories": [
 		{
