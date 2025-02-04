@@ -16,18 +16,21 @@ Nastavenie Webhooku na Bitbucket:
 
 */
 
-// require_once dirname( __FILE__ ) . '/wp-config.php';
+require_once dirname(__FILE__) . '/vendor/autoload.php';
+require_once dirname(__FILE__) . '/config/application.php';
+
+use function Env\env;
 
 run();
 
 function run()
 {
-	if ($_ENV['DEPLOY_ENABLED'] == false) {
+	if (env('DEPLOY_ENABLED') == false) {
 		die('Deploy Forbidden');
 	}
 
 	$projectDir = dirname(__FILE__);
-	$branch = $_ENV['DEPLOY_BRANCH'];
+	$branch = env('DEPLOY_BRANCH');
 
 	if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
 		http_response_code(405);
