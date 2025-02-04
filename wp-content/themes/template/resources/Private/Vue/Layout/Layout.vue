@@ -1,8 +1,7 @@
 <template>
 	<div>
-		<Head>
-			<title>{{ $page.props.seo.title }}</title>
-			<meta name="description" :content="$page.props.seo.description" />
+		<Head :title="seo.title">
+			<meta name="description" v-if="seo.description" :content="seo.description" />
 		</Head>
 
 		<main>
@@ -13,4 +12,27 @@
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineAsyncComponent, hydrateOnVisible, onMounted } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+
+defineProps({
+	seo: Object
+})
+
+const handlePageChange = () => {
+	const appElement = document.getElementById('app')
+	if (appElement) {
+		appElement.removeAttribute('data-page')
+	}
+}
+
+const onPageFinish = () => {
+	handlePageChange()
+}
+
+onMounted(() => {
+	handlePageChange()
+	Inertia.on('finish', onPageFinish)
+})
+</script>

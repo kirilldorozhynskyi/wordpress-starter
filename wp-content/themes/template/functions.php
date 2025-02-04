@@ -30,10 +30,10 @@ if (!class_exists('ACF') or !$timber) {
 require_once ABSPATH . '/vendor/autoload.php';
 
 new JDEV\Base();
+new JDEV\Vite();
 new JDEV\InertiaWP();
 // // new JDEV\Gutenberg();
 new JDEV\ACFConfig();
 new JDEV\Deregister();
 new JDEV\DynamicImages();
-new JDEV\Vite();
 // Add this code to your theme's functions.php or a custom plugin

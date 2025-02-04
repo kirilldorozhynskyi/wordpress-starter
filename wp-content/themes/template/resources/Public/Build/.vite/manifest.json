@@ -1,99 +1,14 @@
 {
-  "android-chrome-144x144.png": {
-    "file": "assets/android-chrome-144x144-DlJb9sX1.png",
-    "src": "android-chrome-144x144.png"
-  },
-  "android-chrome-192x192.png": {
-    "file": "assets/android-chrome-192x192-B_7Xpl5N.png",
-    "src": "android-chrome-192x192.png"
-  },
-  "android-chrome-256x256.png": {
-    "file": "assets/android-chrome-256x256-DwQOXWZQ.png",
-    "src": "android-chrome-256x256.png"
-  },
-  "android-chrome-36x36.png": {
-    "file": "assets/android-chrome-36x36-CxdjT9j_.png",
-    "src": "android-chrome-36x36.png"
-  },
-  "android-chrome-384x384.png": {
-    "file": "assets/android-chrome-384x384-CSY3A4xw.png",
-    "src": "android-chrome-384x384.png"
-  },
-  "android-chrome-512x512.png": {
-    "file": "assets/android-chrome-512x512-Jftzsccb.png",
-    "src": "android-chrome-512x512.png"
-  },
-  "android-chrome-72x72.png": {
-    "file": "assets/android-chrome-72x72-vdtUt53D.png",
-    "src": "android-chrome-72x72.png"
-  },
-  "android-chrome-96x96.png": {
-    "file": "assets/android-chrome-96x96-BKJfS7bH.png",
-    "src": "android-chrome-96x96.png"
-  },
-  "apple-touch-icon-1024x1024.png": {
-    "file": "assets/apple-touch-icon-1024x1024-C_NEByKC.png",
-    "src": "apple-touch-icon-1024x1024.png"
-  },
-  "apple-touch-icon-114x114.png": {
-    "file": "assets/apple-touch-icon-114x114-ChrS4-KF.png",
-    "src": "apple-touch-icon-114x114.png"
-  },
-  "apple-touch-icon-120x120.png": {
-    "file": "assets/apple-touch-icon-120x120-DK_GKsse.png",
-    "src": "apple-touch-icon-120x120.png"
-  },
-  "apple-touch-icon-144x144.png": {
-    "file": "assets/apple-touch-icon-144x144-D8Fb2FH_.png",
-    "src": "apple-touch-icon-144x144.png"
-  },
-  "apple-touch-icon-152x152.png": {
-    "file": "assets/apple-touch-icon-152x152-BmM_5css.png",
-    "src": "apple-touch-icon-152x152.png"
-  },
-  "apple-touch-icon-167x167.png": {
-    "file": "assets/apple-touch-icon-167x167-1wp0TEz8.png",
-    "src": "apple-touch-icon-167x167.png"
-  },
-  "apple-touch-icon-180x180.png": {
-    "file": "assets/apple-touch-icon-180x180-C7m4IPyv.png",
-    "src": "apple-touch-icon-180x180.png"
-  },
-  "apple-touch-icon-57x57.png": {
-    "file": "assets/apple-touch-icon-57x57-CbcTQSXf.png",
-    "src": "apple-touch-icon-57x57.png"
-  },
-  "apple-touch-icon-60x60.png": {
-    "file": "assets/apple-touch-icon-60x60-D3x3YSI-.png",
-    "src": "apple-touch-icon-60x60.png"
-  },
-  "apple-touch-icon-72x72.png": {
-    "file": "assets/apple-touch-icon-72x72-D9VNJtLx.png",
-    "src": "apple-touch-icon-72x72.png"
-  },
-  "apple-touch-icon-76x76.png": {
-    "file": "assets/apple-touch-icon-76x76-DH_KErm6.png",
-    "src": "apple-touch-icon-76x76.png"
-  },
-  "favicon-16x16.png": {
-    "file": "assets/favicon-16x16-FQ99bJtv.png",
-    "src": "favicon-16x16.png"
-  },
-  "favicon-32x32.png": {
-    "file": "assets/favicon-32x32-Dq6-bDsZ.png",
-    "src": "favicon-32x32.png"
-  },
-  "favicon-48x48.png": {
-    "file": "assets/favicon-48x48-De3iP_jc.png",
-    "src": "favicon-48x48.png"
-  },
-  "favicon.ico": {
-    "file": "assets/favicon-C6MFQw6s.ico",
-    "src": "favicon.ico"
-  },
-  "manifest.webmanifest": {
-    "file": "assets/manifest-DDZMJgBc.webmanifest",
-    "src": "manifest.webmanifest"
+  "_FlexibleContent-BoY6Fk9H.js": {
+    "file": "assets/FlexibleContent-BoY6Fk9H.js",
+    "name": "FlexibleContent",
+    "imports": [
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ],
+    "dynamicImports": [
+      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
+      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/Content.vue"
+    ]
   },
   "spritemap.svg": {
     "file": "assets/spritemap.svg",
@@ -106,7 +21,7 @@
     "isDynamicEntry": true
   },
   "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue": {
-    "file": "assets/PageHero-DyJZDM6j.js",
+    "file": "assets/PageHero-CCyfHOoQ.js",
     "name": "PageHero",
     "src": "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
     "isDynamicEntry": true,
@@ -115,7 +30,7 @@
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/404.vue": {
-    "file": "assets/404-Bwhy-He3.js",
+    "file": "assets/404-BElOtGV7.js",
     "name": "404",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/404.vue",
     "isDynamicEntry": true,
@@ -124,29 +39,27 @@
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue": {
-    "file": "assets/Index-D0zL2vs0.js",
+    "file": "assets/Index-V61eHdyB.js",
     "name": "Index",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue",
     "isDynamicEntry": true,
     "imports": [
+      "_FlexibleContent-BoY6Fk9H.js",
       "wp-content/themes/template/resources/Private/Vue/app.ts"
-    ],
-    "dynamicImports": [
-      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
-      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/Content.vue"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue": {
-    "file": "assets/Page-_UO-UyFM.js",
+    "file": "assets/Page-DGKYhtEq.js",
     "name": "Page",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue",
     "isDynamicEntry": true,
     "imports": [
+      "_FlexibleContent-BoY6Fk9H.js",
       "wp-content/themes/template/resources/Private/Vue/app.ts"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue": {
-    "file": "assets/Single-Dt4wJWxp.js",
+    "file": "assets/Single-CiAA0f4z.js",
     "name": "Single",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue",
     "isDynamicEntry": true,
@@ -155,7 +68,7 @@
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/app.ts": {
-    "file": "assets/main-CS6icrmY.js",
+    "file": "assets/main-D7iKuS8Q.js",
     "name": "main",
     "src": "wp-content/themes/template/resources/Private/Vue/app.ts",
     "isEntry": true,
@@ -166,7 +79,7 @@
       "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue"
     ],
     "css": [
-      "assets/main-CyEmEvVo.css"
+      "assets/main-BA3IHAUW.css"
     ]
   }
 }

@@ -1,12 +1,14 @@
 <template>
-	<component v-if="fields.length" v-for="(item, index) in fields" :key="item.key" :ce="item" :is="getAcfComponent(item.acf_fc_layout)" />
+	<div class="section-gap flex flex-col">
+		<component v-for="(item, index) in fields" :key="item.key" :ce="item" :is="getAcfComponent(item.acf_fc_layout)" />
+	</div>
 </template>
 
 <script setup>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, hydrateOnVisible } from 'vue'
+import { parseAcf } from '@/util/JDplugins'
 
-const PageHero = defineAsyncComponent(() => import('../Acf/Flex/PageHero.vue'))
-const Content = defineAsyncComponent(() => import('../Acf/Flex/Content.vue'))
+// import PageHero from '@/Components/Acf/Flex/PageHero.vue'
 
 defineProps({
 	fields: {
@@ -15,12 +17,24 @@ defineProps({
 	}
 })
 
+const components = {
+	// PageHero,
+	PageHero: defineAsyncComponent({
+		loader: () => import('@/Components/Acf/Flex/PageHero.vue'),
+		hydrate: hydrateOnVisible()
+	}),
+	Content: defineAsyncComponent({
+		loader: () => import('@/Components/Acf/Flex/Content.vue'),
+		hydrate: hydrateOnVisible()
+	})
+}
+
 const getAcfComponent = (type) => {
-	switch (type) {
-		case 'page_hero':
-			return PageHero
-		default:
-			return Content
-	}
+	const componentName = type
+		.split('_')
+		.map((word) => word[0].toUpperCase() + word.slice(1))
+		.join('')
+
+	return components[componentName] || components['Content'] // Using components['Content'] to ensure it's defined
 }
 </script>

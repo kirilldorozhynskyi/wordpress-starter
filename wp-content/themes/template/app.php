@@ -25,10 +25,10 @@ $language = $base->getSiteLanguage();
 	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no" />
 	<title inertia><?php echo $ogtitle; ?></title>
 	<meta inertia name="description" content="<?php echo $description; ?>" />
-
+	<meta name="author" content="justDev">
 
     <?php wp_head(); ?>
-	<?php echo Vite::GetFavicon(); ?>
+
 </head>
 
 <body>

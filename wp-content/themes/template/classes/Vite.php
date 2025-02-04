@@ -27,7 +27,7 @@ class Vite
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
-		add_action('after_setup_theme', [$this, 'GetFavicon']);
+		// add_action('after_setup_theme', [$this, 'GetFavicon']);
 	}
 
 	public function addModuleTypeToViteScript($tag, $handle, $src): string
@@ -51,7 +51,7 @@ class Vite
 			$url = file_get_contents(ABSPATH . 'hot');
 
 			$app = $url . '/wp-content/themes/template/resources/Private/Vue/app.ts';
-			$spritemap = $url . '/@vite-plugin-svg-spritemap/client';
+			$spritemap = $url . '/@vite-plugin-svg-spritemap/client__spritemap';
 			$version = time();
 
 			wp_enqueue_script('app_theme_sprite', $spritemap, [], null, false);
@@ -121,24 +121,16 @@ class Vite
 		if (!file_exists(ABSPATH . 'hot')) {
 			$vite = new Vite();
 			$viteManifest = $vite->getViteManifest();
-			$path = get_template_directory_uri() . '/resources/Public/Build/';
+			$path = get_template_directory_uri() . '/resources/Public/Build/Favicons/';
 			$extpath = get_template_directory_uri() . '/resources/Public/ext/';
 			$ext = get_template_directory() . '/resources/Public/ext/';
 
-			$webmanifest = str_replace('assets/', '', $viteManifest['manifest.webmanifest']['file']);
+			$webmanifest = 'manifest-ZG-w7JEL.webmanifest';
 
-			if (!file_exists($ext . $webmanifest)) {
-				$files = glob($ext . '/*');
+			if (!file_exists($path . $webmanifest)) {
+				$manifestContent = file_get_contents($path . $webmanifest);
 
-				foreach ($files as $file) {
-					if (is_file($file) && $file != '.gitkeep') {
-						unlink($file);
-					}
-				}
-
-				$manifestContent = file_get_contents($path . $viteManifest['manifest.webmanifest']['file']);
-
-				$json = json_decode(str_replace('/assets/', $path . 'assets/', $manifestContent));
+				$json = json_decode($manifestContent);
 
 				$json->name = get_bloginfo();
 				$json->short_name = get_bloginfo();
@@ -151,7 +143,7 @@ class Vite
 			}
 
 			$context['fav'] = [
-				'manifest' => $extpath . $webmanifest,
+				'manifest' => $path . $webmanifest,
 				'theme_color' => get_fields('options') ? get_fields('options')['general_theme_color'] : '',
 				'favicons' => [
 					'favicon-16x16.png' => $path . $viteManifest['favicon-16x16.png']['file'],

@@ -1,0 +1,1 @@
+import{_ as l}from"./FlexibleContent-BoY6Fk9H.js";import{c as t,o as r,e as n,f as p}from"./main-D7iKuS8Q.js";const _={__name:"Page",setup(c){return(e,f)=>{var a,o,s;return r(),t("div",null,[(a=e.$page.props)!=null&&a.fields?(r(),n(l,{key:0,fields:(s=(o=e.$page.props)==null?void 0:o.fields)==null?void 0:s.flexible_content},null,8,["fields"])):p("",!0)])}}};export{_ as default};

@@ -1,9 +1,9 @@
 <template>
-	<div></div>
+	<div>
+		<FlexibleContent v-if="$page.props?.fields" :fields="$page.props?.fields?.flexible_content" />
+	</div>
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3'
-
-const { props } = usePage()
+import FlexibleContent from '../Components/Acf/FlexibleContent.vue'
 </script>

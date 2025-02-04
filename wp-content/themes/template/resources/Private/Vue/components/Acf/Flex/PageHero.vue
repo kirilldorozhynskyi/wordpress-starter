@@ -1,14 +1,17 @@
 <template>
 	<section>
-		<h2>{{ ce.text }}</h2>
+		<div class="container">
+			<h2>{{ ce.text }}</h2>
 
-		<svg class="sprite-icon icon-facebook facebook" aria-hidden="true" focusable="false"><use :xlink:href="`${$page.props.sprite}#icon-facebook`"></use></svg>
+			<svg class="sprite-icon icon-facebook facebook" aria-hidden="true" focusable="false"><use :xlink:href="`${$page.props.sprite}#icon-facebook`"></use></svg>
 
-		<div class="flex text-center rounded-lg overflow-hidden w-56 sm:w-96 mx-auto">
-			<Image class="lol" :image="ce?.image?.filename" :alt="ce?.image?.alt" :width="640" :height="480" img-class="object-cover h-48 w-96" />
+			<div class="mx-auto flex w-56 overflow-hidden rounded-lg text-center sm:w-96">
+				<Image class="lol" :image="ce?.image?.filename" :alt="ce?.image?.alt" :width="640" :height="880" img-class="object-cover w-full" />
+			</div>
 		</div>
 	</section>
 </template>
+
 <script setup>
 defineProps({
 	ce: {
