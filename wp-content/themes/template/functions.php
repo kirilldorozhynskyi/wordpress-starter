@@ -1,10 +1,5 @@
 <?php
 
-/**
- * This ensures that Timber is loaded and available as a PHP class.
- * If not, it gives an error message to help direct developers on where to activate
- */
-
 use Timber\Timber;
 
 if (Timber::$version) {
@@ -32,32 +27,13 @@ if (!class_exists('ACF') or !$timber) {
 	return;
 }
 
-// Constants
-define('PAGES', [
-	'HOME' => 2,
-	'PRIVACY_POLICY' => 3,
-	'ESHOP' => 5,
-	'SEARCH' => 7,
-]);
+require_once ABSPATH . '/vendor/autoload.php';
 
-// Autoload
-require ABSPATH . '/vendor/autoload.php';
-
-// Classes
 new JDEV\Base();
-new JDEV\Gutenberg();
-new JDEV\WC();
-new JDEV\RTEConfig();
+new JDEV\Vite();
+new JDEV\InertiaWP();
+// // new JDEV\Gutenberg();
 new JDEV\ACFConfig();
-new JDEV\Model\Person();
-new JDEV\Model\News();
-
-// Models
-new JDEV\Model\Search();
-if (!class_exists('GFAPI')) {
-	add_action('admin_notices', function () {
-		echo '<div class="error"><p>GravityForm not activated. Make sure you activate the plugin</p></div>';
-	});
-} else {
-	new JDEV\Model\GravityForm();
-}
+new JDEV\Deregister();
+new JDEV\DynamicImages();
+// Add this code to your theme's functions.php or a custom plugin

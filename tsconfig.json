@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"types": ["node"],
 		"importHelpers": true,
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
@@ -10,9 +9,12 @@
 		"esModuleInterop": true,
 		"sourceMap": true,
 		"baseUrl": ".",
+		"lib": ["es2015", "dom"], // Add this line
 		"paths": {
 			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
-		}
+		},
+		"resolveJsonModule": true, // Добавляем поддержку JSON-модулей
+		"module": "CommonJS" // Или "ESNext" в зависимости от сборки
 	},
 	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"],
 	"exclude": ["node_modules"]

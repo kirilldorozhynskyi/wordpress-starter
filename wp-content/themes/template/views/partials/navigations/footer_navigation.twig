@@ -1,9 +1,0 @@
-<nav class="footer-nav">
-	<ul class="list-unstyled main-nav-list mb-0">
-		{% for item in menu.footer.items %}
-			<li class="main-nav-item {{ item.current ? 'active' }}">
-				<a aria-label="{{ item.name }}" class="main-nav-link" href="{{ item.link }}" target="{{ item.target }}">{{ item.name }}</a>
-			</li>
-		{% endfor %}
-	</ul>
-</nav>
