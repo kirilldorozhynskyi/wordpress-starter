@@ -1,21 +1,18 @@
-import { createI18n } from 'vue3-i18n'
+import en from './lang/en.json'
 
-const messages = {
-	en: {
-		cookies: {
-			button: {
-				accept: 'Accept',
-				close: 'Close',
-			},
-			info: {
-				disabled: 'Please enable cookies to view this content',
-			},
-		},
+const translate = {
+	legacy: false,
+	datetimeFormats: {
+		en: en.datetimeFormats,
+		// sk: sk.datetimeFormats,
+	},
+	locale: document.documentElement.lang || 'en',
+	messages: {
+		en: en,
+		// sk: sk,
 	},
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export const i18n = createI18n({
-	locale: 'en',
-	messages,
-})
+const i18nConfig = translate
+
+export default i18nConfig

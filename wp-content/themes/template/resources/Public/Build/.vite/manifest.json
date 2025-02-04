@@ -1,305 +1,85 @@
 {
-  "_@ctrl-l0sNRNKZ.js": {
-    "file": "assets/@ctrl-l0sNRNKZ.js",
-    "name": "@ctrl"
-  },
-  "_@element-plus-CsTl8sfQ.js": {
-    "file": "assets/@element-plus-CsTl8sfQ.js",
-    "name": "@element-plus",
+  "_FlexibleContent-BoY6Fk9H.js": {
+    "file": "assets/FlexibleContent-BoY6Fk9H.js",
+    "name": "FlexibleContent",
     "imports": [
-      "_vue-Cql66g_H.js",
-      "_@vue-CaaYprjs.js"
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ],
+    "dynamicImports": [
+      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
+      "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/Content.vue"
     ]
-  },
-  "_@floating-ui-l0sNRNKZ.js": {
-    "file": "assets/@floating-ui-l0sNRNKZ.js",
-    "name": "@floating-ui"
-  },
-  "_@popperjs-Be9rlJlp.js": {
-    "file": "assets/@popperjs-Be9rlJlp.js",
-    "name": "@popperjs"
-  },
-  "_@vue-CaaYprjs.js": {
-    "file": "assets/@vue-CaaYprjs.js",
-    "name": "@vue"
-  },
-  "_@vueuse-Dxcd-yy2.js": {
-    "file": "assets/@vueuse-Dxcd-yy2.js",
-    "name": "@vueuse",
-    "imports": [
-      "_vue-Cql66g_H.js",
-      "_@vue-CaaYprjs.js"
-    ]
-  },
-  "__plugin-vue_export-helper-DlAUqK2U.js": {
-    "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js",
-    "name": "_plugin-vue_export-helper"
-  },
-  "_async-validator-l0sNRNKZ.js": {
-    "file": "assets/async-validator-l0sNRNKZ.js",
-    "name": "async-validator"
-  },
-  "_axios-DmypytPv.js": {
-    "file": "assets/axios-DmypytPv.js",
-    "name": "axios"
-  },
-  "_dayjs-Cpj98o6Y.js": {
-    "file": "assets/dayjs-Cpj98o6Y.js",
-    "name": "dayjs"
-  },
-  "_debounce-BAGt9U3Q.js": {
-    "file": "assets/debounce-BAGt9U3Q.js",
-    "name": "debounce",
-    "imports": [
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "_dom-slider-DcvZbv1f.js": {
-    "file": "assets/dom-slider-DcvZbv1f.js",
-    "name": "dom-slider"
-  },
-  "_element-plus-B454klMR.js": {
-    "file": "assets/element-plus-B454klMR.js",
-    "name": "element-plus",
-    "imports": [
-      "_vue-Cql66g_H.js",
-      "_@element-plus-CsTl8sfQ.js",
-      "_@vue-CaaYprjs.js",
-      "_lodash-es-_ekPNWve.js",
-      "_@vueuse-Dxcd-yy2.js",
-      "_@popperjs-Be9rlJlp.js"
-    ]
-  },
-  "_html-entities-DVmREpTZ.js": {
-    "file": "assets/html-entities-DVmREpTZ.js",
-    "name": "html-entities",
-    "imports": [
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "_lodash-CZOD9WB3.js": {
-    "file": "assets/lodash-CZOD9WB3.js",
-    "name": "lodash",
-    "imports": [
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "_lodash-es-_ekPNWve.js": {
-    "file": "assets/lodash-es-_ekPNWve.js",
-    "name": "lodash-es"
-  },
-  "_lodash-unified-l0sNRNKZ.js": {
-    "file": "assets/lodash-unified-l0sNRNKZ.js",
-    "name": "lodash-unified"
-  },
-  "_memoize-one-l0sNRNKZ.js": {
-    "file": "assets/memoize-one-l0sNRNKZ.js",
-    "name": "memoize-one"
-  },
-  "_normalize-wheel-es-l0sNRNKZ.js": {
-    "file": "assets/normalize-wheel-es-l0sNRNKZ.js",
-    "name": "normalize-wheel-es"
-  },
-  "_postscribe-BKuxD4Qf.js": {
-    "file": "assets/postscribe-BKuxD4Qf.js",
-    "name": "postscribe",
-    "imports": [
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "_vanilla-lazyload-DRIt_8dR.js": {
-    "file": "assets/vanilla-lazyload-DRIt_8dR.js",
-    "name": "vanilla-lazyload"
-  },
-  "_vue-Cql66g_H.js": {
-    "file": "assets/vue-Cql66g_H.js",
-    "name": "vue",
-    "imports": [
-      "_@vue-CaaYprjs.js"
-    ]
-  },
-  "_vue-scrollto-CfaqosC9.js": {
-    "file": "assets/vue-scrollto-CfaqosC9.js",
-    "name": "vue-scrollto",
-    "imports": [
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "_vue3-i18n-CwdQ9SPv.js": {
-    "file": "assets/vue3-i18n-CwdQ9SPv.js",
-    "name": "vue3-i18n",
-    "imports": [
-      "_vue-Cql66g_H.js",
-      "_@vue-CaaYprjs.js"
-    ]
-  },
-  "android-chrome-144x144.png": {
-    "file": "assets/android-chrome-144x144-5HYwxbPL.png",
-    "src": "android-chrome-144x144.png"
-  },
-  "android-chrome-192x192.png": {
-    "file": "assets/android-chrome-192x192-Cf-tF7vL.png",
-    "src": "android-chrome-192x192.png"
-  },
-  "android-chrome-256x256.png": {
-    "file": "assets/android-chrome-256x256-DDZRnSll.png",
-    "src": "android-chrome-256x256.png"
-  },
-  "android-chrome-36x36.png": {
-    "file": "assets/android-chrome-36x36-CxdjT9j_.png",
-    "src": "android-chrome-36x36.png"
-  },
-  "android-chrome-384x384.png": {
-    "file": "assets/android-chrome-384x384-Bq7MdYjN.png",
-    "src": "android-chrome-384x384.png"
-  },
-  "android-chrome-512x512.png": {
-    "file": "assets/android-chrome-512x512--N8srtTa.png",
-    "src": "android-chrome-512x512.png"
-  },
-  "android-chrome-72x72.png": {
-    "file": "assets/android-chrome-72x72-BdJNb7TI.png",
-    "src": "android-chrome-72x72.png"
-  },
-  "android-chrome-96x96.png": {
-    "file": "assets/android-chrome-96x96-CMG9_zOK.png",
-    "src": "android-chrome-96x96.png"
-  },
-  "apple-touch-icon-1024x1024.png": {
-    "file": "assets/apple-touch-icon-1024x1024-RL6vVKyB.png",
-    "src": "apple-touch-icon-1024x1024.png"
-  },
-  "apple-touch-icon-114x114.png": {
-    "file": "assets/apple-touch-icon-114x114-B0N1qggf.png",
-    "src": "apple-touch-icon-114x114.png"
-  },
-  "apple-touch-icon-120x120.png": {
-    "file": "assets/apple-touch-icon-120x120-D8bEuuBS.png",
-    "src": "apple-touch-icon-120x120.png"
-  },
-  "apple-touch-icon-144x144.png": {
-    "file": "assets/apple-touch-icon-144x144-mqg7JNKs.png",
-    "src": "apple-touch-icon-144x144.png"
-  },
-  "apple-touch-icon-152x152.png": {
-    "file": "assets/apple-touch-icon-152x152-DGqSZiwj.png",
-    "src": "apple-touch-icon-152x152.png"
-  },
-  "apple-touch-icon-167x167.png": {
-    "file": "assets/apple-touch-icon-167x167-DTjuUKAC.png",
-    "src": "apple-touch-icon-167x167.png"
-  },
-  "apple-touch-icon-180x180.png": {
-    "file": "assets/apple-touch-icon-180x180-B0_-wLtT.png",
-    "src": "apple-touch-icon-180x180.png"
-  },
-  "apple-touch-icon-57x57.png": {
-    "file": "assets/apple-touch-icon-57x57-CpfvX9yx.png",
-    "src": "apple-touch-icon-57x57.png"
-  },
-  "apple-touch-icon-60x60.png": {
-    "file": "assets/apple-touch-icon-60x60-D3x3YSI-.png",
-    "src": "apple-touch-icon-60x60.png"
-  },
-  "apple-touch-icon-72x72.png": {
-    "file": "assets/apple-touch-icon-72x72-DTUj4JpM.png",
-    "src": "apple-touch-icon-72x72.png"
-  },
-  "apple-touch-icon-76x76.png": {
-    "file": "assets/apple-touch-icon-76x76-DOEHYP3X.png",
-    "src": "apple-touch-icon-76x76.png"
-  },
-  "favicon-16x16.png": {
-    "file": "assets/favicon-16x16-FQ99bJtv.png",
-    "src": "favicon-16x16.png"
-  },
-  "favicon-32x32.png": {
-    "file": "assets/favicon-32x32-Qo8LqfDA.png",
-    "src": "favicon-32x32.png"
-  },
-  "favicon-48x48.png": {
-    "file": "assets/favicon-48x48-De3iP_jc.png",
-    "src": "favicon-48x48.png"
-  },
-  "favicon.ico": {
-    "file": "assets/favicon-C6MFQw6s.ico",
-    "src": "favicon.ico"
-  },
-  "manifest.webmanifest": {
-    "file": "assets/manifest-K66Is8-Z.webmanifest",
-    "src": "manifest.webmanifest"
   },
   "spritemap.svg": {
     "file": "assets/spritemap.svg",
     "src": "spritemap.svg"
   },
+  "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/Content.vue": {
+    "file": "assets/Content-WgNDJVVS.js",
+    "name": "Content",
+    "src": "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/Content.vue",
+    "isDynamicEntry": true
+  },
+  "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue": {
+    "file": "assets/PageHero-CCyfHOoQ.js",
+    "name": "PageHero",
+    "src": "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/template/resources/Private/Vue/Pages/404.vue": {
+    "file": "assets/404-BElOtGV7.js",
+    "name": "404",
+    "src": "wp-content/themes/template/resources/Private/Vue/Pages/404.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue": {
+    "file": "assets/Index-V61eHdyB.js",
+    "name": "Index",
+    "src": "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_FlexibleContent-BoY6Fk9H.js",
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue": {
+    "file": "assets/Page-DGKYhtEq.js",
+    "name": "Page",
+    "src": "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_FlexibleContent-BoY6Fk9H.js",
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ]
+  },
+  "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue": {
+    "file": "assets/Single-CiAA0f4z.js",
+    "name": "Single",
+    "src": "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "wp-content/themes/template/resources/Private/Vue/app.ts"
+    ]
+  },
   "wp-content/themes/template/resources/Private/Vue/app.ts": {
-    "file": "assets/main-GGLt6fbr.js",
+    "file": "assets/main-D7iKuS8Q.js",
     "name": "main",
     "src": "wp-content/themes/template/resources/Private/Vue/app.ts",
     "isEntry": true,
-    "imports": [
-      "_dom-slider-DcvZbv1f.js",
-      "_lodash-CZOD9WB3.js",
-      "_vanilla-lazyload-DRIt_8dR.js",
-      "_vue-Cql66g_H.js",
-      "_vue-scrollto-CfaqosC9.js",
-      "_@vue-CaaYprjs.js",
-      "_dayjs-Cpj98o6Y.js"
-    ],
     "dynamicImports": [
-      "wp-content/themes/template/resources/Private/Vue/components/Test.vue",
-      "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue",
-      "wp-content/themes/template/resources/Private/Vue/components/Search.vue"
+      "wp-content/themes/template/resources/Private/Vue/Pages/404.vue",
+      "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue",
+      "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue",
+      "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue"
     ],
     "css": [
-      "assets/main-CLcyOV6j.css"
-    ]
-  },
-  "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue": {
-    "file": "assets/CustomScript-DJ2JtqcH.js",
-    "name": "CustomScript",
-    "src": "wp-content/themes/template/resources/Private/Vue/components/CustomScript.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_postscribe-BKuxD4Qf.js",
-      "_vue-Cql66g_H.js",
-      "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_@vue-CaaYprjs.js",
-      "_dayjs-Cpj98o6Y.js"
-    ]
-  },
-  "wp-content/themes/template/resources/Private/Vue/components/Search.vue": {
-    "file": "assets/Search-CoR6eWl_.js",
-    "name": "Search",
-    "src": "wp-content/themes/template/resources/Private/Vue/components/Search.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vue-Cql66g_H.js",
-      "_axios-DmypytPv.js",
-      "_debounce-BAGt9U3Q.js",
-      "_html-entities-DVmREpTZ.js",
-      "_vue3-i18n-CwdQ9SPv.js",
-      "_lodash-CZOD9WB3.js",
-      "_lodash-es-_ekPNWve.js",
-      "_@vue-CaaYprjs.js",
-      "_element-plus-B454klMR.js",
-      "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_dayjs-Cpj98o6Y.js",
-      "_@element-plus-CsTl8sfQ.js",
-      "_@vueuse-Dxcd-yy2.js",
-      "_@popperjs-Be9rlJlp.js"
-    ]
-  },
-  "wp-content/themes/template/resources/Private/Vue/components/Test.vue": {
-    "file": "assets/Test-ntok8bXI.js",
-    "name": "Test",
-    "src": "wp-content/themes/template/resources/Private/Vue/components/Test.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_vue-Cql66g_H.js",
-      "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_@vue-CaaYprjs.js"
+      "assets/main-BA3IHAUW.css"
     ]
   }
 }

@@ -1,0 +1,25 @@
+/*!
+ * 🚀 Exclusive Offer from justDev! 🚀
+ *
+ * Looking for high-performance web solutions? We’ve got you covered!
+ *
+ * ✅ Custom Web Development
+ * ✅ UI/UX Design & Optimization
+ * ✅ Clean, Maintainable Code
+ * ✅ Lightning-Fast Support & Updates
+ *
+ * 📩 Contact us today at info@justdev.org
+ *
+ * — Your Web Solutions Partner, justDev - https://justdev.org
+ */
+
+@import 'tailwindcss';
+@source '../Vue/**/**/**/**/**/*.vue';
+
+@theme {
+}
+
+@utility container {
+	margin-inline: auto;
+	padding-inline: var(--spacing);
+}
