@@ -12,7 +12,7 @@ import { parseAcf } from '@/util/JDplugins'
 
 defineProps({
 	fields: {
-		type: Object,
+		type: [Object, Boolean],
 		required: true
 	}
 })
