@@ -29,13 +29,20 @@ $webroot_dir = $root_dir;
  * Use Dotenv to set required environment variables and load .env file in root
  * .env.local will override .env if it exists
  */
-$env_files = file_exists($root_dir . '/.env.local') ? ['.env', '.env.local'] : ['.env'];
 
-$dotenv = Dotenv\Dotenv::createUnsafeImmutable($root_dir, $env_files, false);
+$env_path = null;
+
 if (file_exists($root_dir . '/.env')) {
+	$env_path = $root_dir . '/.env';
+} elseif (file_exists($root_dir . '/../.env')) {
+	$env_path = realpath($root_dir . '/../.env');
+}
+
+if ($env_path) {
+	$dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname($env_path));
 	$dotenv->load();
 } else {
-	echo '.env is missing or contains an error. Please check it.';
+	throw new Exception('.env is missing or contains an error. Please check it.');
 }
 
 /**

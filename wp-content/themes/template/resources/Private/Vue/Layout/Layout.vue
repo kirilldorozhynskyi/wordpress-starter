@@ -1,13 +1,14 @@
 <template>
-	<div>
+	<div class="">
 		<Head :title="seo.title">
 			<meta name="description" v-if="seo.description" :content="seo.description" />
 		</Head>
 
-		<main>
-			<Link href="/cart"> test </Link>
-			<Link href="/"> home </Link>
+		<main class="flex min-h-screen flex-col">
+			<Header :menu="menu.main" />
 			<slot></slot>
+
+			<Footer :menu="menu.footer" />
 		</main>
 	</div>
 </template>
@@ -15,9 +16,13 @@
 <script setup>
 import { defineAsyncComponent, hydrateOnVisible, onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
+import Header from '@/Components/Partials/Header.vue'
+import Footer from '@/Components/Partials/Footer.vue'
 
 defineProps({
-	seo: Object
+	seo: Object,
+	menu: Object,
+	options: [Object, Boolean]
 })
 
 const handlePageChange = () => {

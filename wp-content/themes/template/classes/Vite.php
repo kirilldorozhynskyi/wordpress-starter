@@ -3,7 +3,7 @@
 namespace JDEV;
 
 use Timber\Timber;
-
+use BoxyBird\Inertia\Inertia;
 /**
  * Class Vite
  *
@@ -27,6 +27,7 @@ class Vite
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
+		add_action('wp_head', [$this, 'preloadAssetsVite'], 2); // Add fonts preload
 		// add_action('after_setup_theme', [$this, 'GetFavicon']);
 	}
 
@@ -42,11 +43,44 @@ class Vite
 	}
 
 	/**
+	 * Preload Fonts & Main CSS dynamically from Vite manifest.json
+	 */
+	public function preloadAssetsVite()
+	{
+		if (did_action('wp_head') === 0) {
+			add_action('wp_head', [$this, 'preloadAssetsVite']);
+		}
+
+		if (empty($this->viteManifest)) {
+			return;
+		}
+
+		$templateUrl = get_template_directory_uri() . '/resources/Public/Build/';
+		$preloadedCSS = [];
+
+		// Preload Fonts
+		foreach ($this->viteManifest as $file => $asset) {
+			if (isset($asset['file']) && preg_match('/\.woff2$/', $asset['file'])) {
+				echo '<link rel="preload" href="' . esc_url($templateUrl . $asset['file']) . '" as="font" type="font/woff2" crossorigin="anonymous">' . PHP_EOL;
+			}
+		}
+
+		// Preload Main CSS only once
+		if (isset($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'])) {
+			foreach ($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'] as $css) {
+				if (!in_array($css, $preloadedCSS)) {
+					echo '<link rel="preload" href="' . esc_url($templateUrl . $css) . '" as="style">' . PHP_EOL;
+					$preloadedCSS[] = $css;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Load theme scripts
 	 */
 	public function loadBodyThemeAssets(): void
 	{
-		// JS
 		if (file_exists(ABSPATH . 'hot')) {
 			$url = file_get_contents(ABSPATH . 'hot');
 
@@ -83,22 +117,33 @@ class Vite
 		}
 	}
 
+	/**
+	 * Load Vite manifest.json
+	 */
 	protected function loadViteManifest($manifestPath = ''): void
 	{
 		if (!file_exists(ABSPATH . 'hot')) {
 			$manifestPath = $manifestPath ?: get_template_directory() . self::VITE_MANIFEST_PATH;
+
+			if (!file_exists($manifestPath)) {
+				return;
+			}
+
 			$manifestContent = file_get_contents($manifestPath);
+			$decodedManifest = json_decode($manifestContent, true);
 
-			if (!$manifestContent) {
-				throw new \Exception(sprintf('[Vite] Failed to read manifest %s.', $manifestPath));
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				throw new \Exception(sprintf('[Vite] Invalid JSON in manifest: %s.', $manifestPath));
 			}
 
-			$this->viteManifest = json_decode($manifestContent, true);
-
-			if (json_last_error()) {
-				throw new \Exception(sprintf('[Vite] Manifest %s contains invalid data.', $manifestPath));
-			}
+			$this->viteManifest = $decodedManifest;
 		}
+
+		Inertia::share([
+			'sprite' => file_exists(ABSPATH . 'hot')
+				? ''
+				: get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file'],
+		]);
 	}
 
 	public function addModuleTypeToViteSprite($tag, $handle, $src): string
@@ -106,6 +151,7 @@ class Vite
 		if (file_exists(ABSPATH . 'hot') && ($handle === 'app_theme_sprite' || $handle === 'vite_client')) {
 			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 		}
+
 		return $tag;
 	}
 	/**
@@ -119,52 +165,6 @@ class Vite
 	public static function GetFavicon()
 	{
 		if (!file_exists(ABSPATH . 'hot')) {
-			$vite = new Vite();
-			$viteManifest = $vite->getViteManifest();
-			$path = get_template_directory_uri() . '/resources/Public/Build/Favicons/';
-			$extpath = get_template_directory_uri() . '/resources/Public/ext/';
-			$ext = get_template_directory() . '/resources/Public/ext/';
-
-			$webmanifest = 'manifest-ZG-w7JEL.webmanifest';
-
-			if (!file_exists($path . $webmanifest)) {
-				$manifestContent = file_get_contents($path . $webmanifest);
-
-				$json = json_decode($manifestContent);
-
-				$json->name = get_bloginfo();
-				$json->short_name = get_bloginfo();
-				$json->description = get_bloginfo('description');
-				$json->lang = get_locale();
-				$json->background_color = get_fields('options') ? get_fields('options')['general_background_color'] : '';
-				$json->theme_color = get_fields('options') ? get_fields('options')['general_theme_color'] : '';
-
-				file_put_contents($ext . $webmanifest, json_encode($json));
-			}
-
-			$context['fav'] = [
-				'manifest' => $path . $webmanifest,
-				'theme_color' => get_fields('options') ? get_fields('options')['general_theme_color'] : '',
-				'favicons' => [
-					'favicon-16x16.png' => $path . $viteManifest['favicon-16x16.png']['file'],
-					'favicon-32x32.png' => $path . $viteManifest['favicon-32x32.png']['file'],
-					'favicon-48x48.png' => $path . $viteManifest['favicon-48x48.png']['file'],
-					'favicon.ico' => $path . $viteManifest['favicon.ico']['file'],
-				],
-				'apple' => [
-					'apple-touch-icon-1024x1024.png' => $path . $viteManifest['apple-touch-icon-1024x1024.png']['file'],
-					'apple-touch-icon-114x114.png' => $path . $viteManifest['apple-touch-icon-114x114.png']['file'],
-					'apple-touch-icon-120x120.png' => $path . $viteManifest['apple-touch-icon-120x120.png']['file'],
-					'apple-touch-icon-152x152.png' => $path . $viteManifest['apple-touch-icon-152x152.png']['file'],
-					'apple-touch-icon-167x167.png' => $path . $viteManifest['apple-touch-icon-167x167.png']['file'],
-					'apple-touch-icon-180x180.png' => $path . $viteManifest['apple-touch-icon-180x180.png']['file'],
-					'apple-touch-icon-57x57.png' => $path . $viteManifest['apple-touch-icon-57x57.png']['file'],
-					'apple-touch-icon-60x60.png' => $path . $viteManifest['apple-touch-icon-60x60.png']['file'],
-					'apple-touch-icon-76x76.png' => $path . $viteManifest['apple-touch-icon-76x76.png']['file'],
-				],
-			];
-			// return $context;
-			return Timber::compile('partials/elements/favicon.twig', $context);
 		}
 		return '';
 	}

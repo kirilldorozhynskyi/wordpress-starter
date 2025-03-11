@@ -14,7 +14,9 @@
  */
 
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @source '../Vue/**/**/**/**/**/*.vue';
+@source '../../../app.php';
 
 @theme {
 }
