@@ -20,7 +20,7 @@
 		"timber/timber": "^2.3.1",
 		"roots/bedrock-autoloader": "^1.0.4",
 		"justdev/inertia-wordpress": "^0.5.7",
-		"jdlocal/gravityforms": "2.9.2.3",
+		"jdlocal/gravityforms": "2.9.4.2",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
 		"yoast/wordpress-seo": "^24.0",
@@ -71,7 +71,7 @@
 			"package": {
 				"name": "jdlocal/gravityforms",
 				"type": "wordpress-plugin",
-				"version": "2.9.2.3",
+				"version": "2.9.4.2",
 				"dist": {
 					"type": "zip",
 					"url": "https://cms.justdev.link/gravityforms.zip"
