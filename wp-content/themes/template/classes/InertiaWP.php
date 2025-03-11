@@ -6,6 +6,7 @@ use BoxyBird\Inertia\Inertia;
 use Timber\Timber;
 use Timber\Menu;
 require ABSPATH . '/vendor/autoload.php';
+use JDEV\Model\Events;
 
 class InertiaWP
 {
@@ -19,10 +20,6 @@ class InertiaWP
 	 */
 	public function setupTheme(): void
 	{
-		$vite = new Vite();
-
-		$viteManifest = $vite->getViteManifest();
-
 		function getEnhancedMenu($menu_name)
 		{
 			$menu = Timber::get_menu($menu_name);
@@ -54,7 +51,10 @@ class InertiaWP
 			'seo' => function () {
 				$yoast_meta = YoastSEO()->meta->for_current_page();
 				$ogtitle = $yoast_meta->open_graph_title;
-				$description = $yoast_meta->open_graph_description;
+				$description = !empty($yoast_meta->open_graph_description)
+					? $yoast_meta->open_graph_description
+					: (get_bloginfo('description') ?:
+					wp_trim_words(get_the_excerpt(), 20));
 
 				$seo = [
 					'title' => $ogtitle,
@@ -64,7 +64,18 @@ class InertiaWP
 				return $seo;
 			},
 			'fields' => function () {
-				return get_fields();
+				$fields = get_fields();
+
+				// if (!empty($fields['flexible_content'])) {
+				// 	foreach ($fields['flexible_content'] as &$block) {
+				// 		if (isset($block['acf_fc_layout']) && $block['acf_fc_layout'] === 'events') {
+				// 			$block['events_data'] = Events::getEvents();
+				// 		}
+				// 	}
+				// 	unset($block);
+				// }
+
+				return $fields;
 			},
 			'options' => get_fields('options'),
 			'theme' => [
@@ -77,10 +88,8 @@ class InertiaWP
 
 				// $this->getLanguages(),
 				'main' => getEnhancedMenu('main-menu'),
+				'footer' => getEnhancedMenu('footer-menu'),
 			],
-			'sprite' => ($path = file_exists(ABSPATH . 'hot')
-				? ''
-				: get_template_directory_uri() . '/resources/Public/Build/' . $viteManifest['spritemap.svg']['file']),
 		]);
 
 		if (file_exists(__DIR__ . '/../build/manifest.json')) {

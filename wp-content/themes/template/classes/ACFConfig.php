@@ -127,6 +127,11 @@ class ACFConfig
 	public function register()
 	{
 		// Theme settings page
-		// acf_add_local_field_group(include_once 'ACF/Pages/ThemeSettings.php');
+		acf_add_options_page([
+			'menu_slug' => 'theme_settings',
+			'menu_title' => 'Theme Settings',
+			'page_title' => 'Theme Settings',
+			'capability' => 'edit_theme_options',
+		]);
 	}
 }

@@ -16,14 +16,10 @@ export const safeParse = <T = unknown>(value: string): T | string => {
 	}
 }
 
-export const checkLink = (link?: string): string => {
-	if (!link) return '/'
-
-	const domain = window.location.host
-
-	if (!link.startsWith('/') && !link.startsWith(domain)) {
-		link = `/${link}`
+export const checkLink = (btn: { url: string }) => {
+	if (btn.url.includes('http')) {
+		return btn.url.includes(window.location.host)
+	} else {
+		return true
 	}
-
-	return link
 }

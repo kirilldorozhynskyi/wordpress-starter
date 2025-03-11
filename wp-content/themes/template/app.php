@@ -1,21 +1,18 @@
 
 <?php
-if (function_exists('WPSEO_FILE')) {
-	var_dump(function_exists('WPSEO_FILE'));
-	$yoast_meta = YoastSEO()->meta->for_current_page();
-	$ogtitle = $yoast_meta->open_graph_title;
-	$description = $yoast_meta->open_graph_description;
-} else {
-	$ogtitle = get_the_title();
-	$description = get_bloginfo('description');
-}
-$base = new \JDEV\Base();
+$yoast_meta = YoastSEO()->meta->for_current_page();
 
-use JDEV\Vite;
+$ogtitle = $yoast_meta->open_graph_title;
+$description = !empty($yoast_meta->open_graph_description)
+	? $yoast_meta->open_graph_description
+	: (get_bloginfo('description') ?:
+	wp_trim_words(get_the_excerpt(), 20));
+$base = new \JDEV\Base();
 
 // Call the method through the instance
 $language = $base->getSiteLanguage();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="<?php echo $language; ?>">

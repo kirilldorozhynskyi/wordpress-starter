@@ -1,1 +1,0 @@
-import{_ as o}from"./FlexibleContent-BoY6Fk9H.js";import{c as s,o as a,d as l}from"./main-D7iKuS8Q.js";const _={__name:"Index",setup(n){return(e,r)=>(a(),s("div",null,[l(o,{fields:e.$page.props.fields.flexible_content},null,8,["fields"])]))}};export{_ as default};
