@@ -18,7 +18,6 @@ class Base
 
 	protected function addThemeActionsAndFilters(): void
 	{
-		add_filter('got_rewrite', '__return_false');
 		add_action('after_setup_theme', [$this, 'setupTheme']);
 		add_filter('use_block_editor_for_post', '__return_false');
 		add_action('init', [$this, 'emailNotifications']);
