@@ -20,10 +20,6 @@ class InertiaWP
 	 */
 	public function setupTheme(): void
 	{
-		$vite = new Vite();
-
-		$viteManifest = $vite->getViteManifest();
-
 		function getEnhancedMenu($menu_name)
 		{
 			$menu = Timber::get_menu($menu_name);
@@ -94,9 +90,6 @@ class InertiaWP
 				'main' => getEnhancedMenu('main-menu'),
 				'footer' => getEnhancedMenu('footer-menu'),
 			],
-			'sprite' => ($path = file_exists(ABSPATH . 'hot')
-				? ''
-				: get_template_directory_uri() . '/resources/Public/Build/' . $viteManifest['spritemap.svg']['file']),
 		]);
 
 		if (file_exists(__DIR__ . '/../build/manifest.json')) {

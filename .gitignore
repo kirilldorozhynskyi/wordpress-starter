@@ -31,7 +31,6 @@ debug.log
 wp-content/mu-plugins/*/
 wp-content/smush-webp
 wp-content/languages
-.htaccess
 
 xmlrpc.php
 wp-trackback.php

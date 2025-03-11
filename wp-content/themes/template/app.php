@@ -9,8 +9,6 @@ $description = !empty($yoast_meta->open_graph_description)
 	wp_trim_words(get_the_excerpt(), 20));
 $base = new \JDEV\Base();
 
-use JDEV\Vite;
-
 // Call the method through the instance
 $language = $base->getSiteLanguage();
 ?>

@@ -27,6 +27,15 @@ class Deregister
 		// add_action('init', [$this, 'disable_all_unwanted_assets']);
 		add_action('wp_enqueue_scripts', [$this, 'disable_inline_styles_and_fonts'], 100);
 		add_action('wp_enqueue_scripts', [$this, 'disable_noscript_inline_styles'], 100);
+
+		add_filter('should_load_separate_core_block_assets', '__return_false');
+		add_action(
+			'wp_enqueue_scripts',
+			function () {
+				wp_dequeue_style('classic-theme-styles');
+			},
+			20,
+		);
 	}
 
 	public function disable_woocommerce_assets()
