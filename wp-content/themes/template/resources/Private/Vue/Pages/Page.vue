@@ -8,6 +8,10 @@
 import FlexibleContent from '@/Components/Acf/FlexibleContent.vue'
 
 defineProps({
-	fields: [Object]
+	fields: {
+		type: [Object, Boolean],
+		required: false,
+		default: () => ({})
+	}
 })
 </script>

@@ -27,6 +27,7 @@ class Vite
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
+		add_action('wp_head', [$this, 'preloadAssetsVite']); // Add fonts preload
 		// add_action('after_setup_theme', [$this, 'GetFavicon']);
 	}
 
@@ -42,11 +43,44 @@ class Vite
 	}
 
 	/**
+	 * Preload Fonts & Main CSS dynamically from Vite manifest.json
+	 */
+	public function preloadAssetsVite()
+	{
+		if (did_action('wp_head') === 0) {
+			add_action('wp_head', [$this, 'preloadAssetsVite']);
+		}
+
+		if (empty($this->viteManifest)) {
+			return;
+		}
+
+		$templateUrl = get_template_directory_uri() . '/resources/Public/Build/';
+		$preloadedCSS = [];
+
+		// Preload Fonts
+		foreach ($this->viteManifest as $file => $asset) {
+			if (isset($asset['file']) && preg_match('/\.woff2$/', $asset['file'])) {
+				echo '<link rel="preload" href="' . esc_url($templateUrl . $asset['file']) . '" as="font" type="font/woff2" crossorigin="anonymous">' . PHP_EOL;
+			}
+		}
+
+		// Preload Main CSS only once
+		if (isset($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'])) {
+			foreach ($this->viteManifest['wp-content/themes/template/resources/Private/Vue/app.ts']['css'] as $css) {
+				if (!in_array($css, $preloadedCSS)) {
+					echo '<link rel="preload" href="' . esc_url($templateUrl . $css) . '" as="style">' . PHP_EOL;
+					$preloadedCSS[] = $css;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Load theme scripts
 	 */
 	public function loadBodyThemeAssets(): void
 	{
-		// JS
 		if (file_exists(ABSPATH . 'hot')) {
 			$url = file_get_contents(ABSPATH . 'hot');
 
@@ -83,21 +117,26 @@ class Vite
 		}
 	}
 
+	/**
+	 * Load Vite manifest.json
+	 */
 	protected function loadViteManifest($manifestPath = ''): void
 	{
 		if (!file_exists(ABSPATH . 'hot')) {
 			$manifestPath = $manifestPath ?: get_template_directory() . self::VITE_MANIFEST_PATH;
+
+			if (!file_exists($manifestPath)) {
+				return;
+			}
+
 			$manifestContent = file_get_contents($manifestPath);
+			$decodedManifest = json_decode($manifestContent, true);
 
-			if (!$manifestContent) {
-				throw new \Exception(sprintf('[Vite] Failed to read manifest %s.', $manifestPath));
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				throw new \Exception(sprintf('[Vite] Invalid JSON in manifest: %s.', $manifestPath));
 			}
 
-			$this->viteManifest = json_decode($manifestContent, true);
-
-			if (json_last_error()) {
-				throw new \Exception(sprintf('[Vite] Manifest %s contains invalid data.', $manifestPath));
-			}
+			$this->viteManifest = $decodedManifest;
 		}
 	}
 

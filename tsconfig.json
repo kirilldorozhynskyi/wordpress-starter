@@ -13,8 +13,8 @@
 		"paths": {
 			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
 		},
-		"resolveJsonModule": true, // Добавляем поддержку JSON-модулей
-		"module": "CommonJS" // Или "ESNext" в зависимости от сборки
+		"resolveJsonModule": true,
+		"module": "CommonJS"
 	},
 	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"],
 	"exclude": ["node_modules"]

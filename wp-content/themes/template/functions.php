@@ -37,3 +37,15 @@ new JDEV\ACFConfig();
 new JDEV\Deregister();
 new JDEV\DynamicImages();
 // Add this code to your theme's functions.php or a custom plugin
+
+if (!class_exists('GFAPI')) {
+	add_action('admin_notices', function () {
+		echo '<div class="error"><p>GravityForm not activated. Make sure you activate the plugin</p></div>';
+	});
+} else {
+	new JDEV\Model\GravityForm();
+}
+
+define('PAGES', [
+	'HOME' => 1,
+]);

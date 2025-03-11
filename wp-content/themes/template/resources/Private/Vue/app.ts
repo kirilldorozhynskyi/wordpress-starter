@@ -10,6 +10,7 @@ import { createI18n } from 'vue-i18n'
 
 import Layout from './Layout/Layout.vue'
 import Image from './Components/Utils/Image.vue'
+import Button from '@/Components/Utils/Button.vue'
 
 import i18nConfig from './util/i18n'
 
@@ -38,6 +39,7 @@ createInertiaApp({
 			.component('Link', Link)
 			.component('Head', Head)
 			.component('Image', Image)
+			.component('Button', Button)
 			.provide('lazyLoad', lazyLoad)
 			.mount(el)
 	},
