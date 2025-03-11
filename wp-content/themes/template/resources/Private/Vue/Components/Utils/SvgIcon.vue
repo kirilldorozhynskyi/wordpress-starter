@@ -1,31 +1,14 @@
 <template>
-	<svg aria-hidden="true">
-		<use :href="symbolId" :fill="color" />
+	<svg class="sprite-icon" :class="`icon-${name} ${name}`" aria-hidden="true" focusable="false">
+		<use :xlink:href="`${$page.props.sprite}#icon-${name}`"></use>
 	</svg>
 </template>
 
-<script>
-import { defineComponent, computed } from 'vue'
-
-export default defineComponent({
-	name: 'SvgIcon',
-	props: {
-		prefix: {
-			type: String,
-			default: 'icon'
-		},
-		name: {
-			type: String,
-			required: true
-		},
-		color: {
-			type: String,
-			default: '#333'
-		}
-	},
-	setup(props) {
-		const symbolId = computed(() => `#${props.prefix}-${props.name}`)
-		return { symbolId }
+<script setup>
+defineProps({
+	name: {
+		type: String,
+		required: true
 	}
 })
 </script>

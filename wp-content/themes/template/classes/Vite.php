@@ -137,13 +137,13 @@ class Vite
 			}
 
 			$this->viteManifest = $decodedManifest;
-
-			Inertia::share([
-				'sprite' => ($path = file_exists(ABSPATH . 'hot')
-					? ''
-					: get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file']),
-			]);
 		}
+
+		Inertia::share([
+			'sprite' => file_exists(ABSPATH . 'hot')
+				? ''
+				: get_template_directory_uri() . '/resources/Public/Build/' . $this->viteManifest['spritemap.svg']['file'],
+		]);
 	}
 
 	public function addModuleTypeToViteSprite($tag, $handle, $src): string
@@ -151,6 +151,7 @@ class Vite
 		if (file_exists(ABSPATH . 'hot') && ($handle === 'app_theme_sprite' || $handle === 'vite_client')) {
 			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 		}
+
 		return $tag;
 	}
 	/**
