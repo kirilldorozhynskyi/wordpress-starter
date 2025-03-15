@@ -1,30 +1,30 @@
 {
-  "_@inertiajs-Dihtq9hl.js": {
-    "file": "assets/@inertiajs-Dihtq9hl.js",
+  "_@inertiajs-BNVLEFMl.js": {
+    "file": "assets/@inertiajs-BNVLEFMl.js",
     "name": "@inertiajs",
     "imports": [
-      "_deepmerge-CdBbph7W.js",
-      "_qs-C376S6xQ.js",
+      "_deepmerge-DPzyoYi0.js",
+      "_qs-CxR9UOs6.js",
       "_axios-Drbs0_iQ.js",
-      "_@vue-Bb_NxA0R.js",
-      "_lodash.clonedeep-Dr-Zhpyq.js",
-      "_lodash.isequal-Mf6eAtSN.js"
+      "_@vue-DH4Q-RfX.js",
+      "_lodash.clonedeep-TKj_9b0H.js",
+      "_lodash.isequal-D4Xq3J61.js"
     ]
   },
   "_@intlify-DjDh8mJo.js": {
     "file": "assets/@intlify-DjDh8mJo.js",
     "name": "@intlify"
   },
-  "_@vue-Bb_NxA0R.js": {
-    "file": "assets/@vue-Bb_NxA0R.js",
+  "_@vue-DH4Q-RfX.js": {
+    "file": "assets/@vue-DH4Q-RfX.js",
     "name": "@vue"
   },
-  "_FlexibleContent-rfTsEyiP.js": {
-    "file": "assets/FlexibleContent-rfTsEyiP.js",
+  "_FlexibleContent-Cey5A0Rf.js": {
+    "file": "assets/FlexibleContent-Cey5A0Rf.js",
     "name": "FlexibleContent",
     "imports": [
       "wp-content/themes/template/resources/Private/Vue/app.ts",
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ],
     "dynamicImports": [
       "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
@@ -54,11 +54,11 @@
       "_es-define-property-D_7cP-M3.js"
     ]
   },
-  "_deepmerge-CdBbph7W.js": {
-    "file": "assets/deepmerge-CdBbph7W.js",
+  "_deepmerge-DPzyoYi0.js": {
+    "file": "assets/deepmerge-DPzyoYi0.js",
     "name": "deepmerge",
     "imports": [
-      "_@inertiajs-Dihtq9hl.js"
+      "_@inertiajs-BNVLEFMl.js"
     ]
   },
   "_define-data-property-C1GzKfj1.js": {
@@ -144,36 +144,36 @@
     "file": "assets/laravel-vite-plugin-DEL3ZhID.js",
     "name": "laravel-vite-plugin"
   },
-  "_lodash.clonedeep-Dr-Zhpyq.js": {
-    "file": "assets/lodash.clonedeep-Dr-Zhpyq.js",
+  "_lodash.clonedeep-TKj_9b0H.js": {
+    "file": "assets/lodash.clonedeep-TKj_9b0H.js",
     "name": "lodash.clonedeep",
     "imports": [
-      "_@inertiajs-Dihtq9hl.js"
+      "_@inertiajs-BNVLEFMl.js"
     ]
   },
-  "_lodash.isequal-Mf6eAtSN.js": {
-    "file": "assets/lodash.isequal-Mf6eAtSN.js",
+  "_lodash.isequal-D4Xq3J61.js": {
+    "file": "assets/lodash.isequal-D4Xq3J61.js",
     "name": "lodash.isequal",
     "imports": [
-      "_@inertiajs-Dihtq9hl.js"
+      "_@inertiajs-BNVLEFMl.js"
     ]
   },
   "_math-intrinsics-DP1tGiab.js": {
     "file": "assets/math-intrinsics-DP1tGiab.js",
     "name": "math-intrinsics"
   },
-  "_object-inspect-kDNUenuZ.js": {
-    "file": "assets/object-inspect-kDNUenuZ.js",
+  "_object-inspect-Dm8MmjqV.js": {
+    "file": "assets/object-inspect-Dm8MmjqV.js",
     "name": "object-inspect",
     "imports": [
-      "_@inertiajs-Dihtq9hl.js"
+      "_@inertiajs-BNVLEFMl.js"
     ]
   },
-  "_qs-C376S6xQ.js": {
-    "file": "assets/qs-C376S6xQ.js",
+  "_qs-CxR9UOs6.js": {
+    "file": "assets/qs-CxR9UOs6.js",
     "name": "qs",
     "imports": [
-      "_side-channel-eq7FmN-V.js"
+      "_side-channel-SDPrV3Ov.js"
     ]
   },
   "_set-function-length-CqqZHXQE.js": {
@@ -187,13 +187,13 @@
       "_es-errors-DjMuYndc.js"
     ]
   },
-  "_side-channel-eq7FmN-V.js": {
-    "file": "assets/side-channel-eq7FmN-V.js",
+  "_side-channel-SDPrV3Ov.js": {
+    "file": "assets/side-channel-SDPrV3Ov.js",
     "name": "side-channel",
     "imports": [
       "_get-intrinsic-Dq22P_nh.js",
       "_call-bind-fzlla0MK.js",
-      "_object-inspect-kDNUenuZ.js",
+      "_object-inspect-Dm8MmjqV.js",
       "_es-errors-DjMuYndc.js"
     ]
   },
@@ -201,12 +201,12 @@
     "file": "assets/vanilla-lazyload-CT0wWOA7.js",
     "name": "vanilla-lazyload"
   },
-  "_vue-i18n-BW2l-XTc.js": {
-    "file": "assets/vue-i18n-BW2l-XTc.js",
+  "_vue-i18n-CPkC_LQp.js": {
+    "file": "assets/vue-i18n-CPkC_LQp.js",
     "name": "vue-i18n",
     "imports": [
       "_@intlify-DjDh8mJo.js",
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ]
   },
   "_vue-l0sNRNKZ.js": {
@@ -224,63 +224,75 @@
     "isDynamicEntry": true
   },
   "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue": {
-    "file": "assets/PageHero-WIpP1JW0.js",
+    "file": "assets/PageHero-BFUy9gua.js",
     "name": "PageHero",
     "src": "wp-content/themes/template/resources/Private/Vue/Components/Acf/Flex/PageHero.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
+    ]
+  },
+  "wp-content/themes/template/resources/Private/Vue/Components/Partials/Footer.vue": {
+    "file": "assets/Footer-D12iqOKy.js",
+    "name": "Footer",
+    "src": "wp-content/themes/template/resources/Private/Vue/Components/Partials/Footer.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_@vue-DH4Q-RfX.js"
+    ],
+    "css": [
+      "assets/Footer-vwQjKEnN.css"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Components/Utils/Button.vue": {
-    "file": "assets/Button-BMUXxUum.js",
+    "file": "assets/Button-B71GJBmT.js",
     "name": "Button",
     "src": "wp-content/themes/template/resources/Private/Vue/Components/Utils/Button.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Components/Utils/Image.vue": {
-    "file": "assets/Image-1RKaPjgx.js",
+    "file": "assets/Image-DoBaeFZE.js",
     "name": "Image",
     "src": "wp-content/themes/template/resources/Private/Vue/Components/Utils/Image.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Components/Utils/SvgIcon.vue": {
-    "file": "assets/SvgIcon-BI3qo0ui.js",
+    "file": "assets/SvgIcon-D33UJwXa.js",
     "name": "SvgIcon",
     "src": "wp-content/themes/template/resources/Private/Vue/Components/Utils/SvgIcon.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/404.vue": {
-    "file": "assets/404-1hz0EDzY.js",
+    "file": "assets/404-C3wZM5Ke.js",
     "name": "404",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/404.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js"
+      "_@vue-DH4Q-RfX.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue": {
-    "file": "assets/Index-BbjNYnsL.js",
+    "file": "assets/Index-BqvpBNik.js",
     "name": "Index",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_FlexibleContent-rfTsEyiP.js",
-      "_@vue-Bb_NxA0R.js",
+      "_FlexibleContent-Cey5A0Rf.js",
+      "_@vue-DH4Q-RfX.js",
       "wp-content/themes/template/resources/Private/Vue/app.ts",
-      "_@inertiajs-Dihtq9hl.js",
-      "_deepmerge-CdBbph7W.js",
-      "_qs-C376S6xQ.js",
-      "_side-channel-eq7FmN-V.js",
+      "_@inertiajs-BNVLEFMl.js",
+      "_deepmerge-DPzyoYi0.js",
+      "_qs-CxR9UOs6.js",
+      "_side-channel-SDPrV3Ov.js",
       "_get-intrinsic-Dq22P_nh.js",
       "_es-object-atoms-BR76m4z7.js",
       "_es-errors-DjMuYndc.js",
@@ -297,29 +309,29 @@
       "_set-function-length-CqqZHXQE.js",
       "_define-data-property-C1GzKfj1.js",
       "_has-property-descriptors-BlxtmrFX.js",
-      "_object-inspect-kDNUenuZ.js",
+      "_object-inspect-Dm8MmjqV.js",
       "_axios-Drbs0_iQ.js",
-      "_lodash.clonedeep-Dr-Zhpyq.js",
-      "_lodash.isequal-Mf6eAtSN.js",
+      "_lodash.clonedeep-TKj_9b0H.js",
+      "_lodash.isequal-D4Xq3J61.js",
       "_laravel-vite-plugin-DEL3ZhID.js",
       "_vanilla-lazyload-CT0wWOA7.js",
-      "_vue-i18n-BW2l-XTc.js",
+      "_vue-i18n-CPkC_LQp.js",
       "_@intlify-DjDh8mJo.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue": {
-    "file": "assets/Page-B6ACPsef.js",
+    "file": "assets/Page-Cp2W_8Am.js",
     "name": "Page",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Page.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_FlexibleContent-rfTsEyiP.js",
-      "_@vue-Bb_NxA0R.js",
+      "_FlexibleContent-Cey5A0Rf.js",
+      "_@vue-DH4Q-RfX.js",
       "wp-content/themes/template/resources/Private/Vue/app.ts",
-      "_@inertiajs-Dihtq9hl.js",
-      "_deepmerge-CdBbph7W.js",
-      "_qs-C376S6xQ.js",
-      "_side-channel-eq7FmN-V.js",
+      "_@inertiajs-BNVLEFMl.js",
+      "_deepmerge-DPzyoYi0.js",
+      "_qs-CxR9UOs6.js",
+      "_side-channel-SDPrV3Ov.js",
       "_get-intrinsic-Dq22P_nh.js",
       "_es-object-atoms-BR76m4z7.js",
       "_es-errors-DjMuYndc.js",
@@ -336,27 +348,27 @@
       "_set-function-length-CqqZHXQE.js",
       "_define-data-property-C1GzKfj1.js",
       "_has-property-descriptors-BlxtmrFX.js",
-      "_object-inspect-kDNUenuZ.js",
+      "_object-inspect-Dm8MmjqV.js",
       "_axios-Drbs0_iQ.js",
-      "_lodash.clonedeep-Dr-Zhpyq.js",
-      "_lodash.isequal-Mf6eAtSN.js",
+      "_lodash.clonedeep-TKj_9b0H.js",
+      "_lodash.isequal-D4Xq3J61.js",
       "_laravel-vite-plugin-DEL3ZhID.js",
       "_vanilla-lazyload-CT0wWOA7.js",
-      "_vue-i18n-BW2l-XTc.js",
+      "_vue-i18n-CPkC_LQp.js",
       "_@intlify-DjDh8mJo.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue": {
-    "file": "assets/Single-DZpd4SCJ.js",
+    "file": "assets/Single-BgijJ4Wz.js",
     "name": "Single",
     "src": "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_@inertiajs-Dihtq9hl.js",
-      "_@vue-Bb_NxA0R.js",
-      "_deepmerge-CdBbph7W.js",
-      "_qs-C376S6xQ.js",
-      "_side-channel-eq7FmN-V.js",
+      "_@inertiajs-BNVLEFMl.js",
+      "_@vue-DH4Q-RfX.js",
+      "_deepmerge-DPzyoYi0.js",
+      "_qs-CxR9UOs6.js",
+      "_side-channel-SDPrV3Ov.js",
       "_get-intrinsic-Dq22P_nh.js",
       "_es-object-atoms-BR76m4z7.js",
       "_es-errors-DjMuYndc.js",
@@ -373,26 +385,26 @@
       "_set-function-length-CqqZHXQE.js",
       "_define-data-property-C1GzKfj1.js",
       "_has-property-descriptors-BlxtmrFX.js",
-      "_object-inspect-kDNUenuZ.js",
+      "_object-inspect-Dm8MmjqV.js",
       "_axios-Drbs0_iQ.js",
-      "_lodash.clonedeep-Dr-Zhpyq.js",
-      "_lodash.isequal-Mf6eAtSN.js"
+      "_lodash.clonedeep-TKj_9b0H.js",
+      "_lodash.isequal-D4Xq3J61.js"
     ]
   },
   "wp-content/themes/template/resources/Private/Vue/app.ts": {
-    "file": "assets/main-Bd9QttRW.js",
+    "file": "assets/main-DqeCI9vi.js",
     "name": "main",
     "src": "wp-content/themes/template/resources/Private/Vue/app.ts",
     "isEntry": true,
     "imports": [
-      "_@vue-Bb_NxA0R.js",
-      "_@inertiajs-Dihtq9hl.js",
+      "_@vue-DH4Q-RfX.js",
+      "_@inertiajs-BNVLEFMl.js",
       "_laravel-vite-plugin-DEL3ZhID.js",
       "_vanilla-lazyload-CT0wWOA7.js",
-      "_vue-i18n-BW2l-XTc.js",
-      "_deepmerge-CdBbph7W.js",
-      "_qs-C376S6xQ.js",
-      "_side-channel-eq7FmN-V.js",
+      "_vue-i18n-CPkC_LQp.js",
+      "_deepmerge-DPzyoYi0.js",
+      "_qs-CxR9UOs6.js",
+      "_side-channel-SDPrV3Ov.js",
       "_get-intrinsic-Dq22P_nh.js",
       "_es-object-atoms-BR76m4z7.js",
       "_es-errors-DjMuYndc.js",
@@ -409,13 +421,14 @@
       "_set-function-length-CqqZHXQE.js",
       "_define-data-property-C1GzKfj1.js",
       "_has-property-descriptors-BlxtmrFX.js",
-      "_object-inspect-kDNUenuZ.js",
+      "_object-inspect-Dm8MmjqV.js",
       "_axios-Drbs0_iQ.js",
-      "_lodash.clonedeep-Dr-Zhpyq.js",
-      "_lodash.isequal-Mf6eAtSN.js",
+      "_lodash.clonedeep-TKj_9b0H.js",
+      "_lodash.isequal-D4Xq3J61.js",
       "_@intlify-DjDh8mJo.js"
     ],
     "dynamicImports": [
+      "wp-content/themes/template/resources/Private/Vue/Components/Partials/Footer.vue",
       "wp-content/themes/template/resources/Private/Vue/Components/Utils/Image.vue",
       "wp-content/themes/template/resources/Private/Vue/Components/Utils/Button.vue",
       "wp-content/themes/template/resources/Private/Vue/Components/Utils/SvgIcon.vue",
@@ -425,7 +438,7 @@
       "wp-content/themes/template/resources/Private/Vue/Pages/Single.vue"
     ],
     "css": [
-      "assets/main-BcyrqnsH.css"
+      "assets/main-Cxgp-dN9.css"
     ]
   }
 }

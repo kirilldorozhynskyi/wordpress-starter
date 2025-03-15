@@ -17,7 +17,11 @@
 import { defineAsyncComponent, hydrateOnVisible, onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import Header from '@/Components/Partials/Header.vue'
-import Footer from '@/Components/Partials/Footer.vue'
+
+const Footer = defineAsyncComponent({
+	loader: () => import('@/Components/Partials/Footer.vue'),
+	hydrate: hydrateOnVisible()
+})
 
 defineProps({
 	seo: Object,

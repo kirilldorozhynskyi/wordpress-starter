@@ -35,7 +35,8 @@
 		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
 		"kirilldorozhynskyi/cm-gdpr-cookie-consent": "*",
 		"wpackagist-plugin/simple-custom-post-order": "^2.5.10",
-		"jdlocal/wp-rocket": "3.18"
+		"jdlocal/wp-rocket": "3.18",
+		"wpackagist-plugin/query-monitor": "3.17.2"
 	},
 	"repositories": [
 		{

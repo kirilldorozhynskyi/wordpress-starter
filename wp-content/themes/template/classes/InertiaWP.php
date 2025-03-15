@@ -5,8 +5,9 @@ namespace JDEV;
 use BoxyBird\Inertia\Inertia;
 use Timber\Timber;
 use Timber\Menu;
+use JDEV\ACFContent;
+use JDEV\Globals;
 require ABSPATH . '/vendor/autoload.php';
-use JDEV\Model\Events;
 
 class InertiaWP
 {
@@ -20,84 +21,89 @@ class InertiaWP
 	 */
 	public function setupTheme(): void
 	{
-		function getEnhancedMenu($menu_name)
-		{
-			$menu = Timber::get_menu($menu_name);
-
-			if ($menu && $menu->items) {
-				foreach ($menu->items as &$item) {
-					$item->name = $item->title;
-					$item->target = $item->target;
-
-					// Fetch ACF custom fields for this menu item
-					$acf_fields = get_fields($item->ID);
-					if ($acf_fields) {
-						$item->acf = $acf_fields;
-					}
-				}
-				return [
-					'items' => $menu->items,
-				];
-			}
-			return null;
-		}
-
 		Inertia::share([
-			'site' => [
-				'name' => get_bloginfo('name'),
-				'description' => get_bloginfo('description'),
-				'url' => get_bloginfo('url'),
-			],
+			'site' => $this->getSiteInfo(),
 			'seo' => function () {
-				$yoast_meta = YoastSEO()->meta->for_current_page();
-				$ogtitle = $yoast_meta->open_graph_title;
-				$description = !empty($yoast_meta->open_graph_description)
-					? $yoast_meta->open_graph_description
-					: (get_bloginfo('description') ?:
-					wp_trim_words(get_the_excerpt(), 20));
-
-				$seo = [
-					'title' => $ogtitle,
-					'description' => $description,
-				];
-
-				return $seo;
+				return Globals::getSeoData();
 			},
 			'fields' => function () {
-				$fields = get_fields();
-
-				// if (!empty($fields['flexible_content'])) {
-				// 	foreach ($fields['flexible_content'] as &$block) {
-				// 		if (isset($block['acf_fc_layout']) && $block['acf_fc_layout'] === 'events') {
-				// 			$block['events_data'] = Events::getEvents();
-				// 		}
-				// 	}
-				// 	unset($block);
-				// }
-
-				return $fields;
+				return ACFContent::getAcfContent();
 			},
 			'options' => get_fields('options'),
 			'theme' => [
 				'uri' => get_template_directory_uri(),
 			],
-			'menu' => [
-				// 'languages' => function () {
-				// 	return $this->getLanguages();
-				// },
-
-				// $this->getLanguages(),
-				'main' => getEnhancedMenu('main-menu'),
-				'footer' => getEnhancedMenu('footer-menu'),
-			],
+			'menu' => $this->getMenus(),
 		]);
 
-		if (file_exists(__DIR__ . '/../build/manifest.json')) {
-			$version = filemtime(__DIR__ . '/../build/manifest.json');
-		} else {
-			$version = time();
+		Inertia::version($this->getBuildVersion());
+	}
+
+	/**
+	 * Gets basic information about the site
+	 *
+	 * @return array
+	 */
+	private function getSiteInfo(): array
+	{
+		return [
+			'name' => get_bloginfo('name'),
+			'description' => get_bloginfo('description'),
+			'url' => get_bloginfo('url'),
+		];
+	}
+
+	/**
+	 * Gets a menu with additional ACF fields
+	 *
+	 * @return array
+	 */
+	private function getMenus(): array
+	{
+		return [
+			'main' => $this->getEnhancedMenu('main-menu'),
+			'footer' => $this->getEnhancedMenu('footer-menu'),
+		];
+	}
+
+	/**
+	 * Gets a menu with ACF fields
+	 *
+	 * @param string $menu_name
+	 * @return array|null
+	 */
+	private function getEnhancedMenu(string $menu_name): ?array
+	{
+		$menu = Timber::get_menu($menu_name);
+
+		if (!$menu || empty($menu->items)) {
+			return null;
 		}
 
-		Inertia::version($version);
+		foreach ($menu->items as $item) {
+			$item->name = $item->title;
+			$item->target = $item->target;
+
+			$acf_fields = get_fields($item->ID);
+			if ($acf_fields) {
+				$item->acf = $acf_fields;
+			}
+		}
+
+		return [
+			'items' => $menu->items,
+		];
+	}
+
+	/**
+	 * Gets the assembly version
+	 *
+	 * @return string
+	 */
+	private function getBuildVersion(): string
+	{
+		$manifest_path = __DIR__ . '/../build/manifest.json';
+
+		return file_exists($manifest_path) ? (string) filemtime($manifest_path) : (string) time();
 	}
 }

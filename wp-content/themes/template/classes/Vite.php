@@ -47,10 +47,6 @@ class Vite
 	 */
 	public function preloadAssetsVite()
 	{
-		if (did_action('wp_head') === 0) {
-			add_action('wp_head', [$this, 'preloadAssetsVite']);
-		}
-
 		if (empty($this->viteManifest)) {
 			return;
 		}

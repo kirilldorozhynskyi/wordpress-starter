@@ -30,7 +30,9 @@ wp-content/plugins
 debug.log
 wp-content/mu-plugins/*/
 wp-content/smush-webp
-wp-content/languages
+wp-content/languages/
+!wp-content/languages/plugins/gravityforms-sk_SK.mo
+!wp-content/languages/plugins/gravityforms-sk_SK.po
 .htaccess
 
 xmlrpc.php

@@ -43,7 +43,6 @@ export default defineConfig({
 
 	plugins: [
 		tailwindcss(),
-
 		laravel({
 			publicDirectory: '.',
 			input: ['Scss/app.css', 'Scss/**/*.scss', 'Vue/app.ts'],
