@@ -2,6 +2,10 @@
 
 use Timber\Timber;
 
+new JDEV\Base();
+new JDEV\Deregister();
+new JDEV\Vite();
+
 if (Timber::$version) {
 	$timber = true;
 } else {
@@ -29,13 +33,12 @@ if (!class_exists('ACF') or !$timber) {
 
 require_once ABSPATH . '/vendor/autoload.php';
 
-new JDEV\Base();
-new JDEV\Vite();
 new JDEV\InertiaWP();
-// // new JDEV\Gutenberg();
 new JDEV\ACFConfig();
-new JDEV\Deregister();
 new JDEV\DynamicImages();
+
+// Models
+new JDEV\Model\News();
 // Add this code to your theme's functions.php or a custom plugin
 
 if (!class_exists('GFAPI')) {
@@ -47,5 +50,6 @@ if (!class_exists('GFAPI')) {
 }
 
 define('PAGES', [
-	'HOME' => 1,
+	'HOME' => 3,
+	'NEWS' => 4,
 ]);

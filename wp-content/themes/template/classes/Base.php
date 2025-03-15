@@ -18,15 +18,36 @@ class Base
 
 	protected function addThemeActionsAndFilters(): void
 	{
+		add_action('after_setup_theme', [$this, 'onThemeActivation']);
 		add_action('after_setup_theme', [$this, 'setupTheme']);
+		add_action('after_setup_theme', [$this, 'addImageSizes']);
 		add_filter('use_block_editor_for_post', '__return_false');
 		add_action('init', [$this, 'emailNotifications']);
 		add_action('admin_menu', [$this, 'modifyAdminMenu']);
 		add_action('admin_bar_menu', [$this, 'modifyAdminBar'], 99);
 		add_action('customize_register', [$this, 'modifyCustomizer']);
-		add_filter('image_resize_dimensions', '__return_false');
+
 		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
 		add_filter('acf/settings/remove_wp_meta_box', '__return_false');
+	}
+
+	public function onThemeActivation(): void
+	{
+		// Удаляем все посты типа 'post'
+		$default_posts = get_posts([
+			'post_type' => 'post',
+			'numberposts' => -1,
+			'post_status' => 'publish',
+		]);
+
+		foreach ($default_posts as $post) {
+			wp_delete_post($post->ID, true);
+		}
+
+		$comments = get_comments();
+		foreach ($comments as $comment) {
+			wp_delete_comment($comment->comment_ID, true);
+		}
 	}
 
 	/**
@@ -34,28 +55,32 @@ class Base
 	 */
 	public function setupTheme(): void
 	{
-		$default_posts = get_posts([
-			'post_type' => 'post',
-			'numberposts' => -1, // Get all posts
-			'post_status' => 'publish',
-		]);
-
-		foreach ($default_posts as $post) {
-			wp_delete_post($post->ID, true); // The second argument ensures permanent deletion
-		}
-
 		add_theme_support('menus');
 		// add_theme_support('title-tag');
 		add_post_type_support('page', 'excerpt');
 		add_theme_support('post-thumbnails');
+		add_filter('comments_open', '__return_false');
 		// add_theme_support('woocommerce');
 		// add_post_type_support('news', 'thumbnail');
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
+	}
 
-		$sizes = []; // Add your sizes here
+	public function addImageSizes()
+	{
+		$sizes = [
+			[
+				'2x' => true,
+				'name' => 'post',
+				'size' => 640,
+				'sizeH' => 640,
+			],
+		];
+
 		foreach ($sizes as $size) {
 			add_image_size($size['name'], $size['size'], $size['sizeH'] ?? 0);
-			add_image_size($size['name'] . '2x', $size['size'] * 2, $size['sizeH'] ? $size['sizeH'] * 2 : 0);
+			if ($size['2x']) {
+				add_image_size($size['name'] . '2x', $size['size'] * 2, $size['sizeH'] ? $size['sizeH'] * 2 : 0);
+			}
 		}
 	}
 
@@ -129,6 +154,6 @@ class Base
 	 */
 	public function deleteImageSizes($sizes): array
 	{
-		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048', 'thumbnail']);
+		return array_diff($sizes, ['medium_large', 'large', '1536x1536', '2048x2048']);
 	}
 }
