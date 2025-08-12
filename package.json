@@ -16,6 +16,7 @@
 		"@darkobits/vite-plugin-favicons": "^0.3.3",
 		"@prettier/plugin-php": "^0.24.0",
 		"@spiriit/vite-plugin-svg-spritemap": "^5.0.0",
+		"@types/node": "^24.2.1",
 		"@vitejs/plugin-vue": "^6.0.1",
 		"@zackad/prettier-plugin-twig": "^0.16.0",
 		"laravel-vite-plugin": "^2.0.0",

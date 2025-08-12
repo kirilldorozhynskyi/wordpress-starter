@@ -72,12 +72,30 @@ export default defineConfig({
 			},
 		}),
 
-		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), SvgSpritemap),
+		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), {
+			prefix: SvgSpritemap.prefix,
+			output: SvgSpritemap.output,
+			svgo: {
+				plugins: [
+					{ name: 'removeStyleElement' },
+					{ name: 'cleanupIds' },
+					{ name: 'removeTitle' },
+					{ name: 'removeViewBox' },
+					{ name: 'removeUselessStrokeAndFill' },
+					{
+						name: 'removeAttrs',
+						params: {
+							attrs: '(fill|stroke)',
+						},
+					},
+				],
+			},
+			injectSVGOnDev: SvgSpritemap.injectSVGOnDev,
+		}),
 
 		faviconsPlugin({
 			inject: false,
 			cache: true,
-			outputPath: `${baseDir}Public/Build`,
 			icons: {
 				favicons: {
 					source: `${baseDir}Public/Favicons/favicon.svg`,

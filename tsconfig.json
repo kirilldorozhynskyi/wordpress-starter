@@ -1,21 +1,42 @@
 {
 	"compilerOptions": {
-		"importHelpers": true,
-		"moduleResolution": "node",
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"allowJs": true,
-		"checkJs": false,
-		"esModuleInterop": true,
-		"sourceMap": true,
-		"baseUrl": ".",
-		"lib": ["es2015", "dom"], // Add this line
-		"paths": {
-			"@jd_template/*": ["wp-content/themes/template/resources/Private/Vue/*"]
-		},
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
 		"resolveJsonModule": true,
-		"module": "CommonJS"
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "preserve",
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		/* Node.js types */
+		"types": ["node"],
+
+		/* Path mapping */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["wp-content/themes/template/resources/Private/Vue/*"],
+			"~fonts/*": ["wp-content/themes/template/resources/Public/Fonts/*"]
+		}
 	},
-	"include": ["wp-content/themes/template/resources/Private/Vue/**/*.ts", "wp-content/themes/template/resources/Private/Vue/**/*.vue"],
-	"exclude": ["node_modules"]
+	"include": [
+		"wp-content/themes/template/resources/Private/Vue/**/*.ts",
+		"wp-content/themes/template/resources/Private/Vue/**/*.d.ts",
+		"wp-content/themes/template/resources/Private/Vue/**/*.tsx",
+		"wp-content/themes/template/resources/Private/Vue/**/*.vue",
+		"vite.config.ts",
+		"config.ts"
+	],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }
