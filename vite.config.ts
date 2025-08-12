@@ -3,9 +3,9 @@ import laravel from 'laravel-vite-plugin'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import mkcert from 'vite-plugin-mkcert'
-import sassGlobImports from 'vite-plugin-sass-glob-import'
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 import tailwindcss from '@tailwindcss/vite'
+import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
 
 // Config
 import config from './config.ts'
@@ -62,7 +62,6 @@ export default defineConfig({
 		},
 
 		mkcert(),
-		sassGlobImports(),
 
 		vue({
 			template: {
@@ -73,6 +72,41 @@ export default defineConfig({
 			},
 		}),
 
-		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), SvgSpritemap),
+		VitePluginSvgSpritemap(path.resolve(__dirname, `${baseDir}/Icons/*.svg`), {
+			prefix: SvgSpritemap.prefix,
+			output: SvgSpritemap.output,
+			svgo: {
+				plugins: [
+					{ name: 'removeStyleElement' },
+					{ name: 'cleanupIds' },
+					{ name: 'removeTitle' },
+					{ name: 'removeViewBox' },
+					{ name: 'removeUselessStrokeAndFill' },
+					{
+						name: 'removeAttrs',
+						params: {
+							attrs: '(fill|stroke)',
+						},
+					},
+				],
+			},
+			injectSVGOnDev: SvgSpritemap.injectSVGOnDev,
+		}),
+
+		faviconsPlugin({
+			inject: false,
+			cache: true,
+			icons: {
+				favicons: {
+					source: `${baseDir}Public/Favicons/favicon.svg`,
+				},
+				android: {
+					source: `${baseDir}Public/Favicons/favicon.svg`,
+				},
+				appleIcon: {
+					source: `${baseDir}Public/Favicons/favicon.svg`,
+				},
+			},
+		}),
 	],
 })
