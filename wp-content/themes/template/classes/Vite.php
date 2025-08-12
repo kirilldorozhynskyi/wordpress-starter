@@ -28,7 +28,6 @@ class Vite
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
 		add_action('wp_head', [$this, 'preloadAssetsVite'], 2); // Add fonts preload
-		// add_action('after_setup_theme', [$this, 'GetFavicon']);
 	}
 
 	public function addModuleTypeToViteScript($tag, $handle, $src): string
@@ -156,12 +155,5 @@ class Vite
 	public function getViteManifest(): array
 	{
 		return $this->viteManifest;
-	}
-
-	public static function GetFavicon()
-	{
-		if (!file_exists(ABSPATH . 'hot')) {
-		}
-		return '';
 	}
 }

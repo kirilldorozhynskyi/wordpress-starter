@@ -5,6 +5,7 @@ use Timber\Timber;
 new JDEV\Base();
 new JDEV\Deregister();
 new JDEV\Vite();
+new JDEV\Favicon();
 
 if (Timber::$version) {
 	$timber = true;

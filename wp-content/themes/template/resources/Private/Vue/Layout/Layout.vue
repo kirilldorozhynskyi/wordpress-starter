@@ -15,7 +15,8 @@
 
 <script setup>
 import { defineAsyncComponent, hydrateOnVisible, onMounted } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
+
 import Header from '@/Components/Partials/Header.vue'
 
 const Footer = defineAsyncComponent({
@@ -42,6 +43,6 @@ const onPageFinish = () => {
 
 onMounted(() => {
 	handlePageChange()
-	Inertia.on('finish', onPageFinish)
+	router.on('finish', onPageFinish)
 })
 </script>
