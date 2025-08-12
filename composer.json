@@ -21,7 +21,7 @@
 		"roots/bedrock-autoloader": "^1.0.4",
 		"wpengine/advanced-custom-fields-pro": "*",
 		"yoast/wordpress-seo": "^25.5",
-		"justdev/jd-support": "^2.0.0",
+		"justdev/jd-support": "^2.0.1",
 		"justdev/inertia-wordpress": "^0.5.7",
 		"jdlocal/wp-rocket": "3.18",
 		"jdlocal/gravityforms": "2.9.4.2",
