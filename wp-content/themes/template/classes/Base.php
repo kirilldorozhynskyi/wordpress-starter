@@ -33,7 +33,7 @@ class Base
 
 	public function onThemeActivation(): void
 	{
-		// Удаляем все посты типа 'post'
+		// Remove all 'post' type posts
 		$default_posts = get_posts([
 			'post_type' => 'post',
 			'numberposts' => -1,
