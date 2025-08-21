@@ -1,7 +1,7 @@
 {
 	"title": "Vite WordPress Vue.js + Tailwind + Inertia.js Starter",
 	"name": "wordpress-starter",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"repository": "git@github.com:kirilldorozhynskyi/jdwordpress.git",
 	"license": "GPL-2.0+",
 	"private": true,
