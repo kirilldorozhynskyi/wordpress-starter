@@ -23,8 +23,8 @@
 		"yoast/wordpress-seo": "^25.5",
 		"justdev/jd-support": "^2.0.1",
 		"justdev/inertia-wordpress": "^0.5.7",
-		"jdlocal/wp-rocket": "3.18",
-		"jdlocal/gravityforms": "2.9.4.2",
+		"jdlocal/wp-rocket": "*",
+		"pronamic/gravityforms": "^2.9.15",
 		"kirilldorozhynskyi/jd-wp-sync-db": "*",
 		"kirilldorozhynskyi/jd-wp-sync-db-media-files": "*",
 		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
@@ -63,6 +63,11 @@
 		{
 			"type": "vcs",
 			"url": "git@github.com:kirilldorozhynskyi/cm-gdpr-cookie-consent",
+			"branch": "master"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:pronamic/gravityforms.git",
 			"branch": "master"
 		},
 		{

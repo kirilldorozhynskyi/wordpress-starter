@@ -11,11 +11,6 @@ namespace JDEV;
 class Favicon
 {
 	/**
-	 * @var array
-	 */
-	protected array $viteManifest = [];
-
-	/**
 	 * @var string
 	 */
 	protected string $buildPath;
@@ -30,36 +25,79 @@ class Favicon
 	 */
 	protected string $extDir;
 
+	/**
+	 * @var array
+	 */
+	protected array $faviconConfig = [
+		'android' => [
+			'android-chrome-144x144.png',
+			'android-chrome-192x192.png',
+			'android-chrome-256x256.png',
+			'android-chrome-36x36.png',
+			'android-chrome-384x384.png',
+			'android-chrome-48x48.png',
+			'android-chrome-512x512.png',
+			'android-chrome-72x72.png',
+			'android-chrome-96x96.png',
+		],
+		'appleIcon' => [
+			'apple-touch-icon-1024x1024.png',
+			'apple-touch-icon-114x114.png',
+			'apple-touch-icon-120x120.png',
+			'apple-touch-icon-144x144.png',
+			'apple-touch-icon-152x152.png',
+			'apple-touch-icon-167x167.png',
+			'apple-touch-icon-180x180.png',
+			'apple-touch-icon-57x57.png',
+			'apple-touch-icon-60x60.png',
+			'apple-touch-icon-72x72.png',
+			'apple-touch-icon-76x76.png',
+			'apple-touch-icon-precomposed.png',
+			'apple-touch-icon.png',
+		],
+		'appleStartup' => [
+			'apple-touch-startup-image-1125x2436.png',
+			'apple-touch-startup-image-1136x640.png',
+			'apple-touch-startup-image-1242x2208.png',
+			'apple-touch-startup-image-1242x2688.png',
+			'apple-touch-startup-image-1334x750.png',
+			'apple-touch-startup-image-1536x2048.png',
+			'apple-touch-startup-image-1620x2160.png',
+			'apple-touch-startup-image-1668x2224.png',
+			'apple-touch-startup-image-1668x2388.png',
+			'apple-touch-startup-image-1792x828.png',
+			'apple-touch-startup-image-2048x1536.png',
+			'apple-touch-startup-image-2048x2732.png',
+			'apple-touch-startup-image-2160x1620.png',
+			'apple-touch-startup-image-2208x1242.png',
+			'apple-touch-startup-image-2224x1668.png',
+			'apple-touch-startup-image-2388x1668.png',
+			'apple-touch-startup-image-2436x1125.png',
+			'apple-touch-startup-image-2688x1242.png',
+			'apple-touch-startup-image-2732x2048.png',
+			'apple-touch-startup-image-640x1136.png',
+			'apple-touch-startup-image-750x1334.png',
+			'apple-touch-startup-image-828x1792.png',
+			'apple-touch-startup-image-1179x2556.png',
+			'apple-touch-startup-image-2556x1179.png',
+			'apple-touch-startup-image-1290x2796.png',
+			'apple-touch-startup-image-2796x1290.png',
+			'apple-touch-startup-image-1488x2266.png',
+			'apple-touch-startup-image-2266x1488.png',
+			'apple-touch-startup-image-1640x2360.png',
+			'apple-touch-startup-image-2360x1640.png',
+		],
+		'favicons' => ['favicon-16x16.png', 'favicon-32x32.png', 'favicon-48x48.png', 'favicon.ico'],
+	];
+
 	public function __construct()
 	{
 		$this->buildPath = get_template_directory_uri() . '/resources/Public/Build/';
 		$this->extPath = get_template_directory_uri() . '/resources/Public/ext/';
 		$this->extDir = get_template_directory() . '/resources/Public/ext/';
 
-		// Load Vite manifest
-		$this->loadViteManifest();
-
 		// Add hook for favicon output
 		add_action('wp_head', [$this, 'renderFavicon'], 1);
-	}
-
-	/**
-	 * Load Vite manifest
-	 */
-	protected function loadViteManifest(): void
-	{
-		if (!file_exists(ABSPATH . 'hot')) {
-			$manifestPath = get_template_directory() . '/resources/Public/Build/.vite/manifest.json';
-
-			if (file_exists($manifestPath)) {
-				$manifestContent = file_get_contents($manifestPath);
-				$decodedManifest = json_decode($manifestContent, true);
-
-				if (json_last_error() === JSON_ERROR_NONE) {
-					$this->viteManifest = $decodedManifest;
-				}
-			}
-		}
 	}
 
 	/**
@@ -82,66 +120,61 @@ class Favicon
 	 */
 	protected function getFaviconData(): ?array
 	{
-		if (empty($this->viteManifest)) {
-			return null;
-		}
-
-		// Check for web manifest
-		$manifestKey = $this->findManifestKey();
-		if (!$manifestKey) {
-			return null;
-		}
-
-		$webmanifest = str_replace('assets/', '', $this->viteManifest[$manifestKey]['file']);
-
 		// Create custom web manifest if it doesn't exist
-		if (!file_exists($this->extDir . $webmanifest)) {
-			$this->createCustomWebManifest($manifestKey, $webmanifest);
+		$manifestFile = 'manifest.webmanifest';
+		if (!file_exists($this->extDir . $manifestFile)) {
+			$this->createCustomWebManifest($manifestFile);
 		}
 
 		return [
-			'manifest' => $this->extPath . $webmanifest,
+			'manifest' => $this->extPath . $manifestFile,
 			'theme_color' => $this->getThemeColor(),
 			'favicons' => $this->getFaviconFiles(),
 			'apple' => $this->getAppleTouchIcons(),
+			'android' => $this->getAndroidChromeIcons(),
+			'appleStartup' => $this->getAppleStartupImages(),
 		];
-	}
-
-	/**
-	 * Find manifest key in vite manifest
-	 */
-	protected function findManifestKey(): ?string
-	{
-		foreach ($this->viteManifest as $key => $asset) {
-			if (strpos($key, 'manifest') !== false && strpos($asset['file'], 'webmanifest') !== false) {
-				return $key;
-			}
-		}
-		return null;
 	}
 
 	/**
 	 * Create custom web manifest
 	 */
-	protected function createCustomWebManifest(string $manifestKey, string $webmanifest): void
+	protected function createCustomWebManifest(string $manifestFile): void
 	{
 		// Clean old files
 		$this->cleanExtDirectory();
 
-		// Read original manifest
-		$manifestContent = file_get_contents($this->buildPath . $this->viteManifest[$manifestKey]['file']);
-		$json = json_decode($manifestContent, true);
+		// Create manifest data
+		$manifest = [
+			'name' => get_bloginfo('name'),
+			'short_name' => get_bloginfo('name'),
+			'description' => get_bloginfo('description'),
+			'lang' => get_locale(),
+			'background_color' => $this->getBackgroundColor(),
+			'theme_color' => $this->getThemeColor(),
+			'display' => 'standalone',
+			'orientation' => 'portrait',
+			'scope' => '/',
+			'start_url' => '/',
+			'icons' => [],
+		];
 
-		// Update data
-		$json['name'] = get_bloginfo('name');
-		$json['short_name'] = get_bloginfo('name');
-		$json['description'] = get_bloginfo('description');
-		$json['lang'] = get_locale();
-		$json['background_color'] = $this->getBackgroundColor();
-		$json['theme_color'] = $this->getThemeColor();
+		// Add Android icons to manifest
+		foreach ($this->faviconConfig['android'] as $icon) {
+			if (file_exists($this->getBuildDir() . $icon)) {
+				preg_match('/(\d+)x(\d+)/', $icon, $matches);
+				if (count($matches) >= 3) {
+					$manifest['icons'][] = [
+						'src' => $this->buildPath . $icon,
+						'sizes' => $matches[1] . 'x' . $matches[2],
+						'type' => 'image/png',
+					];
+				}
+			}
+		}
 
 		// Save custom manifest
-		file_put_contents($this->extDir . $webmanifest, json_encode($json, JSON_PRETTY_PRINT));
+		file_put_contents($this->extDir . $manifestFile, json_encode($manifest, JSON_PRETTY_PRINT));
 	}
 
 	/**
@@ -162,18 +195,24 @@ class Favicon
 	}
 
 	/**
+	 * Get build directory path
+	 */
+	protected function getBuildDir(): string
+	{
+		return get_template_directory() . '/resources/Public/Build/';
+	}
+
+	/**
 	 * Get favicon files
 	 */
 	protected function getFaviconFiles(): array
 	{
 		$favicons = [];
-		$faviconTypes = ['favicon-16x16', 'favicon-32x32', 'favicon-48x48', 'favicon'];
+		$buildDir = $this->getBuildDir();
 
-		foreach ($faviconTypes as $type) {
-			$key = $this->findAssetKey($type);
-			if ($key) {
-				$filename = basename($this->viteManifest[$key]['file']);
-				$favicons[$filename] = $this->buildPath . $this->viteManifest[$key]['file'];
+		foreach ($this->faviconConfig['favicons'] as $icon) {
+			if (file_exists($buildDir . $icon)) {
+				$favicons[$icon] = $this->buildPath . $icon;
 			}
 		}
 
@@ -186,25 +225,11 @@ class Favicon
 	protected function getAppleTouchIcons(): array
 	{
 		$appleIcons = [];
-		$appleTypes = [
-			'apple-touch-icon-57x57',
-			'apple-touch-icon-60x60',
-			'apple-touch-icon-72x72',
-			'apple-touch-icon-76x76',
-			'apple-touch-icon-114x114',
-			'apple-touch-icon-120x120',
-			'apple-touch-icon-144x144',
-			'apple-touch-icon-152x152',
-			'apple-touch-icon-167x167',
-			'apple-touch-icon-180x180',
-			'apple-touch-icon-1024x1024',
-		];
+		$buildDir = $this->getBuildDir();
 
-		foreach ($appleTypes as $type) {
-			$key = $this->findAssetKey($type);
-			if ($key) {
-				$filename = basename($this->viteManifest[$key]['file']);
-				$appleIcons[$filename] = $this->buildPath . $this->viteManifest[$key]['file'];
+		foreach ($this->faviconConfig['appleIcon'] as $icon) {
+			if (file_exists($buildDir . $icon)) {
+				$appleIcons[$icon] = $this->buildPath . $icon;
 			}
 		}
 
@@ -212,16 +237,37 @@ class Favicon
 	}
 
 	/**
-	 * Find asset key by type
+	 * Get Android Chrome Icons
 	 */
-	protected function findAssetKey(string $type): ?string
+	protected function getAndroidChromeIcons(): array
 	{
-		foreach ($this->viteManifest as $key => $asset) {
-			if (strpos($key, $type) !== false) {
-				return $key;
+		$androidIcons = [];
+		$buildDir = $this->getBuildDir();
+
+		foreach ($this->faviconConfig['android'] as $icon) {
+			if (file_exists($buildDir . $icon)) {
+				$androidIcons[$icon] = $this->buildPath . $icon;
 			}
 		}
-		return null;
+
+		return $androidIcons;
+	}
+
+	/**
+	 * Get Apple Startup Images
+	 */
+	protected function getAppleStartupImages(): array
+	{
+		$startupImages = [];
+		$buildDir = $this->getBuildDir();
+
+		foreach ($this->faviconConfig['appleStartup'] as $image) {
+			if (file_exists($buildDir . $image)) {
+				$startupImages[$image] = $this->buildPath . $image;
+			}
+		}
+
+		return $startupImages;
 	}
 
 	/**
@@ -271,7 +317,7 @@ class Favicon
 		// Mobile web app capable
 		$html[] = '<meta content="yes" name="mobile-web-app-capable" />';
 		$html[] = '<meta content="' . esc_attr($faviconData['theme_color']) . '" name="theme-color" />';
-		$html[] = '<meta name="application-name" />';
+		$html[] = '<meta name="application-name" content="' . esc_attr(get_bloginfo('name')) . '" />';
 
 		// Apple Touch Icons
 		foreach ($faviconData['apple'] as $filename => $url) {
@@ -279,13 +325,32 @@ class Favicon
 			if (count($matches) >= 3) {
 				$size = $matches[1] . 'x' . $matches[2];
 				$html[] = '<link href="' . esc_url($url) . '" rel="apple-touch-icon" sizes="' . $size . '" />';
+			} else {
+				// For icons without size in filename (like apple-touch-icon.png)
+				$html[] = '<link href="' . esc_url($url) . '" rel="apple-touch-icon" />';
 			}
 		}
 
 		// Apple mobile web app meta
 		$html[] = '<meta content="yes" name="apple-mobile-web-app-capable" />';
 		$html[] = '<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />';
-		$html[] = '<meta name="apple-mobile-web-app-title" />';
+		$html[] = '<meta name="apple-mobile-web-app-title" content="' . esc_attr(get_bloginfo('name')) . '" />';
+
+		// Apple startup images
+		foreach ($faviconData['appleStartup'] as $filename => $url) {
+			preg_match('/(\d+)x(\d+)/', $filename, $matches);
+			if (count($matches) >= 3) {
+				$size = $matches[1] . 'x' . $matches[2];
+				$html[] =
+					'<link href="' .
+					esc_url($url) .
+					'" rel="apple-touch-startup-image" media="screen and (device-width: ' .
+					$matches[1] .
+					'px) and (device-height: ' .
+					$matches[2] .
+					'px) and (-webkit-device-pixel-ratio: 2)" />';
+			}
+		}
 
 		return implode("\n\t", $html) . "\n";
 	}

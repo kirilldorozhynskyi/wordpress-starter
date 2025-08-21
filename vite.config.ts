@@ -5,10 +5,10 @@ import vue from '@vitejs/plugin-vue'
 import mkcert from 'vite-plugin-mkcert'
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 import tailwindcss from '@tailwindcss/vite'
-import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
+import favicons from '@peterek/vite-plugin-favicons'
 
 // Config
-import config from './config.ts'
+import config from './config'
 
 const { baseDir, SvgSpritemap } = config
 
@@ -93,19 +93,14 @@ export default defineConfig({
 			injectSVGOnDev: SvgSpritemap.injectSVGOnDev,
 		}),
 
-		faviconsPlugin({
-			inject: false,
-			cache: true,
+		favicons(`${baseDir}Public/Favicons/favicon.svg`, {
 			icons: {
-				favicons: {
-					source: `${baseDir}Public/Favicons/favicon.svg`,
-				},
-				android: {
-					source: `${baseDir}Public/Favicons/favicon.svg`,
-				},
-				appleIcon: {
-					source: `${baseDir}Public/Favicons/favicon.svg`,
-				},
+				android: true,
+				appleIcon: true,
+				appleStartup: true,
+				favicons: true,
+				windows: false,
+				yandex: false,
 			},
 		}),
 	],
