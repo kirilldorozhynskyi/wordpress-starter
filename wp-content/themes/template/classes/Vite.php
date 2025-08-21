@@ -21,13 +21,12 @@ class Vite
 	public function __construct()
 	{
 		$this->loadViteManifest();
-		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteScript'], 10, 3);
-		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteSprite'], 10, 3);
-
+		add_action('wp_head', [$this, 'preloadAssetsVite']); // Add fonts preload
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
-		add_action('wp_head', [$this, 'preloadAssetsVite'], 2); // Add fonts preload
+		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteScript'], 10, 3);
+		add_filter('script_loader_tag', [$this, 'addModuleTypeToViteSprite'], 10, 3);
 	}
 
 	public function addModuleTypeToViteScript($tag, $handle, $src): string
