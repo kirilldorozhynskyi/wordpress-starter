@@ -179,3 +179,7 @@ Config::apply();
 if (!defined('ABSPATH')) {
 	define('ABSPATH', $webroot_dir . '/');
 }
+
+// if (!defined('JD_SUPPORT_VERSION')) {
+// 	exit('This site requires the justDev Support plugin to run. Contact your administrator.');
+// }
