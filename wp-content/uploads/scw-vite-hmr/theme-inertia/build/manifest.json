@@ -1,0 +1,80 @@
+{
+  "__plugin-vue_export-helper-DlAUqK2U.js": {
+    "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js",
+    "name": "_plugin-vue_export-helper"
+  },
+  "_vendor-jRh1tZfD.js": {
+    "file": "assets/vendor-jRh1tZfD.js",
+    "name": "vendor"
+  },
+  "resources/js/Components/Utils/SvgIcon.vue": {
+    "file": "assets/SvgIcon-Dj2AhQBV.js",
+    "name": "SvgIcon",
+    "src": "resources/js/Components/Utils/SvgIcon.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-jRh1tZfD.js"
+    ]
+  },
+  "resources/js/Pages/Archive.vue": {
+    "file": "assets/Archive-3YEcnD9_.js",
+    "name": "Archive",
+    "src": "resources/js/Pages/Archive.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_vendor-jRh1tZfD.js"
+    ]
+  },
+  "resources/js/Pages/Error.vue": {
+    "file": "assets/Error-DAMQyveB.js",
+    "name": "Error",
+    "src": "resources/js/Pages/Error.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-jRh1tZfD.js"
+    ]
+  },
+  "resources/js/Pages/Home.vue": {
+    "file": "assets/Home-CB3rGxTh.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-DlAUqK2U.js",
+      "_vendor-jRh1tZfD.js"
+    ]
+  },
+  "resources/js/Pages/Post.vue": {
+    "file": "assets/Post-tNRYUAQx.js",
+    "name": "Post",
+    "src": "resources/js/Pages/Post.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vendor-jRh1tZfD.js"
+    ]
+  },
+  "resources/js/main.js": {
+    "file": "assets/main-h330BXxA.js",
+    "name": "main",
+    "src": "resources/js/main.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-jRh1tZfD.js"
+    ],
+    "dynamicImports": [
+      "resources/js/Components/Utils/SvgIcon.vue",
+      "resources/js/Pages/Archive.vue",
+      "resources/js/Pages/Error.vue",
+      "resources/js/Pages/Home.vue",
+      "resources/js/Pages/Post.vue"
+    ],
+    "css": [
+      "assets/main-DC03Qh8v.css"
+    ]
+  },
+  "spritemap.svg": {
+    "file": "assets/spritemap.svg",
+    "src": "spritemap.svg"
+  }
+}

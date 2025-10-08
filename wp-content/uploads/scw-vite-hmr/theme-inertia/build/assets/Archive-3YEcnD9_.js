@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{a as r,o as c}from"./vendor-jRh1tZfD.js";const o={};function t(n,a){return c(),r("div",null,"Archive Page")}const f=e(o,[["render",t]]);export{f as default};

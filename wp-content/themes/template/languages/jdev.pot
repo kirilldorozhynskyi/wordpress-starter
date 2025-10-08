@@ -1,0 +1,264 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Template\n"
+"POT-Creation-Date: 2024-02-09 16:45+0100\n"
+"PO-Revision-Date: 2024-02-08 17:41+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: resources\n"
+
+#: classes/ACF/Pages/ThemeSettings.php:326
+msgid "Cookie-Settings"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:347
+msgid ""
+"We use <strong>necessary cookies</strong> to make our website work and are "
+"installed automatically. They enable security, accessibility and network "
+"management. As we want to improve your experience with our website, we "
+"would like to set <strong>functional, analytical and social media cookies</"
+"strong> which measure how you use our site and enable more personalized "
+"content, and provide social media features. Therefore we share information "
+"about your use of our website with our partners. They may combine this "
+"information with other data that you have provided to them or that they "
+"have collected as part of your use of the services. Some of our partner "
+"services are located in the USA, which is regarded by the European Court "
+"of Justice as a country without an adequate level of data protection. "
+"There is a possibility and risk that your personal data will be processed "
+"by US authorities for control and surveillance, leaving you without "
+"effective remedies against it. With you clicking on \"Accept all "
+"cookies\", you agree that cookies on our website can be used by us as well "
+"as third party providers (also in the USA) and that data can be "
+"transferred (Art 49. GDPR) unless other suitable guarantees are "
+"exceptionally not available. Your consent is voluntary and can be revoked "
+"at any time. You can configure cookies under settings.\n"
+"\n"
+"\t\t\tDetailed information can be found in our <a href=\"https://wordpress-"
+"starter.ddev.site/privacy-policy/\">Privacy Statement – Cookies</a>."
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:374
+msgid "Confirm selection"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:392
+msgid "Accept all"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:414
+msgid "How do we use Cookies:"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:435
+msgid ""
+"Cookies are pieces of information that a website transfers to your device "
+"when you access any website. Cookies allow our website to recognize your "
+"device and store information about your preferences or past actions. This "
+"information can be connected to you, your settings, your device or they "
+"take care, that a website you visit functions in line with your "
+"expectations. Information provided to us by cookies do not reveal your "
+"identity directly, but can enable you better user experience. You can say "
+"“no” to some cookies. Please review details on each cookies bellow and "
+"decide which you prefer in settings. Disabling cookies might influence use "
+"of our website or services on your device."
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:455
+msgid "Neceassary cookies"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:476
+msgid ""
+"We use necessary cookies to make our website work: for security, "
+"accessibility and network management. They are installed automatically. "
+"For this purpose we do not need your consent as these cookies do not "
+"process personal data. You have the possibility to change your cookie "
+"settings in your browser at any time, but the website might then not work "
+"properly."
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:496
+msgid "Functional cookies"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:517
+msgid ""
+"Functional cookies allow us to improve website performance and "
+"customization based on your choices that you make on the website. They are "
+"set by us or by our contractual partners who provide their services on our "
+"websites with our permission (e.g. website satisfaction survey service). "
+"If you do not accept these cookies, some or all of the website's features "
+"may not work."
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:537
+msgid "Analytical cookies"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:558
+msgid ""
+"We use Google analytics to helps us understand how you use our website. It "
+"helps us to make decisions about general improvements to the functionality "
+"and content of the website. The cookies collect information in a way that "
+"does not directly identify you."
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:578
+#: views/partials/page/cookies_info_box.twig:29
+msgid "Social Media Cookies"
+msgstr ""
+
+#: classes/ACF/Pages/ThemeSettings.php:599
+msgid ""
+"These cookies are set by a number of social network providers that we have "
+"added to our website. These cookies enable you to share content with your "
+"friends and networks. When you “surf the internet” these cookies track "
+"your browser and build a profile of your interests. In doing so, they "
+"influence the content and messages you see on the websites you visit. If "
+"you refuse the use of these cookies, content sharing tools may not be "
+"available to you."
+msgstr ""
+
+#: classes/Model/GravityForm.php:95 classes/Model/GravityForm.php:165
+msgid "Thank you for contacting us!"
+msgstr ""
+
+#: classes/Model/GravityForm.php:97 classes/Model/GravityForm.php:167
+msgid "We will contact you shortly."
+msgstr ""
+
+#: classes/Model/GravityForm.php:107
+msgid "Einreichen"
+msgstr ""
+
+#: classes/Model/GravityForm.php:113 classes/Model/GravityForm.php:114
+#: classes/Model/GravityForm.php:183 classes/Model/GravityForm.php:184
+msgid "Salutation"
+msgstr ""
+
+#: classes/Model/GravityForm.php:116 classes/Model/GravityForm.php:186
+msgid "Mister"
+msgstr ""
+
+#: classes/Model/GravityForm.php:116 classes/Model/GravityForm.php:186
+msgid "Woman"
+msgstr ""
+
+#: classes/Model/GravityForm.php:121 classes/Model/GravityForm.php:122
+#: classes/Model/GravityForm.php:191 classes/Model/GravityForm.php:192
+msgid "First name"
+msgstr ""
+
+#: classes/Model/GravityForm.php:128 classes/Model/GravityForm.php:129
+#: classes/Model/GravityForm.php:198
+msgid "Last name"
+msgstr ""
+
+#: classes/Model/GravityForm.php:135 classes/Model/GravityForm.php:136
+#: classes/Model/GravityForm.php:205 classes/Model/GravityForm.php:206
+msgid "E-Mail"
+msgstr ""
+
+#: classes/Model/GravityForm.php:144
+msgid "Data protection"
+msgstr ""
+
+#: classes/Model/GravityForm.php:146 classes/Model/GravityForm.php:223
+msgid "I accept the"
+msgstr ""
+
+#: classes/Model/GravityForm.php:146 classes/Model/GravityForm.php:223
+msgid "Privacy Policy"
+msgstr ""
+
+#: classes/Model/GravityForm.php:148 classes/Model/GravityForm.php:225
+msgid "Checked"
+msgstr ""
+
+#: classes/Model/GravityForm.php:177
+msgid "Submit"
+msgstr ""
+
+#: classes/Model/GravityForm.php:199
+msgid "NacLast namehname"
+msgstr ""
+
+#: classes/Model/GravityForm.php:214 classes/Model/GravityForm.php:215
+msgid "News"
+msgstr ""
+
+#: classes/Model/GravityForm.php:221
+msgid "Datenschutz"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:17
+msgid "Necessary"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:21
+msgid "Functional"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:25
+msgid "Analytical"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:41
+msgid "Show details"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:42
+msgid "Hide details"
+msgstr ""
+
+#: views/partials/page/cookies_info_box.twig:59
+msgid "Which types of cookies we use?"
+msgstr ""
+
+#: views/partials/page/header.twig:37 views/templates/search.twig:29
+msgid "Your search term"
+msgstr ""
+
+#: views/partials/page/password.twig:5
+msgid ""
+"This content is password protected. To view it please enter your password "
+"below:"
+msgstr ""
+
+#: views/partials/page/password.twig:14 views/partials/page/password.twig:15
+msgid "Password:"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Template"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Template theme by justDev"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "justDev"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://justdev.org"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Search page template"
+msgstr ""
