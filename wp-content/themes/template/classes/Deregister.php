@@ -19,6 +19,7 @@ class Deregister
 		add_action('init', [$this, 'disable_wp_emojicons']);
 		add_action('wp_enqueue_scripts', [$this, 'disable_global_styles_and_block_supports'], 100);
 		add_action('init', [$this, 'disable_unwanted_assets']);
+		add_action('init', [$this, 'prevent_core_block_supports_inline_css']);
 		add_action('wp_enqueue_scripts', [$this, 'disable_inline_styles'], 100);
 		add_action('wp_enqueue_scripts', [$this, 'disable_woocommerce_fonts'], 100);
 		add_action('init', [$this, 'remove_unwanted_meta_tags']);
@@ -143,6 +144,14 @@ class Deregister
 			remove_action('wp_body_open', 'wp_global_styles_render_svg_filters');
 			wp_dequeue_style('global-styles');
 			wp_dequeue_style('core-block-supports');
+		}
+	}
+
+	public function prevent_core_block_supports_inline_css()
+	{
+		if (!is_admin()) {
+			remove_action('wp_enqueue_scripts', 'wp_enqueue_block_support_styles');
+			remove_action('wp_enqueue_scripts', 'wp_enqueue_block_support_styles', 20);
 		}
 	}
 

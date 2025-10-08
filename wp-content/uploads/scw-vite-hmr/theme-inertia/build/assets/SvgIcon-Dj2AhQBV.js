@@ -1,0 +1,1 @@
+import{a as n,o as s,j as r,n as t}from"./vendor-jRh1tZfD.js";const o=["xlink:href"],l={__name:"SvgIcon",props:{name:{type:String,required:!0}},setup(e){return(a,c)=>(s(),n("svg",{class:t(["sprite-icon",`icon-${e.name} ${e.name}`]),"aria-hidden":"true",focusable:"false"},[r("use",{"xlink:href":`${a.$page.props.sprite}#icon-${e.name}`},null,8,o)],2))}};export{l as default};

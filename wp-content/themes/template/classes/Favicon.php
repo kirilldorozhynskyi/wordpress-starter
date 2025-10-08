@@ -11,9 +11,14 @@ namespace JDEV;
 class Favicon
 {
 	/**
-	 * @var string
+	 * @var string Absolute path to favicon build directory.
 	 */
-	protected string $buildPath;
+	protected string $buildDir;
+
+	/**
+	 * @var string Public URL to favicon build directory.
+	 */
+	protected string $buildUrl;
 
 	/**
 	 * @var string
@@ -92,9 +97,12 @@ class Favicon
 
 	public function __construct()
 	{
-		$this->buildPath = get_template_directory_uri() . '/resources/Public/Build/';
-		$this->extPath = get_template_directory_uri() . '/resources/Public/ext/';
-		$this->extDir = get_template_directory() . '/resources/Public/ext/';
+		$upload_dir = wp_upload_dir();
+
+		$this->buildDir = trailingslashit($upload_dir['basedir'] . '/scw-vite-hmr/theme-inertia/build');
+		$this->buildUrl = trailingslashit($upload_dir['baseurl'] . '/scw-vite-hmr/theme-inertia/build');
+		$this->extPath = trailingslashit($upload_dir['baseurl'] . '/resources/Public/ext');
+		$this->extDir = trailingslashit($upload_dir['basedir'] . '/resources/Public/ext');
 
 		// Add hook for favicon output
 		add_action('wp_head', [$this, 'renderFavicon'], 1);
@@ -122,9 +130,6 @@ class Favicon
 	{
 		// Create custom web manifest if it doesn't exist
 		$manifestFile = 'manifest.webmanifest';
-		if (!file_exists($this->extDir . $manifestFile)) {
-			$this->createCustomWebManifest($manifestFile);
-		}
 
 		return [
 			'manifest' => $this->extPath . $manifestFile,
@@ -134,47 +139,6 @@ class Favicon
 			'android' => $this->getAndroidChromeIcons(),
 			'appleStartup' => $this->getAppleStartupImages(),
 		];
-	}
-
-	/**
-	 * Create custom web manifest
-	 */
-	protected function createCustomWebManifest(string $manifestFile): void
-	{
-		// Clean old files
-		$this->cleanExtDirectory();
-
-		// Create manifest data
-		$manifest = [
-			'name' => get_bloginfo('name'),
-			'short_name' => get_bloginfo('name'),
-			'description' => get_bloginfo('description'),
-			'lang' => get_locale(),
-			'background_color' => $this->getBackgroundColor(),
-			'theme_color' => $this->getThemeColor(),
-			'display' => 'standalone',
-			'orientation' => 'portrait',
-			'scope' => '/',
-			'start_url' => '/',
-			'icons' => [],
-		];
-
-		// Add Android icons to manifest
-		foreach ($this->faviconConfig['android'] as $icon) {
-			if (file_exists($this->getBuildDir() . $icon)) {
-				preg_match('/(\d+)x(\d+)/', $icon, $matches);
-				if (count($matches) >= 3) {
-					$manifest['icons'][] = [
-						'src' => $this->buildPath . $icon,
-						'sizes' => $matches[1] . 'x' . $matches[2],
-						'type' => 'image/png',
-					];
-				}
-			}
-		}
-
-		// Save custom manifest
-		file_put_contents($this->extDir . $manifestFile, json_encode($manifest, JSON_PRETTY_PRINT));
 	}
 
 	/**
@@ -199,7 +163,7 @@ class Favicon
 	 */
 	protected function getBuildDir(): string
 	{
-		return get_template_directory() . '/resources/Public/Build/';
+		return $this->buildDir;
 	}
 
 	/**
@@ -212,7 +176,7 @@ class Favicon
 
 		foreach ($this->faviconConfig['favicons'] as $icon) {
 			if (file_exists($buildDir . $icon)) {
-				$favicons[$icon] = $this->buildPath . $icon;
+				$favicons[$icon] = $this->buildUrl . $icon;
 			}
 		}
 
@@ -229,7 +193,7 @@ class Favicon
 
 		foreach ($this->faviconConfig['appleIcon'] as $icon) {
 			if (file_exists($buildDir . $icon)) {
-				$appleIcons[$icon] = $this->buildPath . $icon;
+				$appleIcons[$icon] = $this->buildUrl . $icon;
 			}
 		}
 
@@ -246,7 +210,7 @@ class Favicon
 
 		foreach ($this->faviconConfig['android'] as $icon) {
 			if (file_exists($buildDir . $icon)) {
-				$androidIcons[$icon] = $this->buildPath . $icon;
+				$androidIcons[$icon] = $this->buildUrl . $icon;
 			}
 		}
 
@@ -263,7 +227,7 @@ class Favicon
 
 		foreach ($this->faviconConfig['appleStartup'] as $image) {
 			if (file_exists($buildDir . $image)) {
-				$startupImages[$image] = $this->buildPath . $image;
+				$startupImages[$image] = $this->buildUrl . $image;
 			}
 		}
 

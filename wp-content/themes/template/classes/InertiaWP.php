@@ -2,7 +2,7 @@
 
 namespace JDEV;
 
-use BoxyBird\Inertia\Inertia;
+use EvoMark\InertiaWordpress\Inertia;
 use Timber\Timber;
 use Timber\Menu;
 use JDEV\ACFContent;
@@ -36,7 +36,7 @@ class InertiaWP
 			'menu' => $this->getMenus(),
 		]);
 
-		Inertia::version($this->getBuildVersion());
+		Inertia::getVersion($this->getBuildVersion());
 	}
 
 	/**

@@ -21,7 +21,11 @@ wp-content/plugins/akismet/
 wp-content/advanced-cache.php
 wp-content/cache/
 wp-content/upgrade/
-wp-content/uploads/
+wp-content/uploads/*
+
+!wp-content/uploads/inertia
+!wp-content/uploads/scw-vite-hmr
+
 wp-content/webp-express/
 wp-content/wp-rocket-config/
 wp-content/updraft

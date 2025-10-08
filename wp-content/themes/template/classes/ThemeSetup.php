@@ -12,7 +12,6 @@ class ThemeSetup
 	public function __construct()
 	{
 		$this->checkDependencies();
-		$this->initTheme();
 	}
 
 	/**
@@ -40,6 +39,8 @@ class ThemeSetup
 				return get_stylesheet_directory() . '/static/no-timber.php';
 			});
 			return;
+		} else {
+			$this->initTheme();
 		}
 	}
 
@@ -60,7 +61,7 @@ class ThemeSetup
 		new DynamicImages();
 
 		// Models
-		new Model\News();
+		// new Model\News();
 
 		// Gravity Forms (optional)
 		if (class_exists('GFAPI')) {

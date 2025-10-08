@@ -1,18 +1,19 @@
 <?php
 
-/**
- * Theme Functions
- * Main entry point for theme initialization
- */
+use EvoWpRestRegistration\RestApi;
 
-// Load autoloader
 require_once ABSPATH . '/vendor/autoload.php';
 
 // Initialize theme
 new JDEV\ThemeSetup();
 
-// Define constants
-define('PAGES', [
-	'HOME' => 3,
-	'NEWS' => 4,
+new RestApi([
+	'namespace' => 'Template\\RestApi\\',
+	'version' => 1,
+	'directory' => __DIR__ . '/rest-api',
+	'base_url' => 'template',
+]);
+
+register_nav_menus([
+	'header-menu' => __('Header Menu'),
 ]);

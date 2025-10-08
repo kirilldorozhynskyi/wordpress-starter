@@ -1,5 +1,0 @@
-{% if webp %}
-	{{ get_image(image)|resize(width, height)|towebp }}
-{% else %}
-	{{ get_image(image)|resize(width, height) }}
-{% endif %}
