@@ -8,7 +8,7 @@
     "name": "vendor"
   },
   "resources/js/Components/Utils/SvgIcon.vue": {
-    "file": "assets/SvgIcon-Dj2AhQBV.js",
+    "file": "assets/SvgIcon-DVKdVPQc.js",
     "name": "SvgIcon",
     "src": "resources/js/Components/Utils/SvgIcon.vue",
     "isDynamicEntry": true,
@@ -55,7 +55,7 @@
     ]
   },
   "resources/js/main.js": {
-    "file": "assets/main-h330BXxA.js",
+    "file": "assets/main-B3PlXWnQ.js",
     "name": "main",
     "src": "resources/js/main.js",
     "isEntry": true,
@@ -70,7 +70,7 @@
       "resources/js/Pages/Post.vue"
     ],
     "css": [
-      "assets/main-DC03Qh8v.css"
+      "assets/main-ztFS4kli.css"
     ]
   },
   "spritemap.svg": {
