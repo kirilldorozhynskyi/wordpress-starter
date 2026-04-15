@@ -37,11 +37,16 @@ RUN chmod +x /usr/local/bin/container-entrypoint
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apt-get update && apt-get install -y --no-install-recommends git \
+RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client \
+	&& git config --global url."https://github.com/".insteadOf git@github.com: \
 	&& composer install --no-interaction --no-dev --optimize-autoloader \
-	&& npm install \
-	&& npm run build \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN test -f /var/www/html/wp-content/themes/inertia/resources/Public/Build/manifest.json \
+	|| (echo 'Frontend build is missing. Run the local FE build and commit the generated assets before docker build.' >&2 && exit 1)
+
+RUN test -f /var/www/html/wp-content/themes/inertia/resources/Private/.vite/ssr/ssr.mjs \
+	|| (echo 'SSR build is missing. Run the local SSR build and commit the generated ssr.mjs before docker build.' >&2 && exit 1)
 
 RUN mkdir -p \
 		/var/www/html/wp-content/uploads \
