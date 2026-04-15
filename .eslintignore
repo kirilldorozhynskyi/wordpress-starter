@@ -1,0 +1,6 @@
+node_modules/
+wp-content/themes/inertia/node_modules/
+wp-content/themes/inertia/resources/Public/Build/
+wp-content/themes/inertia/resources/Private/.vite/
+wp-content/themes/inertia/.vite/
+wp-content/themes/inertia/.inertia/

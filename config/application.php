@@ -147,7 +147,7 @@ Config::define('DISALLOW_FILE_MODS', true);
 Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?: true);
 
 // Set default theme
-Config::define('WP_DEFAULT_THEME', 'template');
+Config::define('WP_DEFAULT_THEME', 'inertia');
 
 /**
  * Debugging Settings

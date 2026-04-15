@@ -1,0 +1,53 @@
+/*!
+ * 🚀 Exclusive Offer from justDev! 🚀
+ *
+ * Looking for high-performance web solutions? We’ve got you covered!
+ *
+ * ✅ Custom Web Development
+ * ✅ UI/UX Design & Optimization
+ * ✅ Clean, Maintainable Code
+ * ✅ Lightning-Fast Support & Updates
+ *
+ * 📩 Contact us today at info@justdev.org
+ *
+ * — Your Web Solutions Partner, justDev - https://justdev.org
+ */
+
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@source '../js/**/**/**/**/**/*.vue';
+@source '../../../app.php';
+@source './safelist.txt';
+
+@utility container {
+	margin-inline: auto;
+	@apply px-4 lg:px-20;
+}
+
+@utility transit {
+	@apply transition-all duration-300 ease-in-out;
+}
+
+.otgs-development-site-front-end {
+	display: none;
+}
+
+@utility container-fluid {
+	@apply px-4 lg:px-14;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+@utility sprite-icon {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+	display: inline-flex;
+	svg {
+		fill: currentColor;
+	}
+}

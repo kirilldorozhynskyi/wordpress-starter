@@ -15,6 +15,7 @@ node_modules/
 wp-content/themes/*
 !wp-content/themes/template/
 !wp-content/themes/theme/
+!wp-content/themes/inertia/
 
 wp-content/plugins/akismet/
 
@@ -23,8 +24,6 @@ wp-content/cache/
 wp-content/upgrade/
 wp-content/uploads/*
 
-!wp-content/uploads/inertia
-!wp-content/uploads/scw-vite-hmr
 
 wp-content/webp-express/
 wp-content/wp-rocket-config/
@@ -59,7 +58,4 @@ wp-includes
 wp-admin
 /index.php
 
-
-package-lock.json
-wp-content/themes/template/resources/Public/ext/*.webmanifest
 wordpress-muster.code-workspace

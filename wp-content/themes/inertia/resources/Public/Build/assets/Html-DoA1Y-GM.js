@@ -1,0 +1,1 @@
+import{A as e,g as t,q as n}from"./vendor-i18n-DNxW1JpV.js";var r=[`innerHTML`],i={__name:`Html`,props:{field:{type:Object,required:!0}},setup(i){return(a,o)=>(e(),t(`div`,{class:n([`mt-2 text-xs italic!`,i.field?.cssClass]),innerHTML:i.field?.content},null,10,r))}};export{i as default};

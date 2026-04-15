@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"useDefineForClassFields": true,
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"types": ["node", "vite/client"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["wp-content/themes/inertia/resources/Private/js/*"],
+			"~fonts/*": ["wp-content/themes/inertia/resources/Public/Fonts/*"]
+		}
+	},
+	"include": [
+		"config.ts",
+		"vite.config.ts",
+		"wp-content/themes/inertia/resources/Private/js/**/*.ts",
+		"wp-content/themes/inertia/resources/Private/js/**/*.d.ts",
+		"wp-content/themes/inertia/resources/Private/js/**/*.vue"
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"datetimeFormats": {
+		"short": {
+			"year": "numeric",
+			"month": "2-digit",
+			"day": "2-digit"
+		},
+		"long": {
+			"year": "numeric",
+			"month": "short",
+			"day": "numeric",
+			"hour": "numeric",
+			"minute": "numeric"
+		}
+	},
+	"form": {
+		"loading": "Načitava sa...",
+		"success": "Ďakujeme za váš záujem. Náš tím vás bude čoskoro kontaktovať.",
+		"send": "Odoslať"
+	},
+	"menu": {
+		"toggle": "Otvoriť menu",
+		"close": "Zavrieť menu"
+	}
+}

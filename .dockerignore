@@ -1,0 +1,55 @@
+# Used for plain `docker build .`.
+# DDEV does not use this file for the project mount or its generated image build contexts.
+
+# VCS
+.git/
+.gitmodules
+.gitattributes
+
+# Local development tooling
+.ddev/
+.idea/
+.vscode/
+*.code-workspace
+phploy
+
+# OS / editor junk
+.DS_Store
+*~
+
+# Environment and secrets
+.env
+.env.*
+!.env.template
+wp-config-ddev.php
+
+# JavaScript dependencies and local build state
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+coverage/
+*.tsbuildinfo
+hot
+
+# Logs and database dumps
+*.log
+debug.log
+sql/
+*.sql
+*.sql.gz
+
+# WordPress runtime / generated files
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/webp-express/
+wp-content/wp-rocket-config/
+wp-content/updraft/
+wp-content/mcloud-view-cache/
+wp-content/ewww/
+wp-content/w3tc-config/
+wp-content/smush-webp/
+wp-content/debug.log
+wp-content/advanced-cache.php
+db.php

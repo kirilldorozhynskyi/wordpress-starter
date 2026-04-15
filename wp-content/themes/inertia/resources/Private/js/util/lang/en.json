@@ -1,0 +1,25 @@
+{
+	"datetimeFormats": {
+		"short": {
+			"year": "numeric",
+			"month": "2-digit",
+			"day": "2-digit"
+		},
+		"long": {
+			"year": "numeric",
+			"month": "short",
+			"day": "numeric",
+			"hour": "numeric",
+			"minute": "numeric"
+		}
+	},
+	"form": {
+		"loading": "Loading...",
+		"success": "Thank you for your interest. Our team will contact you soon.",
+		"send": "Send"
+	},
+	"menu": {
+		"toggle": "Open menu",
+		"close": "Close menu"
+	}
+}

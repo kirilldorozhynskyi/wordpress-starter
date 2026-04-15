@@ -1,7 +1,7 @@
 name: wordpress-starter
 type: php
 docroot: ''
-php_version: '8.3'
+php_version: '8.5'
 webserver_type: apache-fpm
 router_http_port: '80'
 router_https_port: '443'
@@ -10,8 +10,9 @@ additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
-    version: '10.3'
+    version: '11.8'
 upload_dirs: ['wp-content/uploads']
+mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: '2'
 web_environment: []

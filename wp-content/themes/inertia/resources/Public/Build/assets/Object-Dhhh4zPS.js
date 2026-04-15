@@ -1,0 +1,1 @@
+import{A as e,O as t,g as n,w as r}from"./vendor-i18n-DNxW1JpV.js";var i=[`data-src`],a={__name:`Object`,props:{src:{type:String,required:!0}},setup(a){let o=r(`lazyLoad`);return t(()=>{o?.update()}),(t,r)=>(e(),n(`object`,{lazy:``,type:`image/svg+xml`,"data-src":a.src},null,8,i))}};export{a as default};
