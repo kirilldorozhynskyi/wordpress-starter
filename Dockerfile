@@ -35,14 +35,13 @@ COPY docker/entrypoint.sh /usr/local/bin/container-entrypoint
 
 RUN chmod +x /usr/local/bin/container-entrypoint
 
-RUN test -f /var/www/html/vendor/autoload.php \
-	|| (echo 'vendor/ is missing. Install Composer dependencies before docker build.' >&2 && exit 1)
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN test -f /var/www/html/wp-content/themes/inertia/resources/Public/Build/manifest.json \
-	|| (echo 'Frontend build is missing. Run the local FE build and commit the generated assets before docker build.' >&2 && exit 1)
-
-RUN test -f /var/www/html/wp-content/themes/inertia/resources/Private/.vite/ssr/ssr.mjs \
-	|| (echo 'SSR build is missing. Run the local SSR build and commit the generated ssr.mjs before docker build.' >&2 && exit 1)
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+	&& composer install --no-interaction --no-dev --optimize-autoloader \
+	&& npm install \
+	&& npm run build \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p \
 		/var/www/html/wp-content/uploads \
