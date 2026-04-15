@@ -1,6 +1,6 @@
-FROM node:20-bookworm-slim AS node_runtime
+FROM node:24-bookworm-slim AS node_runtime
 
-FROM php:8.2-apache-bookworm
+FROM php:8.5-apache-bookworm
 
 # Runtime-only image:
 # - frontend assets are built locally and committed to git
