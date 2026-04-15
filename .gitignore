@@ -44,7 +44,6 @@ wp-signup.php
 wp-settings.php
 wp-mail.php
 wp-login.php
-composer.lock
 license.txt
 readme.html
 wp-activate.php

@@ -37,7 +37,7 @@ RUN chmod +x /usr/local/bin/container-entrypoint
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apt-get update && apt-get install -y --no-install-recommends git unzip \
+RUN apt-get update && apt-get install -y --no-install-recommends git unzip rsync \
 	&& git config --global url."https://github.com/".insteadOf git@github.com: \
 	&& rm -rf /var/lib/apt/lists/*
 
