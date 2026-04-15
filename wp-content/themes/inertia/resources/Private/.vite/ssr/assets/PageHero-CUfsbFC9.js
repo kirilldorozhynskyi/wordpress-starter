@@ -107,7 +107,7 @@ var _sfc_main = {
 				}),
 				_: 1
 			}, _parent));
-			_push(`<section class="relative h-[calc(100svh-108px)] overflow-hidden bg-green-400 max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">`);
+			_push(`<section class="relative h-[calc(100svh-108px)] overflow-hidden max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">`);
 			_push((0, server_renderer_exports.ssrRenderComponent)(_component_IdPage, { ce: __props.ce }, null, _parent));
 			if (__props.ce?.image) _push((0, server_renderer_exports.ssrRenderComponent)(_component_Image, {
 				class: "absolute inset-0 block h-full w-full",

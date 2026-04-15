@@ -1,18 +1,12 @@
 <template>
-	<svg
-		class="sprite-icon"
-		:class="iconClasses"
-		:aria-hidden="decorative"
-		:aria-label="ariaLabel"
-		:role="decorative ? undefined : 'img'"
-		focusable="false"
-	>
-		<use :href="iconHref" :xlink:href="iconHref"></use>
+	<svg class="sprite-icon" :class="iconClasses" :aria-hidden="decorative" :aria-label="ariaLabel" :role="decorative ? undefined : 'img'" focusable="false">
+		<use :xlink:href="iconHref"></use>
 	</svg>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 const props = withDefaults(
 	defineProps<{
@@ -26,10 +20,10 @@ const props = withDefaults(
 	}
 )
 
-const spritemapRoute = '/__spritemap'
+const page = usePage()
 
 const symbolId = computed(() => `icon-${props.name}`)
-const iconHref = computed(() => (import.meta.env.DEV ? `#${symbolId.value}` : `${spritemapRoute}#${symbolId.value}`))
+const iconHref = computed(() => `${page.props.sprite ?? ''}#${symbolId.value}`)
 const iconClasses = computed(() => [symbolId.value, props.name])
 const ariaLabel = computed(() => (props.decorative ? undefined : props.label ?? props.name))
 </script>

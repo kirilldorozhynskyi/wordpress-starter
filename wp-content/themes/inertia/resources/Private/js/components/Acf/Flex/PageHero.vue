@@ -3,9 +3,7 @@
 		<link v-if="heroPosterSrc" rel="preload" :href="heroPosterSrc" as="image" />
 	</Head>
 
-	<section
-		class="relative h-[calc(100svh-108px)] overflow-hidden bg-green-400 max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]"
-	>
+	<section class="relative h-[calc(100svh-108px)] overflow-hidden max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">
 		<IdPage :ce="ce" />
 
 		<Image

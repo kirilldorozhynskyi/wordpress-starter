@@ -130,7 +130,7 @@ var _sfc_main = {
 		});
 		return (_ctx, _push, _parent, _attrs) => {
 			if (hasImage.value) {
-				_push(`<picture${(0, server_renderer_exports.ssrRenderAttrs)((0, vue_exports.mergeProps)({ class: "picture bg-green-400" }, _attrs))}>`);
+				_push(`<picture${(0, server_renderer_exports.ssrRenderAttrs)((0, vue_exports.mergeProps)({ class: "picture" }, _attrs))}>`);
 				if (hasResponsiveSources.value) {
 					_push(`<!--[-->`);
 					(0, server_renderer_exports.ssrRenderList)(parsedMedia.value, (size, breakpoint) => {

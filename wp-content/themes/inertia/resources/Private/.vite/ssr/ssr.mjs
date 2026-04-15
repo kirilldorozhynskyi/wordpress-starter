@@ -1128,16 +1128,16 @@ var createI18nConfig = (locale) => ({
 });
 //#endregion
 //#region wp-content/themes/inertia/resources/Private/js/inertia.ts
-var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImageWP-Uc1v8R-g.js"));
+var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImageWP-BXgMMBpx.js"));
 var Button = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Button-CZzc_wkt.js"));
-var SvgIcon = (0, vue_exports.defineAsyncComponent)(() => import("./assets/SvgIcon-CEgDIhk_.js"));
+var SvgIcon = (0, vue_exports.defineAsyncComponent)(() => import("./assets/SvgIcon-BrvMjEY0.js"));
 var SvgObject = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Object-C-B1w7uB.js"));
 var IdPage = (0, vue_exports.defineAsyncComponent)(() => import("./assets/IdPage-D1Petkq8.js"));
 var primeVueCriticalLayouts = /* @__PURE__ */ new Set([]);
 var clientPages = /* @__PURE__ */ Object.assign({
 	"./pages/Archive.vue": () => import("./assets/Archive-3X_VSlaQ.js"),
 	"./pages/Error.vue": () => import("./assets/Error-BJ8VHZrL.js"),
-	"./pages/Home.vue": () => import("./assets/Home-BS-O-LxG.js"),
+	"./pages/Home.vue": () => import("./assets/Home-9Z2E0_NO.js"),
 	"./pages/Post.vue": () => import("./assets/Post-BMZhY-fj.js")
 });
 var createNoopLazyLoad = () => ({

@@ -1,5 +1,5 @@
 <template>
-	<picture v-if="hasImage" class="picture bg-green-400">
+	<picture v-if="hasImage" class="picture">
 		<template v-if="hasResponsiveSources">
 			<template v-for="(size, breakpoint) in parsedMedia" :key="breakpoint">
 				<source :media="`(max-width: ${breakpoint}px)`" :srcset="getSrcset(size.size, size.size_retina)" />

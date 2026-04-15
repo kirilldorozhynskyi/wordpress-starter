@@ -1,7 +1,7 @@
 import { t as vue_exports } from "./vue-Cqm1d2TX.js";
+import { i as usePage } from "./dist-C9WztoGj.js";
 import { t as server_renderer_exports } from "./server-renderer-BcpEk759.js";
 //#region wp-content/themes/inertia/resources/Private/js/components/Utils/SvgIcon.vue?vue&type=script&setup=true&lang.ts
-var spritemapRoute = "/__spritemap";
 var SvgIcon_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ (0, vue_exports.defineComponent)({
 	__name: "SvgIcon",
 	__ssrInlineRender: true,
@@ -15,8 +15,9 @@ var SvgIcon_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ (0, vu
 	},
 	setup(__props) {
 		const props = __props;
+		const page = usePage();
 		const symbolId = (0, vue_exports.computed)(() => `icon-${props.name}`);
-		const iconHref = (0, vue_exports.computed)(() => `${spritemapRoute}#${symbolId.value}`);
+		const iconHref = (0, vue_exports.computed)(() => `${page.props.sprite ?? ""}#${symbolId.value}`);
 		const iconClasses = (0, vue_exports.computed)(() => [symbolId.value, props.name]);
 		const ariaLabel = (0, vue_exports.computed)(() => props.decorative ? void 0 : props.label ?? props.name);
 		return (_ctx, _push, _parent, _attrs) => {
@@ -26,7 +27,7 @@ var SvgIcon_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ (0, vu
 				"aria-label": ariaLabel.value,
 				role: __props.decorative ? void 0 : "img",
 				focusable: "false"
-			}, _attrs))}><use${(0, server_renderer_exports.ssrRenderAttr)("href", iconHref.value)}${(0, server_renderer_exports.ssrRenderAttr)("xlink:href", iconHref.value)}></use></svg>`);
+			}, _attrs))}><use${(0, server_renderer_exports.ssrRenderAttr)("xlink:href", iconHref.value)}></use></svg>`);
 		};
 	}
 });

@@ -27,35 +27,39 @@ class Vite
 		$this->manifestPath = Path::join($namespacePath, 'build', 'manifest.json');
 		$this->buildUrl = trailingslashit($uploads['baseurl'] . '/scw-vite-hmr/' . $this->entryNamespace . '/build');
 
-			add_action('wp_head', [$this, 'preloadFontAssets'], 1);
-			add_action('after_setup_theme', [$this, 'loadSprite']);
-		}
+		add_action('wp_head', [$this, 'preloadFontAssets'], 1);
+		add_action('after_setup_theme', [$this, 'loadSprite']);
+	}
 
-		public function loadSprite(): void
-		{
-			if ($this->isDevServer()) {
-				$devUrl = $this->getDevServerUrl();
-				if (empty($devUrl)) {
-					return;
-				}
+	public function loadSprite(): void
+	{
+		if ($this->isDevServer()) {
+			$devUrl = $this->getDevServerUrl();
+			if (empty($devUrl)) {
+				return;
+			}
 
-				add_action('wp_enqueue_scripts', function () use ($devUrl) {
+			add_action(
+				'wp_enqueue_scripts',
+				function () use ($devUrl) {
 					$handle = 'vite_sprite_dev';
 					wp_enqueue_script($handle, rtrim($devUrl, '/') . '/@vite-plugin-svg-spritemap/client__spritemap', [], null, true);
 					wp_script_add_data($handle, 'type', 'module');
-				}, 100);
+				},
+				100,
+			);
 
-				Inertia::share('sprite', '');
-				return;
-			}
-
-			$this->ensureManifestLoaded();
-			if (!$this->manifest || empty($this->manifest['spritemap.svg']['file'])) {
-				return;
-			}
-
-			Inertia::share('sprite', $this->buildUrl . $this->manifest['spritemap.svg']['file']);
+			Inertia::share('sprite', '');
+			return;
 		}
+
+		$this->ensureManifestLoaded();
+		if (!$this->manifest || empty($this->manifest['spritemap.svg']['file'])) {
+			return;
+		}
+
+		Inertia::share('sprite', $this->buildUrl . $this->manifest['spritemap.svg']['file']);
+	}
 
 	public function preloadFontAssets(): void
 	{
