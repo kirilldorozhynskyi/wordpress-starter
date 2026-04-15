@@ -37,10 +37,13 @@ RUN chmod +x /usr/local/bin/container-entrypoint
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client \
+RUN apt-get update && apt-get install -y --no-install-recommends git unzip \
 	&& git config --global url."https://github.com/".insteadOf git@github.com: \
-	&& composer install --no-interaction --no-dev --optimize-autoloader \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN --mount=type=secret,id=composer_auth \
+	COMPOSER_AUTH="$(cat /run/secrets/composer_auth)" \
+	composer install --no-interaction --no-dev --optimize-autoloader
 
 RUN test -f /var/www/html/wp-content/themes/inertia/resources/Public/Build/manifest.json \
 	|| (echo 'Frontend build is missing. Run the local FE build and commit the generated assets before docker build.' >&2 && exit 1)
