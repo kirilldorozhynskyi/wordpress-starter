@@ -9,38 +9,24 @@ FROM php:8.5-apache-bookworm
 
 COPY --from=node_runtime /usr/local/ /usr/local/
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		bash \
-		libfreetype6-dev \
-		libicu-dev \
-		libjpeg62-turbo-dev \
-		libpng-dev \
-		libwebp-dev \
-		libzip-dev \
-		unzip \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-	&& docker-php-ext-install -j"$(nproc)" \
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions \
+	&& install-php-extensions \
 		exif \
 		gd \
 		intl \
 		mysqli \
 		opcache \
 		zip \
+	&& apt-get update && apt-get install -y --no-install-recommends bash unzip \
 	&& a2enmod expires headers rewrite \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN { \
-		echo 'memory_limit=256M'; \
-		echo 'upload_max_filesize=64M'; \
-		echo 'post_max_size=64M'; \
-		echo 'max_execution_time=120'; \
-		echo 'opcache.enable=1'; \
-		echo 'opcache.enable_cli=1'; \
-		echo 'opcache.validate_timestamps=0'; \
-		echo 'opcache.memory_consumption=192'; \
-		echo 'opcache.max_accelerated_files=20000'; \
-	} > /usr/local/etc/php/conf.d/runtime.ini
+COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
+COPY docker/apache/override.conf /etc/apache2/conf-available/override.conf
+
+RUN a2enconf override
 
 WORKDIR /var/www/html
 
