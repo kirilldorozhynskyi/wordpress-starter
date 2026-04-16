@@ -107,7 +107,7 @@ var _sfc_main = {
 				}),
 				_: 1
 			}, _parent));
-			_push(`<section class="relative h-[calc(100svh-108px)] overflow-hidden max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">`);
+			_push(` dssd <section class="relative h-[calc(100svh-108px)] overflow-hidden max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">`);
 			_push((0, server_renderer_exports.ssrRenderComponent)(_component_IdPage, { ce: __props.ce }, null, _parent));
 			if (__props.ce?.image) _push((0, server_renderer_exports.ssrRenderComponent)(_component_Image, {
 				class: "absolute inset-0 block h-full w-full",
@@ -116,19 +116,15 @@ var _sfc_main = {
 				width: heroImageWidth.value,
 				height: heroImageHeight.value,
 				"img-class": "object-cover object-center w-full h-full",
-				size: "full",
 				lazy: false,
 				loading: "eager",
 				"fetch-priority": "high",
-				decoding: "async"
+				decoding: "async",
+				"resize-type": "fill",
+				"transform-width": 1600,
+				"transform-height": 920
 			}, null, _parent));
 			else _push(`<!---->`);
-			if (shouldLoadVideo.value) {
-				_push(`<video class="absolute inset-0 h-full w-full object-cover" muted${(0, server_renderer_exports.ssrIncludeBooleanAttr)(shouldLoadVideo.value) ? " autoplay" : ""} loop playsinline preload="none"${(0, server_renderer_exports.ssrRenderAttr)("poster", heroPosterSrc.value)} aria-hidden="true">`);
-				if (shouldLoadVideo.value) _push(`<source type="video/mp4"${(0, server_renderer_exports.ssrRenderAttr)("src", __props.ce.video)}>`);
-				else _push(`<!---->`);
-				_push(`</video>`);
-			} else _push(`<!---->`);
 			_push(`<div class="absolute inset-0 bg-linear-to-b from-black/40 to-transparent"><div class="container h-full items-center justify-center gap-6 text-white max-xl:max-w-full max-xl:px-4">`);
 			if (__props.ce.text) _push(`<h1 class="title-1 text-center font-thin uppercase">${__props.ce.text ?? ""}</h1>`);
 			else _push(`<!---->`);

@@ -22,7 +22,7 @@ const props = defineProps({
 
 const publishedDate = computed(() => {
 	const d = new Date(props.post.createdAt)
-	return d.toLocaleString(undefined, {
+	return d.toLocaleString('en-US', {
 		dateStyle: 'long',
 		timeStyle: 'medium'
 	})

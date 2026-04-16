@@ -54,12 +54,12 @@ class Base
 	public function addImageSizes()
 	{
 		$sizes = [
-			[
-				'2x' => true,
-				'name' => 'post',
-				'size' => 800,
-				'sizeH' => 800,
-			],
+			// [
+			// 	'2x' => true,
+			// 	'name' => 'post',
+			// 	'size' => 800,
+			// 	'sizeH' => 800,
+			// ],
 			// [
 			// 	'2x' => false,
 			// 	'name' => 'full',
@@ -72,14 +72,14 @@ class Base
 			// 	'size' => 2560,
 			// 	'sizeH' => 2560,
 			// ],
-			[
-				// real full — не трогаем, не ресайзим
-				'2x' => false,
-				'name' => 'full', // WP original
-				'size' => null, // no size
-				'sizeH' => null,
-				'skip' => true, // флаг пропуска
-			],
+			// [
+			// 	// real full — не трогаем, не ресайзим
+			// 	'2x' => false,
+			// 	'name' => 'full', // WP original
+			// 	'size' => null, // no size
+			// 	'sizeH' => null,
+			// 	'skip' => true, // флаг пропуска
+			// ],
 		];
 
 		foreach ($sizes as $size) {
@@ -132,7 +132,7 @@ class Base
 		}
 
 		wp_safe_redirect(admin_url());
-		exit;
+		exit();
 	}
 
 	public function modifyCustomizer($customizer): void
@@ -142,7 +142,7 @@ class Base
 
 	public function deleteImageSizes(array $sizes): array
 	{
-		return array_diff($sizes, ['medium_large', '1536x1536']);
+		return array_diff($sizes, ['medium_large', '1536x1536', '2048x2048']);
 	}
 
 	/**

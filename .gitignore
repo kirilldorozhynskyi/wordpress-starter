@@ -58,3 +58,4 @@ wp-admin
 /index.php
 
 wordpress-muster.code-workspace
+wp-content/mcloud-view-cache/

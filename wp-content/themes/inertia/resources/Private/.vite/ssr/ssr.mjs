@@ -1128,17 +1128,17 @@ var createI18nConfig = (locale) => ({
 });
 //#endregion
 //#region wp-content/themes/inertia/resources/Private/js/inertia.ts
-var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImageWP-BXgMMBpx.js"));
-var Button = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Button-CZzc_wkt.js"));
 var SvgIcon = (0, vue_exports.defineAsyncComponent)(() => import("./assets/SvgIcon-BrvMjEY0.js"));
-var SvgObject = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Object-C-B1w7uB.js"));
-var IdPage = (0, vue_exports.defineAsyncComponent)(() => import("./assets/IdPage-D1Petkq8.js"));
+var SvgObject = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Object-3da0eoPy.js"));
+var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImgCdn-DNy7zlgX.js"));
+var Button = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Button-B3W3lsYN.js"));
+var IdPage = (0, vue_exports.defineAsyncComponent)(() => import("./assets/IdPage-CNFBzf2g.js"));
 var primeVueCriticalLayouts = /* @__PURE__ */ new Set([]);
 var clientPages = /* @__PURE__ */ Object.assign({
-	"./pages/Archive.vue": () => import("./assets/Archive-3X_VSlaQ.js"),
+	"./pages/Archive.vue": () => import("./assets/Archive-iWGav4uA.js"),
 	"./pages/Error.vue": () => import("./assets/Error-BJ8VHZrL.js"),
-	"./pages/Home.vue": () => import("./assets/Home-9Z2E0_NO.js"),
-	"./pages/Post.vue": () => import("./assets/Post-BMZhY-fj.js")
+	"./pages/Home.vue": () => import("./assets/Home-CNYgfWA-.js"),
+	"./pages/Post.vue": () => import("./assets/Post-CeFHaJaj.js")
 });
 var createNoopLazyLoad = () => ({
 	update() {},
@@ -1169,7 +1169,9 @@ var installPrimeVueSSR = (app) => {
 //#region wp-content/themes/inertia/resources/Private/js/ssr.ts
 server_default((page) => createInertiaApp({
 	page,
-	render: import_server_renderer_cjs_prod.renderToString,
+	render: async (App) => {
+		return (await (0, import_server_renderer_cjs_prod.renderToString)(App)).trim();
+	},
 	resolve: resolvePage,
 	setup({ App, props, plugin }) {
 		const vueApp = createInertiaVueApp({

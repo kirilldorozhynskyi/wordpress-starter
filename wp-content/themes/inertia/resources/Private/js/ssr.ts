@@ -7,7 +7,10 @@ import { installPrimeVueSSR } from './util/primevue-ssr'
 createServer((page) =>
 	createInertiaApp({
 		page,
-		render: renderToString,
+		render: async (App) => {
+			const html = await renderToString(App)
+			return html.trim()
+		},
 		resolve: resolvePage,
 		setup({ App, props, plugin }) {
 			const vueApp = createInertiaVueApp({

@@ -14,6 +14,23 @@
 			:width="heroImageWidth"
 			:height="heroImageHeight"
 			:img-class="'object-cover object-center w-full h-full'"
+			:lazy="false"
+			loading="eager"
+			fetch-priority="high"
+			decoding="async"
+			resize-type="fill"
+			:transform-width="1600"
+			:transform-height="920"
+		/>
+
+		<!-- <Image
+			v-if="ce?.image"
+			class="absolute inset-0 block h-full w-full"
+			:image="ce.image"
+			:alt="ce?.image?.alt"
+			:width="heroImageWidth"
+			:height="heroImageHeight"
+			:img-class="'object-cover object-center w-full h-full'"
 			size="full"
 			:lazy="false"
 			loading="eager"
@@ -34,8 +51,8 @@
 			aria-hidden="true"
 		>
 			<source v-if="shouldLoadVideo" type="video/mp4" :src="ce.video" />
-		</video>
-
+		</video> -->
+		sdfdsf
 		<div class="absolute inset-0 bg-linear-to-b from-black/40 to-transparent">
 			<div class="container h-full items-center justify-center gap-6 text-white max-xl:max-w-full max-xl:px-4">
 				<h1 v-if="ce.text" v-html="ce.text" class="title-1 text-center font-thin uppercase" />
@@ -48,6 +65,17 @@
 			</div>
 		</div>
 	</section>
+
+	<Image
+		v-if="ce?.image"
+		:image="ce.image"
+		:alt="ce?.image?.alt"
+		:width="heroImageWidth"
+		:height="heroImageHeight"
+		resize-type="fill"
+		:transform-width="heroImageWidth"
+		:transform-height="heroImageHeight"
+	/>
 </template>
 
 <script setup>

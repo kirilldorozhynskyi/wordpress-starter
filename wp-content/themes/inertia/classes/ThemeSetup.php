@@ -40,6 +40,7 @@ class ThemeSetup
 		new Favicon();
 		new InertiaShare();
 		new News();
+		new Vite();
 
 		if (class_exists('GFAPI')) {
 			new GravityForm();

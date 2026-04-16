@@ -4,10 +4,16 @@ import { t as server_renderer_exports } from "./server-renderer-BcpEk759.js";
 var _sfc_main = {
 	__name: "Object",
 	__ssrInlineRender: true,
-	props: { src: {
-		type: String,
-		required: true
-	} },
+	props: {
+		src: {
+			type: String,
+			required: true
+		},
+		alt: {
+			type: String,
+			default: ""
+		}
+	},
 	setup(__props) {
 		const lazyLoad = (0, vue_exports.inject)("lazyLoad");
 		(0, vue_exports.onMounted)(() => {
@@ -17,7 +23,8 @@ var _sfc_main = {
 			_push(`<object${(0, server_renderer_exports.ssrRenderAttrs)((0, vue_exports.mergeProps)({
 				lazy: "",
 				type: "image/svg+xml",
-				"data-src": __props.src
+				"data-src": __props.src,
+				"aria-label": __props.alt
 			}, _attrs))}></object>`);
 		};
 	}

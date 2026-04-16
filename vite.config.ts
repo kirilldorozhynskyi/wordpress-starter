@@ -1,3 +1,4 @@
+import path from 'node:path'
 import { existsSync, mkdirSync, readdirSync } from 'node:fs'
 import type { PluginOption } from 'vite'
 import { defineConfig } from 'vite'
@@ -73,16 +74,16 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 	const plugins: PluginOption[] = [
 		!isSsrBuild
 			? {
-			name: 'inertia-theme-full-reload',
-			handleHotUpdate({ file, server }) {
-				if (/\.(php|json|twig)$/.test(file)) {
-					server.ws.send({
-						type: 'full-reload',
-						path: '*',
-					})
+					name: 'inertia-theme-full-reload',
+					handleHotUpdate({ file, server }) {
+						if (/\.(php|json|twig)$/.test(file)) {
+							server.ws.send({
+								type: 'full-reload',
+								path: '*',
+							})
+						}
+					},
 				}
-			},
-		}
 			: null,
 		!isSsrBuild ? tailwindcss() : null,
 		!isSsrBuild ? mkcert() : null,
@@ -103,7 +104,7 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 			publicDirectory: config.wordpress.publicDirectory,
 			buildDirectory: config.wordpress.buildDirectory,
 			ssrOutputDirectory: config.wordpress.ssrOutputDirectory,
-			hotFile: config.paths.themeHotFile,
+			hotFile: path.resolve(config.paths.projectRoot, 'hot'),
 			splitVendor: false,
 		}),
 	]

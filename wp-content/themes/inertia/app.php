@@ -17,8 +17,10 @@ $seo = $globals->getSeoData();
     <?php inertia_head(); ?>
 </head>
 
-<body>
-    <?php inertia_body(); ?>
-</body>
+<body><?php
+	ob_start();
+	inertia_body();
+	echo trim(ob_get_clean());
+?></body>
 
 </html>

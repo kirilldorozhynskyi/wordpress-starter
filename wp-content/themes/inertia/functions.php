@@ -28,3 +28,14 @@ new RestApi([
 register_nav_menus([
 	'header-menu' => __('Header Menu'),
 ]);
+
+/**
+ * Temporarily disable Inertia SSR during development mode to prevent stale content.
+ */
+add_filter('pre_option_inertia_ssr_enabled', function($value) {
+    $vite = new \InertiaTheme\Vite();
+    if ($vite->isHot()) {
+        return '0';
+    }
+    return $value;
+});

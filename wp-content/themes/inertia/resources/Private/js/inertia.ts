@@ -8,10 +8,15 @@ import Layout from '@/layouts/Layout.vue'
 import { registerPrimeVueApp } from '@/util/primevue'
 import { createI18nConfig } from '@/util/i18n'
 
-const Image = defineAsyncComponent(() => import('@/Components/Utils/ImageWP.vue'))
-const Button = defineAsyncComponent(() => import('@/components/Utils/Button.vue'))
+// Eagerly imported — used inside Layout (Footer + Header), must match SSR output exactly
+// import SvgIcon from '@/components/Utils/SvgIcon.vue'
+// import SvgObject from '@/components/Utils/Object.vue'
+
+// Async — not in the critical SSR layout path
 const SvgIcon = defineAsyncComponent(() => import('@/components/Utils/SvgIcon.vue'))
 const SvgObject = defineAsyncComponent(() => import('@/components/Utils/Object.vue'))
+const Image = defineAsyncComponent(() => import('@/components/Utils/ImgCdn.vue'))
+const Button = defineAsyncComponent(() => import('@/components/Utils/Button.vue'))
 const IdPage = defineAsyncComponent(() => import('@/components/Utils/IdPage.vue'))
 
 const primeVueCriticalLayouts = new Set<string>([])

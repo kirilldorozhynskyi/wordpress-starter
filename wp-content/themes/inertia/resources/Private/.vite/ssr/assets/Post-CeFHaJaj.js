@@ -12,7 +12,7 @@ var _sfc_main = {
 	setup(__props) {
 		const props = __props;
 		const publishedDate = (0, vue_exports.computed)(() => {
-			return new Date(props.post.createdAt).toLocaleString(void 0, {
+			return new Date(props.post.createdAt).toLocaleString("en-US", {
 				dateStyle: "long",
 				timeStyle: "medium"
 			});

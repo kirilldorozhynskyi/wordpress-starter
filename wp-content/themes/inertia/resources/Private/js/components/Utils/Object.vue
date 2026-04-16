@@ -1,5 +1,5 @@
 <template>
-	<object lazy type="image/svg+xml" :data-src="src"></object>
+	<object lazy type="image/svg+xml" :data-src="src" :aria-label="alt"></object>
 </template>
 
 <script setup>
@@ -9,6 +9,10 @@ defineProps({
 	src: {
 		type: String,
 		required: true
+	},
+	alt: {
+		type: String,
+		default: ''
 	}
 })
 
