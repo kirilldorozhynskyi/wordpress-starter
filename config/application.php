@@ -31,6 +31,9 @@ $webroot_dir = $root_dir;
  */
 
 $env_path = null;
+$has_env_value = static function (string $key): bool {
+	return getenv($key) !== false || isset($_ENV[$key]) || isset($_SERVER[$key]);
+};
 
 if (file_exists($root_dir . '/.env')) {
 	$env_path = $root_dir . '/.env';
@@ -41,7 +44,7 @@ if (file_exists($root_dir . '/.env')) {
 if ($env_path) {
 	$dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname($env_path));
 	$dotenv->load();
-} else {
+} elseif (!$has_env_value('DATABASE_URL') && !$has_env_value('DB_NAME')) {
 	throw new Exception('.env is missing or contains an error. Please check it.');
 }
 
