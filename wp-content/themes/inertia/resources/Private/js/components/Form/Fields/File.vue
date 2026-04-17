@@ -7,7 +7,7 @@
 
 			<span class="invalid-feedback" v-html="error"></span>
 
-			<button v-if="file" @click="removeFile" class="btn-remove btn p-1 text-danger mt-2">
+			<button v-if="file" type="button" @click="removeFile" class="btn-remove btn p-1 text-danger mt-2">
 				<!-- <svgicon :name="`trash`"></svgicon> -->
 			</button>
 		</div>
@@ -18,16 +18,18 @@
 import { ref } from 'vue'
 // import Svgicon from '../SvgIcon.vue'
 
-const props = defineProps({
+defineProps({
 	modelValue: {
 		required: true
 	},
 	field: {
-		type: Object
+		type: Object,
+		default: null,
 	},
 	error: {
-		type: String
-	}
+		type: String,
+		default: '',
+	},
 })
 
 const file = ref(null)
@@ -36,7 +38,8 @@ const fileInput = ref(null)
 const emit = defineEmits(['update:modelValue'])
 
 const handleFileUpload = (event) => {
-	file.value = event.target.files[0]
+	const [uploadedFile] = event.target.files || []
+	file.value = uploadedFile
 	emit('update:modelValue', file.value)
 }
 

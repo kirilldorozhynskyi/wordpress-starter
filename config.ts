@@ -14,7 +14,7 @@ const themeFaviconSource = path.resolve(themeFaviconsRoot, 'favicon.svg')
 const themeIconsRoot = path.resolve(themeSourceRoot, 'Icons')
 const themeIconsGlob = path.resolve(themeIconsRoot, '*.svg')
 const themeViteRoot = path.resolve(themeSourceRoot, '.vite')
-const themeHotFile = path.resolve(themeViteRoot, 'hot')
+const hotFile = path.resolve(projectRoot, 'hot')
 
 const config = {
 	base: {
@@ -40,7 +40,7 @@ const config = {
 		themeIconsRoot,
 		themeIconsGlob,
 		themeViteRoot,
-		themeHotFile,
+		hotFile,
 	},
 	directoriesToEnsure: [themeBuildRoot, themeFontsRoot, themeExtRoot, themeFaviconsRoot, themeIconsRoot, themeViteRoot],
 	svgSpritemap: {

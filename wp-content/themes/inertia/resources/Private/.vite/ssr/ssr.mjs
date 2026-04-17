@@ -1,11 +1,11 @@
-import { t as vue_exports } from "./assets/vue-Cqm1d2TX.js";
-import { a as router, i as usePage, n as head_default, r as link_default, t as createInertiaApp } from "./assets/dist-C9WztoGj.js";
-import { n as require_server_renderer_cjs_prod, t as server_renderer_exports } from "./assets/server-renderer-BcpEk759.js";
-import { t as createI18n } from "./assets/vue-i18n-6XnVerM2.js";
-import { n as registerPrimeVueApp, r as createPrimeVueOptions } from "./assets/primevue-CXR9t6jb.js";
+import { t as vue_exports } from "./assets/vue-CfOZE8S3.js";
+import { a as router, i as usePage, n as head_default, r as link_default, t as createInertiaApp } from "./assets/dist-B14quqIa.js";
+import { n as require_server_renderer_cjs_prod, t as server_renderer_exports } from "./assets/server-renderer-B656EAix.js";
+import { t as createI18n } from "./assets/vue-i18n-l17rBdCV.js";
+import { n as registerPrimeVueApp, r as createPrimeVueOptions } from "./assets/primevue-Dt6iK25i.js";
 import { O as ke } from "./assets/dist-D3DM3lbw.js";
-import { t as PrimeVue } from "./assets/config-D4ZX77Yd.js";
-import { t as Qr } from "./assets/aura-DktPOngt.js";
+import { t as PrimeVue } from "./assets/config-DeKIBoyr.js";
+import { t as Qr } from "./assets/aura-Ddunjmq5.js";
 import { createServer } from "http";
 import cluster from "node:cluster";
 import { existsSync, readFileSync } from "node:fs";
@@ -821,18 +821,27 @@ var _sfc_main$2 = {
 	__name: "HeaderNav",
 	__ssrInlineRender: true,
 	props: {
-		menu: Object,
-		header: Object,
-		isStickyLick: Boolean
+		menu: {
+			type: Object,
+			default: null
+		},
+		header: {
+			type: Object,
+			default: null
+		},
+		isStickyLick: {
+			type: Boolean,
+			default: false
+		}
 	},
 	emits: ["update:menuOpened"],
 	setup(__props, { emit: __emit }) {
-		usePage();
 		const emit = __emit;
 		const menuOpened = (0, vue_exports.ref)(false);
 		const setScrollLock = (locked) => {
 			const lenis = typeof window !== "undefined" ? window.lenis : null;
-			if (lenis && typeof lenis.stop === "function" && typeof lenis.start === "function") locked ? lenis.stop() : lenis.start();
+			if (lenis && typeof lenis.stop === "function" && typeof lenis.start === "function") if (locked) lenis.stop();
+			else lenis.start();
 		};
 		const closeMenu = () => {
 			menuOpened.value = false;
@@ -842,9 +851,14 @@ var _sfc_main$2 = {
 		return (_ctx, _push, _parent, _attrs) => {
 			const _component_Button = (0, vue_exports.resolveComponent)("Button");
 			_push(`<div${(0, server_renderer_exports.ssrRenderAttrs)((0, vue_exports.mergeProps)({ class: "" }, _attrs))}>`);
-			if (menuOpened.value) _push(`<div class="fixed top-0 left-0 h-screen w-screen"></div>`);
+			if (menuOpened.value) _push(`<button type="button" class="fixed top-0 left-0 h-screen w-screen"${(0, server_renderer_exports.ssrRenderAttr)("aria-label", _ctx.$t("menu.close"))}></button>`);
 			else _push(`<!---->`);
-			_push(`<div class="${(0, server_renderer_exports.ssrRenderClass)([menuOpened.value ? "max-lg:translate-x-0" : "max-lg:translate-x-full", "transition-all duration-700 ease-in-out max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-screen max-lg:w-full max-lg:overflow-y-auto max-lg:bg-white max-lg:pt-24"])}"><div class="${(0, server_renderer_exports.ssrRenderClass)([menuOpened.value ? "text-primary" : "text-light", "max-lg:container max-lg:py-16"])}"><div class="flex items-start gap-10 max-lg:flex-wrap xl:gap-24">`);
+			_push(`<div class="${(0, server_renderer_exports.ssrRenderClass)([
+				"transition-all duration-700 ease-in-out",
+				"max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-screen max-lg:w-full max-lg:overflow-y-auto",
+				"max-lg:bg-white max-lg:pt-24",
+				menuOpened.value ? "max-lg:translate-x-0" : "max-lg:translate-x-full"
+			])}"><div class="${(0, server_renderer_exports.ssrRenderClass)([menuOpened.value ? "text-primary" : "text-light", "max-lg:container max-lg:py-16"])}"><div class="flex items-start gap-10 max-lg:flex-wrap xl:gap-24">`);
 			if (__props.menu?.items) {
 				_push(`<ul class="flex items-start gap-8 max-lg:flex-col"><!--[-->`);
 				(0, server_renderer_exports.ssrRenderList)(__props.menu.items, (item) => {
@@ -882,8 +896,14 @@ var _sfc_main$1 = {
 			type: String,
 			default: ""
 		},
-		menu: Object,
-		options: Object
+		menu: {
+			type: Object,
+			default: null
+		},
+		options: {
+			type: Object,
+			default: null
+		}
 	},
 	setup(__props) {
 		const headerEl = (0, vue_exports.ref)(null);
@@ -930,25 +950,24 @@ var _sfc_main$1 = {
 			}, _attrs))}><div class="${(0, server_renderer_exports.ssrRenderClass)({ "transit bg-primary": isStickyLick.value })}"><div class="relative z-20 container"><div class="${(0, server_renderer_exports.ssrRenderClass)([isStickyLick.value || menuOpened.value ? "text-green-400" : "text-light lg:py-6", "flex items-center justify-between py-4"])}">`);
 			_push((0, server_renderer_exports.ssrRenderComponent)(_component_Link, {
 				href: __props.homeUrl,
-				"aria-label": __props.siteName,
 				class: "relative z-20 inline-block w-fit",
 				prefetch: ""
 			}, {
 				default: (0, vue_exports.withCtx)((_, _push, _parent, _scopeId) => {
-					if (_push) _push((0, server_renderer_exports.ssrRenderComponent)(_component_SvgObject, {
+					if (_push) {
+						_push(`<span class="sr-only"${_scopeId}>${(0, server_renderer_exports.ssrInterpolate)(__props.siteName)}</span>`);
+						_push((0, server_renderer_exports.ssrRenderComponent)(_component_SvgObject, {
+							class: "h-auto max-md:w-29",
+							width: "135",
+							height: "56",
+							src: `${_ctx.$page.props.theme.uri}/resources/Public/Images/logo.svg`
+						}, null, _parent, _scopeId));
+					} else return [(0, vue_exports.createVNode)("span", { class: "sr-only" }, (0, vue_exports.toDisplayString)(__props.siteName), 1), (0, vue_exports.createVNode)(_component_SvgObject, {
 						class: "h-auto max-md:w-29",
 						width: "135",
 						height: "56",
-						"aria-label": __props.siteName,
 						src: `${_ctx.$page.props.theme.uri}/resources/Public/Images/logo.svg`
-					}, null, _parent, _scopeId));
-					else return [(0, vue_exports.createVNode)(_component_SvgObject, {
-						class: "h-auto max-md:w-29",
-						width: "135",
-						height: "56",
-						"aria-label": __props.siteName,
-						src: `${_ctx.$page.props.theme.uri}/resources/Public/Images/logo.svg`
-					}, null, 8, ["aria-label", "src"])];
+					}, null, 8, ["src"])];
 				}),
 				_: 1
 			}, _parent));
@@ -1128,17 +1147,17 @@ var createI18nConfig = (locale) => ({
 });
 //#endregion
 //#region wp-content/themes/inertia/resources/Private/js/inertia.ts
-var SvgIcon = (0, vue_exports.defineAsyncComponent)(() => import("./assets/SvgIcon-BrvMjEY0.js"));
-var SvgObject = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Object-3da0eoPy.js"));
-var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImgCdn-DNy7zlgX.js"));
-var Button = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Button-B3W3lsYN.js"));
-var IdPage = (0, vue_exports.defineAsyncComponent)(() => import("./assets/IdPage-CNFBzf2g.js"));
+var SvgIcon = (0, vue_exports.defineAsyncComponent)(() => import("./assets/SvgIcon-BlRRH78k.js"));
+var SvgObject = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Object-CMYHKkba.js"));
+var Image = (0, vue_exports.defineAsyncComponent)(() => import("./assets/ImgCdn-_jcAcMep.js"));
+var Button = (0, vue_exports.defineAsyncComponent)(() => import("./assets/Button-9N45LT9s.js"));
+var IdPage = (0, vue_exports.defineAsyncComponent)(() => import("./assets/IdPage-DCqde09M.js"));
 var primeVueCriticalLayouts = /* @__PURE__ */ new Set([]);
 var clientPages = /* @__PURE__ */ Object.assign({
-	"./pages/Archive.vue": () => import("./assets/Archive-iWGav4uA.js"),
-	"./pages/Error.vue": () => import("./assets/Error-BJ8VHZrL.js"),
-	"./pages/Home.vue": () => import("./assets/Home-CNYgfWA-.js"),
-	"./pages/Post.vue": () => import("./assets/Post-CeFHaJaj.js")
+	"./pages/Archive.vue": () => import("./assets/Archive-NyTD92WU.js"),
+	"./pages/Error.vue": () => import("./assets/Error-C6tIoM-B.js"),
+	"./pages/Home.vue": () => import("./assets/Home-ud5lKBtS.js"),
+	"./pages/Post.vue": () => import("./assets/Post-CxhDP7I5.js")
 });
 var createNoopLazyLoad = () => ({
 	update() {},
@@ -1159,10 +1178,11 @@ var createInertiaVueApp = ({ App, props, plugin, page, lazyLoad, hydrate = false
 //#endregion
 //#region wp-content/themes/inertia/resources/Private/js/util/primevue-ssr.ts
 var installedApps = /* @__PURE__ */ new WeakSet();
+var emptyTooltip = {};
 var installPrimeVueSSR = (app) => {
 	if (!app || installedApps.has(app)) return;
 	app.use(PrimeVue, createPrimeVueOptions(ke, Qr));
-	app.directive("tooltip", {});
+	app.directive("tooltip", emptyTooltip);
 	installedApps.add(app);
 };
 //#endregion
@@ -1185,6 +1205,6 @@ server_default((page) => createInertiaApp({
 		if (needsPrimeVueOnFirstRender(page)) installPrimeVueSSR(vueApp);
 		return vueApp;
 	}
-}));
+}), { port: Number(process.env.PORT || 13714) });
 //#endregion
 export {};

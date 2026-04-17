@@ -19,6 +19,7 @@
 
 <script setup>
 import { ref, watch, defineAsyncComponent } from 'vue'
+
 const Checkbox = defineAsyncComponent(() => import('primevue/checkbox'))
 const Message = defineAsyncComponent(() => import('primevue/message'))
 
@@ -32,8 +33,8 @@ const props = defineProps({
 	},
 	error: {
 		type: [String, Boolean],
-		default: false
-	}
+		default: false,
+	},
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -46,7 +47,7 @@ watch(
 	() => props.modelValue,
 	(newValue) => {
 		localValue.value = normalizeConsentValue(newValue)
-	}
+	},
 )
 
 watch(localValue, (newValue) => {

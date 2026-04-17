@@ -60,19 +60,7 @@ class Vite
 	public function loadBodyThemeAssets(): void
 	{
 		if ($this->isHot()) {
-			$url = trim(file_get_contents($this->getHotFilePath()));
-
-			$app = $url . '/' . self::MAIN_ENTRY;
-			$client = $url . '/@vite/client';
-			$spritemap = $url . '/@vite-plugin-svg-spritemap/client';
-			$version = time();
-
-			// Deactivate the plugin's default script during Dev to avoid conflicts
-			wp_dequeue_script('theme-inertia-js');
-
-			wp_enqueue_script('vite_client', $client, [], null, false);
-			wp_enqueue_script('app_theme_sprite', $spritemap, [], null, false);
-			wp_enqueue_script('app_theme', $app, [], $version, true);
+			return;
 		} else {
 			// Production mode
 		}
@@ -241,7 +229,7 @@ class Vite
 
 	public function getHotFilePath(): string
 	{
-		return ABSPATH . 'hot';
+		return dirname(get_template_directory(), 3) . '/hot';
 	}
 
 	public function isHot(): bool

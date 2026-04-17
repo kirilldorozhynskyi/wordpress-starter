@@ -1,6 +1,6 @@
 <template>
 	<div :class="['mt-8 flex w-full flex-col gap-2', field?.cssClass]" v-if="shouldShow">
-		<label class="text-mob text-dark-gold leading-[1.4] tracking-[0.4px]" v-html="field.label" />
+		<p class="text-mob text-dark-gold leading-[1.4] tracking-[0.4px]" v-html="field.label" />
 
 		<div class="flex flex-col gap-2">
 			<label
@@ -54,21 +54,18 @@ const props = defineProps({
 	},
 	full: {
 		type: Boolean,
-		default: false
-	}
+		default: false,
+	},
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const model = computed({
 	get: () => (Array.isArray(props.modelValue) ? props.modelValue : []),
-	set: (value) => emit('update:modelValue', value)
+	set: (value) => emit('update:modelValue', value),
 })
 const inputId = computed(() => `${id}-${props.field?.key || 'multichoice'}`)
 
-/**
- * Проверка условий GravityForms conditionalLogic
- */
 const shouldShow = computed(() => {
 	const logic = props.field?.conditionalLogic
 	if (!logic || !logic.enabled) return true

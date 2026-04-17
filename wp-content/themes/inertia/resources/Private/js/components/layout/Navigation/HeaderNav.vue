@@ -1,17 +1,32 @@
 <template>
 	<div class="">
 		<Transition name="fade">
-			<div v-if="menuOpened" class="fixed top-0 left-0 h-screen w-screen" @click="closeMenu()"></div>
+			<button
+				v-if="menuOpened"
+				type="button"
+				class="fixed top-0 left-0 h-screen w-screen"
+				:aria-label="$t('menu.close')"
+				@click="closeMenu()"
+			/>
 		</Transition>
 		<div
-			class="transition-all duration-700 ease-in-out max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-screen max-lg:w-full max-lg:overflow-y-auto max-lg:bg-white max-lg:pt-24"
-			:class="menuOpened ? 'max-lg:translate-x-0' : 'max-lg:translate-x-full'"
+			:class="[
+				'transition-all duration-700 ease-in-out',
+				'max-lg:fixed max-lg:top-0 max-lg:right-0 max-lg:h-screen max-lg:w-full max-lg:overflow-y-auto',
+				'max-lg:bg-white max-lg:pt-24',
+				menuOpened ? 'max-lg:translate-x-0' : 'max-lg:translate-x-full',
+			]"
 		>
 			<div class="max-lg:container max-lg:py-16" :class="menuOpened ? 'text-primary' : 'text-light'">
 				<div class="flex items-start gap-10 max-lg:flex-wrap xl:gap-24">
 					<ul class="flex items-start gap-8 max-lg:flex-col" v-if="menu?.items">
 						<li v-for="item in menu.items" :key="item.id" class="flex">
-							<Button :btn="item" class="text-sm" :class="item.current ? 'link-underlined' : 'link-hover-underlined'" @click="closeMenu()" />
+							<Button
+								:btn="item"
+								class="text-sm"
+								:class="item.current ? 'link-underlined' : 'link-hover-underlined'"
+								@click="closeMenu()"
+							/>
 						</li>
 					</ul>
 				</div>
@@ -32,14 +47,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import { usePage } from '@inertiajs/vue3'
-
-const page = usePage()
 
 defineProps({
-	menu: Object,
-	header: Object,
-	isStickyLick: Boolean
+	menu: {
+		type: Object,
+		default: null,
+	},
+	header: {
+		type: Object,
+		default: null,
+	},
+	isStickyLick: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits(['update:menuOpened'])
@@ -49,7 +70,11 @@ const menuOpened = ref(false)
 const setScrollLock = (locked) => {
 	const lenis = typeof window !== 'undefined' ? window.lenis : null
 	if (lenis && typeof lenis.stop === 'function' && typeof lenis.start === 'function') {
-		locked ? lenis.stop() : lenis.start()
+		if (locked) {
+			lenis.stop()
+		} else {
+			lenis.start()
+		}
 	}
 	// if (typeof document !== 'undefined') {
 	// 	document.body.classList.toggle('overflow-hidden', locked)

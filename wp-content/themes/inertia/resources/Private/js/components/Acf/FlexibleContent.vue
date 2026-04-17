@@ -11,7 +11,7 @@ import { nextTick, defineAsyncComponent } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { ensurePrimeVue } from '@/util/primevue'
 
-import PageHero from '@/Components/Acf/Flex/PageHero.vue'
+import PageHero from './Flex/PageHero.vue'
 
 defineProps({
 	fields: {
@@ -24,7 +24,7 @@ defineProps({
 	}
 })
 
-const modules = import.meta.glob('@/Components/Acf/Flex/*.vue')
+const modules = import.meta.glob('./Flex/*.vue')
 const primeVueFlexComponents = new Set([])
 
 const eagerComponents = {
@@ -70,7 +70,7 @@ const getAcfComponent = (type) => {
 
 const getItemComponent = (item) => getAcfComponent(item.acf_fc_layout)
 
-// Скролл через Inertia после навигации
+// Scroll after Inertia navigation when a hash is present.
 router.on('navigate', () => {
 	if (window.location.hash) {
 		const id = window.location.hash.slice(1)

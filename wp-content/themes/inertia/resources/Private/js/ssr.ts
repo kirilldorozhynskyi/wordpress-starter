@@ -2,7 +2,9 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import createServer from '@inertiajs/vue3/server'
 import { renderToString } from '@vue/server-renderer'
 import { createInertiaVueApp, createNoopLazyLoad, needsPrimeVueOnFirstRender, resolvePage } from './inertia'
-import { installPrimeVueSSR } from './util/primevue-ssr'
+import installPrimeVueSSR from './util/primevue-ssr'
+
+const ssrPort = Number(process.env.PORT || 13714)
 
 createServer((page) =>
 	createInertiaApp({
@@ -28,5 +30,6 @@ createServer((page) =>
 
 			return vueApp
 		},
-	})
+	}),
+	{ port: ssrPort },
 )

@@ -1,0 +1,1 @@
+import{h as e}from"./vendor-i18n-B_duS3Yo.js";import{t}from"./_plugin-vue_export-helper-BPRVag0c.js";var n={};function r(t,n){return e(``,!0)}var i=t(n,[[`render`,r]]);export{i as default};

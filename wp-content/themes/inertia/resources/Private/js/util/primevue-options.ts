@@ -1,5 +1,6 @@
-// @ts-nocheck
-export const createPrimeVueOptions = (definePreset, Aura) => ({
+export type DefinePreset = (preset: unknown, options: Record<string, unknown>) => unknown
+
+const createPrimeVueOptions = (definePreset: DefinePreset, Aura: unknown) => ({
 	theme: {
 		preset: definePreset(Aura, {
 			semantic: {
@@ -27,3 +28,5 @@ export const createPrimeVueOptions = (definePreset, Aura) => ({
 		},
 	},
 })
+
+export default createPrimeVueOptions

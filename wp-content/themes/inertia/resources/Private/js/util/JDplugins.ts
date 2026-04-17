@@ -1,12 +1,13 @@
-export const parseAcf = (data: { name: string; value: any }[]): Record<string, any> => {
-	return data.reduce(
-		(acc, curr) => {
-			acc[curr.name] = curr.value
-			return acc
-		},
-		{} as Record<string, any>
-	)
+type AcfItem = {
+	name: string
+	value: unknown
 }
+
+export const parseAcf = (data: AcfItem[]): Record<string, unknown> =>
+	data.reduce<Record<string, unknown>>((acc, curr) => {
+		acc[curr.name] = curr.value
+		return acc
+	}, {})
 
 export const safeParse = <T = unknown>(value: string): T | string => {
 	try {
@@ -16,7 +17,7 @@ export const safeParse = <T = unknown>(value: string): T | string => {
 	}
 }
 
-export const checkLink = (btn: { url: string }) => {
+export const checkLink = (btn: { url?: string } | null) => {
 	const url = btn?.url?.trim?.()
 
 	if (!url) {

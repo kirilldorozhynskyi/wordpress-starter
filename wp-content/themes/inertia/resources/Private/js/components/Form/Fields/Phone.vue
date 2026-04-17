@@ -32,20 +32,23 @@ const props = defineProps({
 		required: true
 	},
 	field: {
-		type: Object
+		type: Object,
+		default: null,
 	},
 	error: {
-		type: String
+		type: String,
+		default: '',
 	},
 	requiredIndicator: {
-		type: String
-	}
+		type: String,
+		default: '',
+	},
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const model = computed({
 	get: () => props.modelValue,
-	set: (value) => emit('update:modelValue', value)
+	set: (value) => emit('update:modelValue', value),
 })
 </script>

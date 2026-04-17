@@ -1,12 +1,24 @@
-// @ts-nocheck
+import type { App, Component, Directive, Plugin } from 'vue'
 import { defineAsyncComponent } from 'vue'
-import { createPrimeVueOptions } from './primevue-options'
+import createPrimeVueOptions from './primevue-options'
+import type { DefinePreset } from './primevue-options'
 
-let appInstance = null
-let primeVueModulesPromise = null
-const installedApps = new WeakSet()
+type PrimeVueModules = {
+	PrimeVue: Plugin
+	Tooltip: Directive
+	definePreset: DefinePreset
+	Aura: unknown
+}
 
-export const registerPrimeVueApp = (app) => {
+type ComponentModule = Component | {
+	default?: Component
+}
+
+let appInstance: App | null = null
+let primeVueModulesPromise: Promise<PrimeVueModules> | null = null
+const installedApps = new WeakSet<App>()
+
+export const registerPrimeVueApp = (app: App) => {
 	appInstance = app
 	return app
 }
@@ -19,9 +31,9 @@ const loadPrimeVueModules = () => {
 			import('@primevue/themes'),
 			import('@primeuix/themes/aura'),
 		]).then(([primeVueModule, tooltipModule, themesModule, auraModule]) => ({
-			PrimeVue: primeVueModule.default,
-			Tooltip: tooltipModule.default,
-			definePreset: themesModule.definePreset,
+			PrimeVue: primeVueModule.default as Plugin,
+			Tooltip: tooltipModule.default as Directive,
+			definePreset: themesModule.definePreset as DefinePreset,
 			Aura: auraModule.default,
 		}))
 	}
@@ -29,7 +41,7 @@ const loadPrimeVueModules = () => {
 	return primeVueModulesPromise
 }
 
-const installPrimeVue = (app, modules) => {
+const installPrimeVue = (app: App | null, modules: PrimeVueModules) => {
 	if (!app || installedApps.has(app)) {
 		return
 	}
@@ -48,9 +60,9 @@ export const ensurePrimeVue = async (app = appInstance) => {
 	installPrimeVue(app, modules)
 }
 
-export const definePrimeVueAsyncComponent = (loader) =>
+export const definePrimeVueAsyncComponent = (loader: () => Promise<ComponentModule>) =>
 	defineAsyncComponent(async () => {
 		await ensurePrimeVue()
 		const module = await loader()
-		return module.default ?? module
+		return ('default' in Object(module) ? (module as { default?: Component }).default : module) as Component
 	})

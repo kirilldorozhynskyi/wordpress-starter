@@ -32,10 +32,12 @@ register_nav_menus([
 /**
  * Temporarily disable Inertia SSR during development mode to prevent stale content.
  */
-add_filter('pre_option_inertia_ssr_enabled', function($value) {
-    $vite = new \InertiaTheme\Vite();
-    if ($vite->isHot()) {
-        return '0';
-    }
-    return $value;
+add_filter('pre_option_inertia_ssr_enabled', function ($value) {
+	$hotFile = dirname(get_stylesheet_directory(), 3) . '/hot';
+
+	if (file_exists($hotFile)) {
+		return '0';
+	}
+
+	return $value;
 });

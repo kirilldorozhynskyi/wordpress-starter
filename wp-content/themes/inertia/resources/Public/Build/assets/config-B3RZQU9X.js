@@ -1,0 +1,1 @@
+import{c as e,d as t,f as n,l as r,s as i,u as a}from"./vendor-primevue-Bb5uo1tz.js";export{e as clearConfig,i as default,r as defaultOptions,a as setup,t as setupConfig,n as usePrimeVue};

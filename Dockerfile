@@ -1,15 +1,19 @@
-FROM node:24-bookworm-slim AS node_runtime
+# syntax=docker/dockerfile:1.7
+
+FROM node:22-bookworm-slim AS node_runtime
 
 FROM php:8.5-apache-bookworm
 
 # Runtime-only image:
 # - frontend assets are built locally and committed to git
 # - SSR bundle is built locally and committed to git
-# - Composer dependencies are installed before docker build
+# - Composer dependencies are installed from composer.lock during docker build
 
-COPY --from=node_runtime /usr/local/ /usr/local/
+COPY --from=node_runtime /usr/local/bin/node /usr/local/bin/node
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
 	&& install-php-extensions \
@@ -41,9 +45,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends git unzip rsync
 	&& git config --global url."https://github.com/".insteadOf git@github.com: \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN --mount=type=secret,id=composer_auth \
-	COMPOSER_AUTH="$(cat /run/secrets/composer_auth)" \
-	composer install --no-interaction --no-dev --optimize-autoloader
+RUN --mount=type=secret,id=composer_auth,required=false \
+	if [ -f /run/secrets/composer_auth ]; then export COMPOSER_AUTH="$(cat /run/secrets/composer_auth)"; fi \
+	&& composer install --no-interaction --no-dev --optimize-autoloader --no-scripts \
+	&& rsync -a vendor/wordpress-core/ ./ \
+	&& rm -rf vendor/wordpress-core \
+	&& if [ -f wp-content/plugins/wp-vite/composer.json ]; then \
+		composer install --working-dir=wp-content/plugins/wp-vite --no-interaction --no-dev --optimize-autoloader --no-scripts; \
+	fi
 
 RUN test -f /var/www/html/wp-content/themes/inertia/resources/Public/Build/manifest.json \
 	|| (echo 'Frontend build is missing. Run the local FE build and commit the generated assets before docker build.' >&2 && exit 1)

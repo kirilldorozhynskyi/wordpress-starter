@@ -52,7 +52,7 @@
 		>
 			<source v-if="shouldLoadVideo" type="video/mp4" :src="ce.video" />
 		</video> -->
-		sdfdsf
+
 		<div class="absolute inset-0 bg-linear-to-b from-black/40 to-transparent">
 			<div class="container h-full items-center justify-center gap-6 text-white max-xl:max-w-full max-xl:px-4">
 				<h1 v-if="ce.text" v-html="ce.text" class="title-1 text-center font-thin uppercase" />

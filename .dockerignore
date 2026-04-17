@@ -25,6 +25,8 @@ wp-config-ddev.php
 
 # JavaScript dependencies and local build state
 node_modules/
+vendor/
+wp-content/plugins/wp-vite/vendor/
 .npm/
 .pnpm-store/
 .yarn/

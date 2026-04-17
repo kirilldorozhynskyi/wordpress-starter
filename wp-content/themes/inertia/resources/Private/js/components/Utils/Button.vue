@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { checkLink } from '@/util/JDplugins'
 import { computed, resolveComponent } from 'vue'
+import { checkLink } from '@/util/JDplugins'
 
 const props = defineProps<{
 	btn: {

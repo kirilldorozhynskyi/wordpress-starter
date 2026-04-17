@@ -7,18 +7,18 @@
 			transit: isSticky,
 			'-translate-y-26!': isSticky,
 
-			'translate-y-0!': showTop
+			'translate-y-0!': showTop,
 		}"
 	>
 		<div :class="{ 'transit bg-primary': isStickyLick }">
 			<div class="relative z-20 container">
 				<div class="flex items-center justify-between py-4" :class="isStickyLick || menuOpened ? 'text-green-400' : 'text-light lg:py-6'">
-					<Link :href="homeUrl" :aria-label="siteName" class="relative z-20 inline-block w-fit" prefetch>
-						<SvgObject
-							class="h-auto max-md:w-29"
+						<Link :href="homeUrl" class="relative z-20 inline-block w-fit" prefetch>
+							<span class="sr-only">{{ siteName }}</span>
+							<SvgObject
+								class="h-auto max-md:w-29"
 							width="135"
 							height="56"
-							:aria-label="siteName"
 							:src="`${$page.props.theme.uri}/resources/Public/Images/logo.svg`"
 						/>
 					</Link>
@@ -31,8 +31,8 @@
 </template>
 
 <script setup>
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import HeaderNav from './Navigation/HeaderNav.vue'
-import { onMounted, onBeforeUnmount, ref, defineAsyncComponent } from 'vue'
 
 defineProps({
 	homeUrl: {
@@ -43,9 +43,14 @@ defineProps({
 		type: String,
 		default: ''
 	},
-
-	menu: Object,
-	options: Object
+	menu: {
+		type: Object,
+		default: null,
+	},
+	options: {
+		type: Object,
+		default: null,
+	},
 })
 
 // Header sticky behavior (ref-based + reactive class binding)

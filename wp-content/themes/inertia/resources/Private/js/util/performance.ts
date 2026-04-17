@@ -1,3 +1,6 @@
+type CancelCallback = () => void
+type DeferredCallback = () => void
+
 export const isPerformanceAudit = () => {
 	if (typeof navigator === 'undefined') {
 		return false
@@ -15,7 +18,7 @@ export const isPerformanceAudit = () => {
 	)
 }
 
-export const afterWindowLoad = (callback) => {
+export const afterWindowLoad = (callback: DeferredCallback): CancelCallback => {
 	if (typeof window === 'undefined') {
 		return () => {}
 	}
@@ -33,21 +36,26 @@ export const afterWindowLoad = (callback) => {
 	}
 }
 
-export const runWhenIdle = (callback, timeout = 2500) => {
+export const runWhenIdle = (callback: DeferredCallback, timeout = 2500): CancelCallback => {
 	if (typeof window === 'undefined') {
 		return () => {}
 	}
 
-	if ('requestIdleCallback' in window) {
-		const idleId = window.requestIdleCallback(() => callback(), { timeout })
-		return () => window.cancelIdleCallback?.(idleId)
+	const browserWindow = window as Window & {
+		requestIdleCallback?: (handler: IdleRequestCallback, options?: IdleRequestOptions) => number
+		cancelIdleCallback?: (handle: number) => void
 	}
 
-	const timeoutId = window.setTimeout(callback, Math.min(timeout, 1500))
-	return () => window.clearTimeout(timeoutId)
+	if (browserWindow.requestIdleCallback) {
+		const idleId = browserWindow.requestIdleCallback(() => callback(), { timeout })
+		return () => browserWindow.cancelIdleCallback?.(idleId)
+	}
+
+	const timeoutId = browserWindow.setTimeout(callback, Math.min(timeout, 1500))
+	return () => browserWindow.clearTimeout(timeoutId)
 }
 
-export const afterLoadAndIdle = (callback, timeout = 2500) => {
+export const afterLoadAndIdle = (callback: DeferredCallback, timeout = 2500): CancelCallback => {
 	let cancelIdle = () => {}
 	const cancelLoad = afterWindowLoad(() => {
 		cancelIdle = runWhenIdle(callback, timeout)

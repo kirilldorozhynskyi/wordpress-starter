@@ -13,10 +13,10 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
 	ce: {
 		type: Object,
-		required: true
-	}
+		required: true,
+	},
 })
 </script>

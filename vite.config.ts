@@ -1,6 +1,5 @@
-import path from 'node:path'
 import { existsSync, mkdirSync, readdirSync } from 'node:fs'
-import type { PluginOption } from 'vite'
+import type { PluginOption, UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { wordpress } from 'wordpress-vite-plugin'
@@ -71,10 +70,26 @@ const getVendorChunkName = (id: string) => {
 }
 
 export default defineConfig(({ isSsrBuild, mode }) => {
+	const build: UserConfig['build'] = {
+		target: config.esbuild.target,
+		...(!isSsrBuild
+			? {
+					rollupOptions: {
+						output: {
+							manualChunks: getVendorChunkName,
+						},
+					},
+				}
+			: {}),
+	}
+	const esbuild = {
+		drop: mode === 'production' ? [...config.esbuild.drop] : [],
+	} as unknown as UserConfig['esbuild']
+
 	const plugins: PluginOption[] = [
 		!isSsrBuild
 			? {
-					name: 'inertia-theme-full-reload',
+					name: 'theme-inertia',
 					handleHotUpdate({ file, server }) {
 						if (/\.(php|json|twig)$/.test(file)) {
 							server.ws.send({
@@ -95,7 +110,9 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 				},
 			},
 		}),
-		!isSsrBuild && hasSvgIcons ? VitePluginSvgSpritemap(config.paths.themeIconsGlob, config.svgSpritemap) : null,
+		!isSsrBuild && hasSvgIcons
+			? VitePluginSvgSpritemap(config.paths.themeIconsGlob, config.svgSpritemap as unknown as Parameters<typeof VitePluginSvgSpritemap>[1])
+			: null,
 		!isSsrBuild && hasFaviconsSource ? favicons(config.paths.themeFaviconSource, config.favicons) : null,
 		wordpress({
 			input: config.paths.themeEntry,
@@ -104,7 +121,7 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 			publicDirectory: config.wordpress.publicDirectory,
 			buildDirectory: config.wordpress.buildDirectory,
 			ssrOutputDirectory: config.wordpress.ssrOutputDirectory,
-			hotFile: path.resolve(config.paths.projectRoot, 'hot'),
+			hotFile: config.paths.hotFile,
 			splitVendor: false,
 		}),
 	]
@@ -112,23 +129,20 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 	return {
 		root: config.paths.themeRoot,
 		base: !isSsrBuild && mode === 'production' ? config.base.production : '',
-		build: !isSsrBuild
-			? {
-					rollupOptions: {
-						output: {
-							manualChunks: getVendorChunkName,
-						},
-					},
-				}
-			: undefined,
-		esbuild: {
-			target: config.esbuild.target,
-			drop: mode === 'production' ? [...config.esbuild.drop] : [],
-		},
+		build,
+		esbuild,
 		server: {
 			cors: true,
+			host: 'localhost',
+			port: 5173,
+			strictPort: true,
 			fs: {
 				allow: [config.paths.projectRoot],
+			},
+			hmr: {
+				host: 'localhost',
+				clientPort: 5173,
+				protocol: 'wss',
 			},
 		},
 		ssr: isSsrBuild
@@ -144,5 +158,5 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 			dedupe: ['@inertiajs/vue3', '@vueuse/core', 'vue'],
 		},
 		plugins: plugins.filter(Boolean),
-	}
+	} satisfies UserConfig
 })

@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import FlexibleContent from '@/Components/Acf/FlexibleContent.vue'
+import FlexibleContent from '@/components/Acf/FlexibleContent.vue'
 
 defineProps({
 	fields: {

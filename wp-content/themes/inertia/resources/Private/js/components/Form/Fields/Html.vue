@@ -3,12 +3,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
+defineProps({
 	field: {
 		type: Object,
-		required: true
-	}
+		required: true,
+	},
 })
 </script>
