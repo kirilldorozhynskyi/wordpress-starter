@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readdirSync } from 'node:fs'
 import type { PluginOption, UserConfig } from 'vite'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { wordpress } from 'wordpress-vite-plugin'
 import mkcert from 'vite-plugin-mkcert'
@@ -69,7 +69,26 @@ const getVendorChunkName = (id: string) => {
 	return `vendor-${sanitizeChunkName(packageName)}`
 }
 
+const color = {
+	blue: (value: string) => `\x1b[36m${value}\x1b[0m`,
+	green: (value: string) => `\x1b[32m${value}\x1b[0m`,
+}
+
+const wordpressAppUrlPlugin = (appUrl: string): PluginOption => ({
+	name: 'wordpress-app-url',
+	apply: 'serve',
+	configureServer(server) {
+		server.httpServer?.once('listening', () => {
+			setTimeout(() => {
+				server.config.logger.info(`  ${color.green('➜')}  APP_URL: ${color.blue(appUrl || 'not set')}\n`)
+			}, 1000)
+		})
+	},
+})
+
 export default defineConfig(({ isSsrBuild, mode }) => {
+	const env = loadEnv(mode, config.paths.projectRoot, '')
+	const appUrl = env.APP_URL || env.WP_HOME || env.ENV_DEVELOPMENT || ''
 	const build: UserConfig['build'] = {
 		target: config.esbuild.target,
 		...(!isSsrBuild
@@ -124,6 +143,7 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 			hotFile: config.paths.hotFile,
 			splitVendor: false,
 		}),
+		!isSsrBuild ? wordpressAppUrlPlugin(appUrl) : null,
 	]
 
 	return {

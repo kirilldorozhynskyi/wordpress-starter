@@ -70,11 +70,11 @@
 		v-if="ce?.image"
 		:image="ce.image"
 		:alt="ce?.image?.alt"
-		:width="heroImageWidth"
-		:height="heroImageHeight"
+		:width="1920"
+		:height="1080"
 		resize-type="fill"
-		:transform-width="heroImageWidth"
-		:transform-height="heroImageHeight"
+		:transform-width="1920"
+		:transform-height="1080"
 	/>
 </template>
 

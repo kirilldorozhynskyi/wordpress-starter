@@ -82,8 +82,8 @@ class Favicon
 		$this->build_dir = $template_dir . 'resources/Public/Build/';
 		$this->ext_path = $template_uri . 'resources/Public/ext/';
 		$this->ext_dir = $template_dir . 'resources/Public/ext/';
-		$this->hot_file = $template_dir . 'resources/Private/.vite/hot';
-		$this->legacy_hot_file = $template_dir . '.vite/hot';
+		$this->hot_file = dirname(get_template_directory(), 3) . '/hot';
+		$this->legacy_hot_file = $template_dir . 'resources/Private/.vite/hot';
 
 		add_action('wp_head', [$this, 'renderFavicon'], 1);
 	}

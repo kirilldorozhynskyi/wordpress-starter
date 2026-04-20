@@ -12,11 +12,14 @@ class Vite
 
 	protected array $viteManifest = [];
 	protected static string $spriteUrl = '';
+	private bool $headCleanupBufferStarted = false;
 
 	public function __construct()
 	{
 		$this->loadViteManifest();
+		add_action('wp_head', [$this, 'startHeadAssetCleanup'], 0);
 		add_action('wp_head', [$this, 'preloadAssetsVite'], 1);
+		add_action('wp_head', [$this, 'finishHeadAssetCleanup'], PHP_INT_MAX);
 		add_action('wp_footer', [$this, 'loadBodyThemeAssets']);
 		add_action('wp_enqueue_scripts', [$this, 'loadHeadThemeAssets']);
 
@@ -33,6 +36,26 @@ class Vite
 			$tag = '<script type="module" src="' . esc_url($src) . '"></script>';
 		}
 		return $tag;
+	}
+
+	public function startHeadAssetCleanup(): void
+	{
+		if ($this->isHot() || empty($this->viteManifest)) {
+			return;
+		}
+
+		ob_start();
+		$this->headCleanupBufferStarted = true;
+	}
+
+	public function finishHeadAssetCleanup(): void
+	{
+		if (!$this->headCleanupBufferStarted || ob_get_level() === 0) {
+			return;
+		}
+
+		echo $this->cleanupDuplicateBuildAssetTags((string) ob_get_clean());
+		$this->headCleanupBufferStarted = false;
 	}
 
 	public function preloadAssetsVite(): void
@@ -135,6 +158,18 @@ class Vite
 	protected function getBuildAssetUrl(string $assetPath): string
 	{
 		return get_template_directory_uri() . '/resources/Public/Build/' . ltrim($assetPath, '/');
+	}
+
+	private function cleanupDuplicateBuildAssetTags(string $html): string
+	{
+		$buildAssetsPath = preg_quote('/wp-content/themes/inertia/resources/Public/Build/assets/', '#');
+		$versionPattern = '(?:\?ver=|&ver=|&amp;ver=|&\#038;ver=)';
+
+		return preg_replace(
+			'#\s*<link\b(?=[^>]*\bhref=(["\'])[^"\']*' . $buildAssetsPath . '[^"\']*' . $versionPattern . '[^"\']*\1)[^>]*>\s*#i',
+			PHP_EOL,
+			$html,
+		) ?? $html;
 	}
 
 	protected function getCurrentInertiaPageEntry(): ?string
