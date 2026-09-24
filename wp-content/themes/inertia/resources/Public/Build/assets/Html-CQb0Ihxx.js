@@ -1,0 +1,1 @@
+import{dt as e,f as t,k as n}from"./vendor-i18n-NEPLBP7p.js";var r=[`innerHTML`],i={__name:`Html`,props:{field:{type:Object,required:!0}},setup(i){return(a,o)=>(n(),t(`div`,{class:e([`mt-2 text-xs italic!`,i.field?.cssClass]),innerHTML:i.field?.content},null,10,r))}};export{i as default};

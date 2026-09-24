@@ -75,7 +75,7 @@ export const resolvePage = resolveInertiaPage(clientPages, Layout)
 export const needsPrimeVueOnFirstRender = (page: InertiaPagePayload | null) => {
 	const layouts = Array.isArray(page?.props?.fields?.flexible_content) ? page.props.fields.flexible_content : []
 
-	return layouts.slice(0, 2).some((item) => primeVueCriticalLayouts.has(item?.acf_fc_layout))
+	return layouts.slice(0, 2).some((item) => primeVueCriticalLayouts.has(item?.acf_fc_layout ?? ''))
 }
 
 type CreateInertiaVueAppOptions = {

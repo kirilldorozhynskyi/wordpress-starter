@@ -6,8 +6,7 @@
 				:key="breakpoint"
 				:media="`(max-width: ${breakpoint}px)`"
 				:srcset="source.srcset"
-				:type="source.type || null"
-			/>
+				:type="source.type || null" />
 		</template>
 
 		<img
@@ -22,8 +21,7 @@
 			:width="resolvedWidth"
 			:height="resolvedHeight"
 			:alt="resolvedAlt"
-			:lazy="shouldLazyLoad ? '' : null"
-		/>
+			:lazy="shouldLazyLoad ? '' : null" />
 	</picture>
 </template>
 
@@ -86,7 +84,7 @@ const props = defineProps({
 
 	cdnBase: {
 		type: String,
-		default: 'https://cdn.monjoli.eu'
+		default: import.meta.env.VITE_CDN_BASE || ''
 	},
 
 	size: {

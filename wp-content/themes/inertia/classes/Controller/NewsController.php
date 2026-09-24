@@ -7,15 +7,15 @@ class NewsController
 	public function getNews(): array
 	{
 		$offset = max(0, absint($_GET['offset'] ?? 0));
-		$term_slug = sanitize_title($_GET['term'] ?? '');
-		$posts_per_page = max(1, absint($_GET['number_of_posts'] ?? 3));
+		$term_slug = sanitize_title(is_string($_GET['term'] ?? null) ? wp_unslash($_GET['term']) : '');
+		$posts_per_page = min(100, max(1, absint($_GET['number_of_posts'] ?? 3)));
 
 		return self::queryPosts($posts_per_page, $offset, $term_slug ?: null);
 	}
 
 	public static function handleAllNews(array &$section): void
 	{
-		$term_slug = sanitize_title($_GET['term'] ?? '');
+		$term_slug = sanitize_title(is_string($_GET['term'] ?? null) ? wp_unslash($_GET['term']) : '');
 		$posts_per_page = max(1, absint($section['number_of_posts'] ?? 3));
 		$data = self::queryPosts($posts_per_page, 0, $term_slug ?: null);
 

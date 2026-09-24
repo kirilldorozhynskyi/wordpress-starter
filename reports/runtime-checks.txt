@@ -1,0 +1,20 @@
+Success: jD Support loads.
+Success: Syncport is active.
+Success: Inertia update-checker compatibility loads.
+Success: Reusable ACF link field is registered.
+Success: ACF link round-trip preserves query, fragment and target.
+Success: ACF link field rejects unsafe URL schemes.
+Success: Public news queries are capped at 100 and tolerate malformed term input.
+Success: Invalid form IDs return a controlled error.
+Success: Form 1 loads without notification configuration.
+composer-plugin-api 2.9.0   success
+ext-ctype           *       success provided by symfony/polyfill-ctype
+ext-filter          8.5.8   success
+ext-iconv           8.5.8   success
+ext-json            8.5.8   success
+ext-libxml          8.5.8   success
+ext-pcre            8.5.8   success
+ext-simplexml       8.5.8   success
+ext-tokenizer       8.5.8   success
+ext-xmlwriter       8.5.8   success
+php                 8.5.8   success

@@ -10,9 +10,11 @@ type PrimeVueModules = {
 	Aura: unknown
 }
 
-type ComponentModule = Component | {
-	default?: Component
-}
+type ComponentModule =
+	| Component
+	| {
+			default?: Component
+	  }
 
 let appInstance: App | null = null
 let primeVueModulesPromise: Promise<PrimeVueModules> | null = null
@@ -28,14 +30,19 @@ const loadPrimeVueModules = () => {
 		primeVueModulesPromise = Promise.all([
 			import('primevue/config'),
 			import('primevue/tooltip'),
-			import('@primevue/themes'),
+			import('@primeuix/themes'),
 			import('@primeuix/themes/aura'),
-		]).then(([primeVueModule, tooltipModule, themesModule, auraModule]) => ({
-			PrimeVue: primeVueModule.default as Plugin,
-			Tooltip: tooltipModule.default as Directive,
-			definePreset: themesModule.definePreset as DefinePreset,
-			Aura: auraModule.default,
-		}))
+		])
+			.then(([primeVueModule, tooltipModule, themesModule, auraModule]) => ({
+				PrimeVue: primeVueModule.default as Plugin,
+				Tooltip: tooltipModule.default as Directive,
+				definePreset: themesModule.definePreset as DefinePreset,
+				Aura: auraModule.default,
+			}))
+			.catch((error) => {
+				primeVueModulesPromise = null
+				throw error
+			})
 	}
 
 	return primeVueModulesPromise

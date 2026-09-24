@@ -1,22 +1,24 @@
 <template>
-	<div :class="field?.cssClass" class="mt-8 flex w-full flex-col">
+	<div :class="field?.cssClass" class="flex w-full flex-col">
 		<FloatLabel variant="on">
 			<Textarea
 				class="w-full"
+				:name="field?.key"
 				:id="id + field?.key"
 				v-model="model"
 				:autocomplete="field?.autocompleteAttribute"
-				:invalid="error"
+				:invalid="!!error"
 				:required="field?.isRequired"
-			/>
+				:aria-invalid="!!error"
+				:aria-describedby="error ? id + field?.key + '-error' : undefined" />
 			<label :for="id + field?.key" v-html="`${field.label}${field?.isRequired && requiredIndicator == 'asterisk' ? '*' : ''}`" />
 		</FloatLabel>
-		<Message v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
+		<Message :id="id + field?.key + '-error'" v-if="error" severity="error" size="small" variant="simple">{{ error }}</Message>
 	</div>
 </template>
 
 <script setup>
-import { computed, useId, defineAsyncComponent } from 'vue'
+import { useId, defineAsyncComponent } from 'vue'
 
 const Textarea = defineAsyncComponent(() => import('primevue/textarea'))
 const FloatLabel = defineAsyncComponent(() => import('primevue/floatlabel'))
@@ -24,13 +26,10 @@ const Message = defineAsyncComponent(() => import('primevue/message'))
 
 const id = useId()
 
-const props = defineProps({
-	modelValue: {
-		required: true
-	},
+defineProps({
 	field: {
 		type: Object,
-		default: null,
+		default: null
 	},
 	error: {
 		type: [String, Boolean],
@@ -38,14 +37,9 @@ const props = defineProps({
 	},
 	requiredIndicator: {
 		type: String,
-		default: '',
-	},
+		default: ''
+	}
 })
 
-const emit = defineEmits(['update:modelValue'])
-
-const model = computed({
-	get: () => props.modelValue,
-	set: (value) => emit('update:modelValue', value),
-})
+const model = defineModel({ required: true })
 </script>

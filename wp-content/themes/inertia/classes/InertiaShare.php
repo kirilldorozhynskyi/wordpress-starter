@@ -33,7 +33,12 @@ class InertiaShare
 			$version = $post_id ? (string) get_post_modified_time('U', true, $post_id) : '0';
 			$key = sprintf('acf_content_%s_%s_%s', $post_id ?: '0', $lang ?: 'na', $version);
 
-			return Cache::getCached($key, static fn() => ACFContent::getAcfContent(), 300, 'theme');
+			// Preview, private content and query-filtered sections are request-specific.
+			if (is_user_logged_in() || is_preview() || !empty($_GET) || ($post_id && get_post_status($post_id) !== 'publish')) {
+				return ACFContent::getAcfContent();
+			}
+
+			return Cache::getCached($key, static fn() => ACFContent::getAcfContent());
 		});
 	}
 

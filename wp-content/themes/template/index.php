@@ -1,3 +1,0 @@
-<?php
-
-// A murmur from the ruins echoes softly as the roots undo and the branch becomes...

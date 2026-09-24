@@ -11,11 +11,11 @@
 		"noEmit": true,
 		"skipLibCheck": true,
 		"types": ["node", "vite/client"],
-		"baseUrl": ".",
 		"paths": {
-			"@/*": ["wp-content/themes/inertia/resources/Private/js/*"],
-			"~fonts/*": ["wp-content/themes/inertia/resources/Public/Fonts/*"]
-		}
+			"@/*": ["./wp-content/themes/inertia/resources/Private/js/*"],
+			"~fonts/*": ["./wp-content/themes/inertia/resources/Public/Fonts/*"]
+		},
+		"allowImportingTsExtensions": true
 	},
 	"include": [
 		"config.ts",

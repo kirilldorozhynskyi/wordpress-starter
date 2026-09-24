@@ -66,7 +66,7 @@ const config = {
 				},
 			],
 		},
-		injectSVGOnDev: true,
+		injectSvgOnDev: true,
 	},
 	favicons: {
 		icons: {

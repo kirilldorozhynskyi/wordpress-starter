@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readdirSync } from 'node:fs'
+import path from 'node:path'
 import type { PluginOption, UserConfig } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -7,7 +8,7 @@ import mkcert from 'vite-plugin-mkcert'
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 import favicons from '@peterek/vite-plugin-favicons'
 import tailwindcss from '@tailwindcss/vite'
-import config from './config'
+import config from './config.ts'
 
 config.directoriesToEnsure.forEach((dir) => {
 	if (!existsSync(dir)) {
@@ -152,7 +153,9 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 		build,
 		esbuild,
 		server: {
-			cors: true,
+			cors: {
+				origin: [/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/, ...(appUrl ? [new URL(appUrl).origin] : [])],
+			},
 			host: 'localhost',
 			port: 5173,
 			strictPort: true,
@@ -171,10 +174,11 @@ export default defineConfig(({ isSsrBuild, mode }) => {
 				}
 			: undefined,
 		resolve: {
-			alias: {
-				'~fonts': config.paths.themeFontsRoot,
-				'@': config.paths.themeJsRoot,
-			},
+			alias: [
+				...(isSsrBuild ? [{ find: '@/util/primevue', replacement: path.join(config.paths.themeJsRoot, 'util/primevue-ssr.ts') }] : []),
+				{ find: '~fonts', replacement: config.paths.themeFontsRoot },
+				{ find: '@', replacement: config.paths.themeJsRoot },
+			],
 			dedupe: ['@inertiajs/vue3', '@vueuse/core', 'vue'],
 		},
 		plugins: plugins.filter(Boolean),

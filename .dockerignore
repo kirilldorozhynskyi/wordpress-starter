@@ -55,3 +55,23 @@ wp-content/smush-webp/
 wp-content/debug.log
 wp-content/advanced-cache.php
 db.php
+
+# Install managed code from composer.lock, never copy local plugin modifications.
+wp-content/plugins/
+wp-content/mu-plugins/*
+!wp-content/mu-plugins/*.php
+**/node_modules/
+auth.json
+**/auth.json
+.htaccess
+
+# Composer installs the matching WordPress core; exclude local copies.
+wp-admin/
+wp-includes/
+wp-*.php
+!wp-config.php
+index.php
+readme.html
+license.txt
+xmlrpc.php
+**/.inertia/

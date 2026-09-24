@@ -1,50 +1,24 @@
 <template>
-	<div :class="field?.cssClass">
-		<p class="lead mb-1 fw-medium" v-html="field?.label" />
-		<div :class="{ 'is-invalid': error }" class="d-flex flex-wrap gap-half">
-			<div v-for="(option, index) in field?.choices" :key="index">
-				<input
-					v-model="localValue"
-					:required="field?.isRequired"
-					type="radio"
-					class="btn-check"
-					:name="`radio-${field?.id}`"
-					:id="`input-${field?.id}-${index}`"
-					:value="option.value"
-				/>
-				<label class="btn btn-outline-light-pink btn-radio" :for="`input-${field?.id}-${index}`" v-html="option.text" />
-			</div>
-		</div>
-
-		<span class="invalid-feedback" v-html="error"></span>
-	</div>
+	<fieldset :class="field.cssClass" class="flex min-w-0 flex-col gap-2">
+		<legend class="text-pretty" v-html="field.label" />
+		<label v-for="(option, index) in field.choices" :key="option.value" :for="`${id}-${index}`" class="flex items-center gap-2 text-pretty">
+			<input
+				v-model="model"
+				:id="`${id}-${index}`"
+				:name="id"
+				type="radio"
+				:value="option.value"
+				:required="field.isRequired"
+				:aria-invalid="!!error"
+				:aria-describedby="error ? `${id}-error` : undefined" />
+			<span>{{ option.text }}</span>
+		</label>
+		<p v-if="error" :id="`${id}-error`" class="text-pretty">{{ error }}</p>
+	</fieldset>
 </template>
-
 <script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
-	modelValue: {
-		required: true
-	},
-	field: {
-		type: Object,
-		required: true
-	},
-	error: {
-		type: String,
-		default: '',
-	},
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-const localValue = computed({
-	get() {
-		return props.modelValue
-	},
-	set(value) {
-		emit('update:modelValue', value)
-	}
-})
+import { useId } from 'vue'
+defineProps({ field: { type: Object, required: true }, error: { type: [String, Boolean], default: '' } })
+const id = useId()
+const model = defineModel({ required: true })
 </script>

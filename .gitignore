@@ -13,8 +13,6 @@ node_modules/
 /vendor/
 /sql/
 wp-content/themes/*
-!wp-content/themes/template/
-!wp-content/themes/theme/
 !wp-content/themes/inertia/
 
 wp-content/plugins/akismet/

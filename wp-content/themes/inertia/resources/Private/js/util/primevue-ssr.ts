@@ -1,6 +1,7 @@
-import type { App, Directive, Plugin } from 'vue'
+import type { App, Component, Directive, Plugin } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import PrimeVue from 'primevue/config'
-import { definePreset } from '@primevue/themes'
+import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 import createPrimeVueOptions from './primevue-options'
 import type { DefinePreset } from './primevue-options'
@@ -19,3 +20,17 @@ const installPrimeVueSSR = (app: App) => {
 }
 
 export default installPrimeVueSSR
+
+// Each SSR request installs into its own app; no module-global app instance.
+export const registerPrimeVueApp = (app: App) => {
+	installPrimeVueSSR(app)
+	return app
+}
+
+export const ensurePrimeVue = async () => {}
+
+export const definePrimeVueAsyncComponent = (loader: () => Promise<Component | { default?: Component }>) =>
+	defineAsyncComponent(async () => {
+		const module = await loader()
+		return ('default' in Object(module) ? (module as { default?: Component }).default : module) as Component
+	})

@@ -1,1 +1,0 @@
-import{A as e,Y as t,g as n}from"./vendor-i18n-B_duS3Yo.js";var r={__name:`Error`,props:{error:{type:Number,default:500}},setup(r){return(i,a)=>(e(),n(`div`,null,`Error: `+t(r.error),1))}};export{r as default};

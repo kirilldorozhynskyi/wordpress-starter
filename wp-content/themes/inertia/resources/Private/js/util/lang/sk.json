@@ -16,7 +16,14 @@
 	"form": {
 		"loading": "Načitava sa...",
 		"success": "Ďakujeme za váš záujem. Náš tím vás bude čoskoro kontaktovať.",
-		"send": "Odoslať"
+		"send": "Odoslať",
+		"title": "Kontaktný formulár",
+		"load_error": "Formulár sa nepodarilo načítať.",
+		"retry": "Skúsiť znova",
+		"validation_error": "Skontrolujte označené polia.",
+		"submit_error": "Odoslanie sa nepodarilo potvrdiť. Skúste to znova.",
+		"sending": "Odosiela sa…",
+		"remove_file": "Odstrániť súbor"
 	},
 	"menu": {
 		"toggle": "Otvoriť menu",

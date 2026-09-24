@@ -71,18 +71,18 @@ define('ENVIRONMENTS', serialize($envs));
  */
 switch (WP_ENV) {
 	case 'staging':
-		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+		if (($_SERVER['HTTP_HOST'] ?? '') === $envs['container1']) {
 			$WP_HOME = 'https://' . $envs['container1'];
-		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+		} elseif (($_SERVER['HTTP_HOST'] ?? '') === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
 			$WP_HOME = $envs['staging'];
 		}
 		break;
 	case 'production':
-		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+		if (($_SERVER['HTTP_HOST'] ?? '') === $envs['container1']) {
 			$WP_HOME = 'https://' . $envs['container1'];
-		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+		} elseif (($_SERVER['HTTP_HOST'] ?? '') === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
 			$WP_HOME = $envs['production'];
@@ -92,7 +92,8 @@ switch (WP_ENV) {
 		$WP_HOME = $envs['development'];
 }
 
-$WP_SITEURL = $WP_HOME;
+$WP_HOME = env('WP_HOME') ?: $WP_HOME;
+$WP_SITEURL = env('WP_SITEURL') ?: $WP_HOME;
 
 Config::define('WP_HOME', $WP_HOME);
 Config::define('WP_SITEURL', $WP_SITEURL);

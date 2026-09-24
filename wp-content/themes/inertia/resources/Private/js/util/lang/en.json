@@ -16,7 +16,14 @@
 	"form": {
 		"loading": "Loading...",
 		"success": "Thank you for your interest. Our team will contact you soon.",
-		"send": "Send"
+		"send": "Send",
+		"title": "Contact form",
+		"load_error": "The form could not be loaded.",
+		"retry": "Try again",
+		"validation_error": "Check the highlighted fields.",
+		"submit_error": "We could not confirm submission. Please try again.",
+		"sending": "Sending…",
+		"remove_file": "Remove file"
 	},
 	"menu": {
 		"toggle": "Open menu",

@@ -1,0 +1,58 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      secrets:
+        - composer_auth
+    restart: unless-stopped
+    stop_grace_period: 30s
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WP_ENV: production
+      WP_HOME: ${WP_URL:?Set the public HTTPS WordPress URL}
+      WP_SITEURL: ${WP_URL:?Set the public HTTPS WordPress URL}
+      ENV_PRODUCTION: ${WP_URL:?Set the public HTTPS WordPress URL}
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-wordpress}
+      DB_USER: ${DB_USER:-wordpress}
+      DB_PASSWORD: ${MARIADB_PASSWORD:?Set a database password}
+      DB_PREFIX: ${DB_PREFIX:-wp_}
+      AUTH_KEY: ${AUTH_KEY:?Set a unique WordPress salt}
+      SECURE_AUTH_KEY: ${SECURE_AUTH_KEY:?Set a unique WordPress salt}
+      LOGGED_IN_KEY: ${LOGGED_IN_KEY:?Set a unique WordPress salt}
+      NONCE_KEY: ${NONCE_KEY:?Set a unique WordPress salt}
+      AUTH_SALT: ${AUTH_SALT:?Set a unique WordPress salt}
+      SECURE_AUTH_SALT: ${SECURE_AUTH_SALT:?Set a unique WordPress salt}
+      LOGGED_IN_SALT: ${LOGGED_IN_SALT:?Set a unique WordPress salt}
+      NONCE_SALT: ${NONCE_SALT:?Set a unique WordPress salt}
+      INERTIA_SSR_ENABLED: '1'
+      INERTIA_SSR_PORT: '13714'
+    volumes:
+      - uploads:/var/www/html/wp-content/uploads
+    expose:
+      - '80'
+  db:
+    image: mariadb:11.8
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-wordpress}
+      MARIADB_USER: ${DB_USER:-wordpress}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:?Set a database password}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?Set a separate root password}
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+volumes:
+  uploads:
+  database:
+secrets:
+  composer_auth:
+    environment: COMPOSER_AUTH

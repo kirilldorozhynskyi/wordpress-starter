@@ -1,51 +1,46 @@
 <template>
-	<div :class="field?.cssClass">
-		<div class="custom-file form-floating" :class="{ 'is-invalid': error }">
-			<input :id="field?.key" type="file" @change="handleFileUpload" class="form-control" :class="{ 'is-invalid': error }" ref="fileInput" />
-
-			<label class="form-label" :for="field?.key" v-html="field.label" />
-
-			<span class="invalid-feedback" v-html="error"></span>
-
-			<button v-if="file" type="button" @click="removeFile" class="btn-remove btn p-1 text-danger mt-2">
-				<!-- <svgicon :name="`trash`"></svgicon> -->
-			</button>
-		</div>
+	<div :class="field.cssClass" class="flex min-w-0 flex-col gap-2">
+		<label :for="id" class="text-pretty" v-html="field.label" />
+		<input
+			ref="fileInput"
+			:id="id"
+			:name="field.key"
+			type="file"
+			:required="field.isRequired"
+			:accept="accept"
+			:aria-invalid="!!error"
+			:aria-describedby="error ? `${id}-error` : undefined"
+			@change="handleFileUpload" />
+		<p v-if="error" :id="`${id}-error`" class="text-pretty">{{ error }}</p>
+		<button v-if="model" type="button" @click="removeFile" class="self-start underline">
+			<!-- <svgicon :name="`trash`"></svgicon> -->
+			{{ $t('form.remove_file') }}
+		</button>
 	</div>
 </template>
-
 <script setup>
-import { ref } from 'vue'
+import { computed, useId, useTemplateRef, watch } from 'vue'
 // import Svgicon from '../SvgIcon.vue'
-
-defineProps({
-	modelValue: {
-		required: true
-	},
-	field: {
-		type: Object,
-		default: null,
-	},
-	error: {
-		type: String,
-		default: '',
-	},
-})
-
-const file = ref(null)
-const fileInput = ref(null)
-
-const emit = defineEmits(['update:modelValue'])
-
+const props = defineProps({ field: { type: Object, required: true }, error: { type: [String, Boolean], default: '' } })
+const model = defineModel({ required: true })
+const id = useId()
+const fileInput = useTemplateRef('fileInput')
+const accept = computed(() =>
+	(props.field.allowedExtensions || '')
+		.split(',')
+		.map((value) => value.trim())
+		.filter(Boolean)
+		.map((value) => `.${value.replace(/^\./, '')}`)
+		.join(',')
+)
 const handleFileUpload = (event) => {
-	const [uploadedFile] = event.target.files || []
-	file.value = uploadedFile
-	emit('update:modelValue', file.value)
+	model.value = event.target.files?.[0] ?? null
 }
-
 const removeFile = () => {
-	file.value = null
-	fileInput.value.value = null // Clear the file input
-	emit('update:modelValue', null)
+	model.value = null
+	fileInput.value?.focus()
 }
+watch(model, (value) => {
+	if (!value && fileInput.value) fileInput.value.value = ''
+})
 </script>
