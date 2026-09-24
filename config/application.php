@@ -31,6 +31,9 @@ $webroot_dir = $root_dir;
  */
 
 $env_path = null;
+$has_env_value = static function (string $key): bool {
+	return getenv($key) !== false || isset($_ENV[$key]) || isset($_SERVER[$key]);
+};
 
 if (file_exists($root_dir . '/.env')) {
 	$env_path = $root_dir . '/.env';
@@ -41,7 +44,7 @@ if (file_exists($root_dir . '/.env')) {
 if ($env_path) {
 	$dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname($env_path));
 	$dotenv->load();
-} else {
+} elseif (!$has_env_value('DATABASE_URL') && !$has_env_value('DB_NAME')) {
 	throw new Exception('.env is missing or contains an error. Please check it.');
 }
 
@@ -68,18 +71,18 @@ define('ENVIRONMENTS', serialize($envs));
  */
 switch (WP_ENV) {
 	case 'staging':
-		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+		if (($_SERVER['HTTP_HOST'] ?? '') === $envs['container1']) {
 			$WP_HOME = 'https://' . $envs['container1'];
-		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+		} elseif (($_SERVER['HTTP_HOST'] ?? '') === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
 			$WP_HOME = $envs['staging'];
 		}
 		break;
 	case 'production':
-		if ($_SERVER['HTTP_HOST'] === $envs['container1']) {
+		if (($_SERVER['HTTP_HOST'] ?? '') === $envs['container1']) {
 			$WP_HOME = 'https://' . $envs['container1'];
-		} elseif ($_SERVER['HTTP_HOST'] === $envs['container2']) {
+		} elseif (($_SERVER['HTTP_HOST'] ?? '') === $envs['container2']) {
 			$WP_HOME = 'https://' . $envs['container2'];
 		} else {
 			$WP_HOME = $envs['production'];
@@ -89,7 +92,8 @@ switch (WP_ENV) {
 		$WP_HOME = $envs['development'];
 }
 
-$WP_SITEURL = $WP_HOME;
+$WP_HOME = env('WP_HOME') ?: $WP_HOME;
+$WP_SITEURL = env('WP_SITEURL') ?: $WP_HOME;
 
 Config::define('WP_HOME', $WP_HOME);
 Config::define('WP_SITEURL', $WP_SITEURL);
@@ -147,7 +151,7 @@ Config::define('DISALLOW_FILE_MODS', true);
 Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?: true);
 
 // Set default theme
-Config::define('WP_DEFAULT_THEME', 'template');
+Config::define('WP_DEFAULT_THEME', 'inertia');
 
 /**
  * Debugging Settings

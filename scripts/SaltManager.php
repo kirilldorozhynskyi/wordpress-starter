@@ -13,16 +13,7 @@ class SaltManager
 
 	private static function generateSalt($length = 64)
 	{
-		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		$chars .= '!@#$%^&*()';
-		$chars .= '-_ []{}<>~`+=,.;:/?|';
-
-		$salt = '';
-		for ($i = 0; $i < $length; $i++) {
-			$salt .= substr($chars, rand(0, strlen($chars) - 1), 1);
-		}
-
-		return $salt;
+		return substr(bin2hex(random_bytes((int) ceil($length / 2))), 0, $length);
 	}
 
 	public static function addSalts(Event $event)
@@ -34,14 +25,20 @@ class SaltManager
 		}
 
 		$salts = array_map(function ($key) {
-			$salt = str_replace("$", 'black', self::generateSalt());
+			$salt = self::generateSalt();
 			return sprintf("%s='%s'", $key, $salt);
 		}, self::$KEYS);
 
 		$envFile = dirname(__DIR__) . '/.env';
 
 		if (file_exists($envFile)) {
-			file_put_contents($envFile, implode("\n", $salts), FILE_APPEND | LOCK_EX);
+			$content = file_get_contents($envFile);
+			foreach ($salts as $salt) {
+				$key = strstr($salt, '=', true);
+				$pattern = '/^' . preg_quote($key, '/') . '=.*$/m';
+				$content = preg_match($pattern, $content) ? preg_replace($pattern, $salt, $content) : rtrim($content) . "\n" . $salt . "\n";
+			}
+			file_put_contents($envFile, rtrim($content) . "\n", LOCK_EX);
 		}
 	}
 }

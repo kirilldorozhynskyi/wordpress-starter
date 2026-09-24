@@ -1,0 +1,1 @@
+import{f as e,k as t}from"./vendor-i18n-NEPLBP7p.js";import{t as n}from"./_plugin-vue_export-helper-BDNMzG2s.js";var r={};function i(n,r){return t(),e(`div`,null,`Archive Page`)}var a=n(r,[[`render`,i]]);export{a as default};
