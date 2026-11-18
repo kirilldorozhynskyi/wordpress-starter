@@ -1,1 +1,0 @@
-import{f as e,k as t,pt as n}from"./vendor-i18n-NEPLBP7p.js";var r={__name:`Error`,props:{error:{type:Number,default:500}},setup(r){return(i,a)=>(t(),e(`div`,null,`Error: `+n(r.error),1))}};export{r as default};

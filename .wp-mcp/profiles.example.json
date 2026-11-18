@@ -1,0 +1,18 @@
+{
+	"defaultProfile": "staging",
+	"profiles": {
+		"staging": {
+			"endpoint": "https://staging.example.com/wp-json/mcp-connector/v1/mcp",
+			"environment": "staging",
+			"username": "agent-staging",
+			"applicationPassword": "<staging application password>",
+			"mediaDirectory": "/absolute/path/to/media-to-upload"
+		},
+		"production": {
+			"endpoint": "https://example.com/wp-json/mcp-connector/v1/mcp",
+			"environment": "production",
+			"username": "agent-production",
+			"applicationPassword": "<production application password>"
+		}
+	}
+}

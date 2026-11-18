@@ -8,31 +8,32 @@
 		"WordPress",
 		"Starter"
 	],
-	"version": "4.3.0",
+	"version": "4.4.0",
 	"require": {
-		"php": ">=8.4",
-		"composer/installers": "^2.3",
-		"roots/wordpress": "^7.0",
-		"vlucas/phpdotenv": "^5.6.3",
-		"oscarotero/env": "^2.1.1",
-		"roots/wp-config": "1.0.0",
+		"php": ">=8.4.1",
 		"ext-json": "*",
-		"yahnis-elsts/plugin-update-checker": "^5.6",
-		"timber/timber": "^2.3.3",
-		"roots/bedrock-autoloader": "^1.1.0",
-		"wpengine/advanced-custom-fields-pro": "*",
-		"yoast/wordpress-seo": "^28.2",
-		"justdev/jd-support": "^2.1.4",
-		"pronamic/gravityforms": "^3.1.2",
+		"composer/installers": "^2.3.0",
 		"evo-mark/inertia-wordpress": "^0.8.5",
-		"kirilldorozhynskyi/wp-stage-switcher": "^2.2.1",
-		"wpackagist-plugin/wp-mail-smtp": "^4.7.1",
-		"wpackagist-plugin/redirection": "^5.7.5",
-		"wpackagist-plugin/ewww-image-optimizer": "^8.5.0",
-		"wpackagist-plugin/simple-custom-post-order": "^2.6.0",
-		"wpackagist-plugin/query-monitor": "^4.0.6",
-		"wpackagist-plugin/duplicate-post": "^4.6",
-		"justdev/syncport": "dev-develop"
+		"justdev/jd-support": "^2.2.2",
+		"justdev/lomnio-api-connector": "dev-develop",
+		"justdev/mcp-connector": "dev-develop",
+		"justdev/syncport": "dev-develop",
+		"oscarotero/env": "^2.1.1",
+		"pronamic/gravityforms": "^3.2.3.1",
+		"roots/bedrock-autoloader": "^1.1.0",
+		"roots/wordpress": "^7.1.4",
+		"roots/wp-config": "1.0.0",
+		"timber/timber": "^2.5.1",
+		"vlucas/phpdotenv": "^5.8.0",
+		"wpackagist-plugin/duplicate-post": "^4.7",
+		"wpackagist-plugin/ewww-image-optimizer": "^8.9.2",
+		"wpackagist-plugin/query-monitor": "^4.1.1",
+		"wpackagist-plugin/redirection": "^5.10.1",
+		"wpackagist-plugin/simple-custom-post-order": "^2.8.12",
+		"wpackagist-plugin/wp-mail-smtp": "^4.10.4",
+		"wpengine/advanced-custom-fields-pro": "^6.8.11",
+		"yahnis-elsts/plugin-update-checker": "^5.7",
+		"yoast/wordpress-seo": "^28.9"
 	},
 	"repositories": [
 		{
@@ -42,10 +43,6 @@
 				"wpackagist-plugin/*",
 				"wpackagist-theme/*"
 			]
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:kirilldorozhynskyi/wp-stage-switcher.git"
 		},
 		{
 			"type": "vcs",
@@ -91,8 +88,7 @@
 	},
 	"scripts": {
 		"post-create-project-cmd": [
-			"JDEVINT\\Installer::create",
-			"@install"
+			"@setup"
 		],
 		"wp-vite-install-deps": [
 			"@php scripts/prepare-wp-vite.php"
@@ -104,12 +100,6 @@
 		"post-update-cmd": [
 			"@sync-wordpress-core",
 			"@wp-vite-install-deps"
-		],
-		"install": [
-			"git init -b master",
-			"git add .",
-			"git commit -m'[INT] Starter initial'",
-			"npm ci"
 		],
 		"sync-wordpress-core": "@php scripts/sync-wordpress-core.php",
 		"setup": "JDEVINT\\Installer::create"

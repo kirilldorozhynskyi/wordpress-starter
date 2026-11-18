@@ -28,7 +28,7 @@ namespace EvoMark\InertiaWordpress {
     use EvoMark\InertiaWordpress\Modules\ModuleSetup;
     use YahnisElsts\PluginUpdateChecker\v5p5\Vcs\Api;
     use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-    use EvoMark\InertiaWordpress\Request\RequestHandler;
+    use InertiaTheme\InertiaRequest;
     use EvoMark\InertiaWordpress\Helpers\RequestResponse;
     use EvoMark\InertiaWordpress\Helpers\Plugin as HelpersPlugin;
 
@@ -49,7 +49,7 @@ namespace EvoMark\InertiaWordpress {
                 $container->set('env.entry', $entryFile);
                 $container->set('env.root', plugin_dir_path($entryFile));
                 $container->set('env.baseUrl', plugin_dir_url($entryFile));
-                $container->set('requestHandler', \Di\create(RequestHandler::class));
+                $container->set('requestHandler', \Di\create(InertiaRequest::class));
                 HelpersPlugin::setPluginVersion();
 
                 $themeRuntimeDir = Path::join(get_stylesheet_directory(), '.inertia');
@@ -275,6 +275,39 @@ namespace EvoMark\InertiaWordpress {
                 closedir($layouts);
 
                 return $pageTemplates;
+            }
+        }
+    }
+}
+
+namespace EvoMark\InertiaWordpress\Responses {
+
+    use EvoMark\InertiaWordpress\Helpers\Header;
+    use EvoMark\InertiaWordpress\Helpers\RequestResponse;
+    use EvoMark\InertiaWordpress\Inertia;
+
+    if (! class_exists(InertiaResponse::class, false)) {
+        class InertiaResponse
+        {
+            public static function handle()
+            {
+                $request = inertia_request();
+                $method = RequestResponse::getMethod();
+                $version = Inertia::getVersion();
+
+                \InertiaTheme\InertiaRequest::sendPageHeaders();
+
+                if ($method === 'GET' && $request->getHeader(Header::VERSION, '') !== $version) {
+                    header('X-Inertia-Version: ' . $version);
+                    Inertia::location(home_url($_SERVER['REQUEST_URI'] ?? '/'));
+                }
+
+                if (http_response_code() === 302 && in_array($method, ['PUT', 'PATCH', 'DELETE'], true)) {
+                    status_header(303);
+                }
+
+                header('X-Inertia: true');
+                wp_send_json($request->getPageData());
             }
         }
     }

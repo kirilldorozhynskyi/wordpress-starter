@@ -3,8 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_CDN_BASE: ${VITE_CDN_BASE:-}
       secrets:
         - composer_auth
+        - primeui_license
     restart: unless-stopped
     stop_grace_period: 30s
     depends_on:
@@ -56,3 +59,5 @@ volumes:
 secrets:
   composer_auth:
     environment: COMPOSER_AUTH
+  primeui_license:
+    environment: VITE_PRIMEUI_LICENSE

@@ -26,6 +26,15 @@ $check($formatted['url'] === $url && $formatted['target'] === '_blank', 'ACF lin
 $unsafeLink = $field->format_value(['url' => 'javascript:alert(1)', 'title' => 'Unsafe'], 0, []);
 $check($unsafeLink === false, 'ACF link field rejects unsafe URL schemes.');
 
+$formattedTitle = $field->format_value(['url' => $url, 'title' => '<strong data-private="test">Example</strong>'], 0, []);
+$check($formattedTitle['title'] === '<strong>Example</strong>', 'ACF link retains safe inline formatting and drops attributes.');
+
+$acf = apply_filters(\EvoMark\InertiaWordpress\Helpers\HookFilters::ACF_SHARE, [
+	'post' => ['internal' => 'test'],
+	'options' => ['theme-settings' => ['GAPI' => 'test']],
+]);
+$check(!isset($acf['post']) && (array) $acf['options'] === [], 'ACF options and raw post fields are private by default.');
+
 $originalGet = $_GET;
 $limit = null;
 $captureLimit = static function ($query) use (&$limit): void {
@@ -48,5 +57,9 @@ $missingForm = $controller->getForm(0);
 $check(is_wp_error($missingForm) && $missingForm->get_error_data()['status'] === 400, 'Invalid form IDs return a controlled error.');
 foreach (GFAPI::get_forms() as $form) {
 	$data = $controller->getForm((int) $form['id']);
-	$check(is_array($data) && !isset($data['notifications']), 'Form ' . $form['id'] . ' loads without notification configuration.');
+	if (!empty($form['requireLogin']) && !is_user_logged_in()) {
+		$check(is_wp_error($data), 'Form ' . $form['id'] . ' requires a logged-in user.');
+		continue;
+	}
+	$check(is_array($data) && array_keys($data) === ['fields', 'requiredIndicator', 'button'], 'Form ' . $form['id'] . ' exposes only frontend configuration.');
 }

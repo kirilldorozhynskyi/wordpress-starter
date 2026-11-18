@@ -1,16 +1,14 @@
 <template>
-	<Head :title="post.title" />
-	<main class="flex-centre">
+	<article class="flex-centre">
 		<h1>{{ post.title }}</h1>
 		<img v-if="post.featuredImage" id="featured-image" :src="post.featuredImage.sizes.full.url" :alt="post.featuredImage.metadata?.alt || post.title" />
 
 		<div v-html="post.content"></div>
 		<div>Written by {{ post.author.name }} on {{ publishedDate }}</div>
-	</main>
+	</article>
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
 const props = defineProps({

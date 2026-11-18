@@ -25,7 +25,15 @@
 		"sending": "Sending…",
 		"remove_file": "Remove file"
 	},
+	"archive": {
+		"empty": "No results found.",
+		"untitled": "Untitled",
+		"pagination": "Results pages",
+		"previous": "Previous page",
+		"next": "Next page"
+	},
 	"menu": {
+		"language": "Language",
 		"toggle": "Open menu",
 		"close": "Close menu"
 	}

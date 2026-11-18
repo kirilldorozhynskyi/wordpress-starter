@@ -7,23 +7,17 @@
 			transit: isSticky,
 			'-translate-y-26!': isSticky,
 
-			'translate-y-0!': showTop,
-		}"
-	>
+			'translate-y-0!': showTop
+		}">
 		<div :class="{ 'transit bg-primary': isStickyLick }">
 			<div class="relative z-20 container">
 				<div class="flex items-center justify-between py-4" :class="isStickyLick || menuOpened ? 'text-green-400' : 'text-light lg:py-6'">
-						<Link :href="homeUrl" class="relative z-20 inline-block w-fit" prefetch>
-							<span class="sr-only">{{ siteName }}</span>
-							<SvgObject
-								class="h-auto max-md:w-29"
-							width="135"
-							height="56"
-							:src="`${$page.props.theme.uri}/resources/Public/Images/logo.svg`"
-						/>
+					<Link :href="homeUrl" class="relative z-20 inline-block w-fit" prefetch>
+						<span class="sr-only">{{ siteName }}</span>
+						<img class="h-auto max-md:w-29" width="135" height="56" alt="" :src="`${$page.props.theme.uri}/resources/Public/Images/logo.svg`" />
 					</Link>
 
-					<HeaderNav :menu="menu" :isStickyLick="isStickyLick" @update:menuOpened="menuOpened = $event" />
+					<HeaderNav :menu="menu" :languages="languages" :isStickyLick="isStickyLick" @update:menuOpened="menuOpened = $event" />
 				</div>
 			</div>
 		</div>
@@ -31,7 +25,8 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 import HeaderNav from './Navigation/HeaderNav.vue'
 
 defineProps({
@@ -45,12 +40,16 @@ defineProps({
 	},
 	menu: {
 		type: Object,
-		default: null,
+		default: null
+	},
+	languages: {
+		type: Object,
+		default: null
 	},
 	options: {
 		type: Object,
-		default: null,
-	},
+		default: null
+	}
 })
 
 // Header sticky behavior (ref-based + reactive class binding)
@@ -91,13 +90,6 @@ const handleScroll = () => {
 	lastScrollTop.value = currentScrollTop
 }
 
-onMounted(() => {
-	window.addEventListener('scroll', handleScroll, { passive: true })
-	// Initialize state based on current position
-	handleScroll()
-})
-
-onBeforeUnmount(() => {
-	window.removeEventListener('scroll', handleScroll)
-})
+useEventListener('scroll', handleScroll, { passive: true })
+onMounted(handleScroll)
 </script>

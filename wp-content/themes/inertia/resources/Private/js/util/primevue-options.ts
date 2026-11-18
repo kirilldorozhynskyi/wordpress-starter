@@ -1,6 +1,7 @@
 export type DefinePreset = (preset: unknown, options: Record<string, unknown>) => unknown
 
 const createPrimeVueOptions = (definePreset: DefinePreset, Aura: unknown) => ({
+	license: import.meta.env.VITE_PRIMEUI_LICENSE?.trim(),
 	theme: {
 		preset: definePreset(Aura, {
 			semantic: {

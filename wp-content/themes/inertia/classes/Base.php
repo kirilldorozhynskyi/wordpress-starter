@@ -8,7 +8,8 @@ class Base
 	{
 		add_action('after_setup_theme', [$this, 'onThemeActivation']);
 		add_action('after_setup_theme', [$this, 'setupTheme']);
-		add_action('after_setup_theme', [$this, 'addImageSizes']);
+		add_action('after_setup_theme', [$this, 'registerImageSizes']);
+		add_filter('intermediate_image_sizes', [$this, 'filterImageSizes']);
 		add_filter('use_block_editor_for_post', '__return_false');
 
 		add_action('init', [$this, 'disableEmailNotifications']);
@@ -19,7 +20,6 @@ class Base
 		add_action('init', [$this, 'emailNotifications']);
 
 		add_filter('use_block_editor_for_post', '__return_false');
-		add_filter('intermediate_image_sizes', [$this, 'deleteImageSizes']);
 		add_filter('acf/settings/remove_wp_meta_box', '__return_false');
 	}
 
@@ -51,43 +51,17 @@ class Base
 		load_theme_textdomain('jdev', get_template_directory() . '/languages');
 	}
 
-	public function addImageSizes()
+	public function registerImageSizes(): void
 	{
-		$sizes = [
-			// [
-			// 	'2x' => true,
-			// 	'name' => 'post',
-			// 	'size' => 800,
-			// 	'sizeH' => 800,
-			// ],
-			// [
-			// 	'2x' => false,
-			// 	'name' => 'full',
-			// 	'size' => 1920,
-			// 	'sizeH' => 1920,
-			// ],
-			// [
-			// 	'2x' => false,
-			// 	'name' => 'full_2x',
-			// 	'size' => 2560,
-			// 	'sizeH' => 2560,
-			// ],
-			// [
-			// 	// real full — не трогаем, не ресайзим
-			// 	'2x' => false,
-			// 	'name' => 'full', // WP original
-			// 	'size' => null, // no size
-			// 	'sizeH' => null,
-			// 	'skip' => true, // флаг пропуска
-			// ],
-		];
-
-		foreach ($sizes as $size) {
-			add_image_size($size['name'], $size['size'], $size['sizeH'] ?? 0);
-			if ($size['2x']) {
-				add_image_size($size['name'] . '2x', $size['size'] * 2, $size['sizeH'] ? $size['sizeH'] * 2 : 0);
-			}
+		foreach (['post' => [372, 265], 'text_image' => [564, 552], 'carousel' => [756, 604], 'container' => [1152, 624]] as $name => [$width, $height]) {
+			add_image_size($name, $width, $height);
+			add_image_size($name . '2x', $width * 2, $height * 2);
 		}
+	}
+
+	public function filterImageSizes(array $sizes): array
+	{
+		return array_diff($sizes, ['medium_large', '1536x1536', '2048x2048']);
 	}
 
 	public function disableEmailNotifications(): void
@@ -138,11 +112,6 @@ class Base
 	public function modifyCustomizer($customizer): void
 	{
 		$customizer->remove_section('custom_css');
-	}
-
-	public function deleteImageSizes(array $sizes): array
-	{
-		return array_diff($sizes, ['medium_large', '1536x1536', '2048x2048']);
 	}
 
 	/**

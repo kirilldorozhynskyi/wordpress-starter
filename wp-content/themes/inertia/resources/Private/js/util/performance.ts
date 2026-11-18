@@ -1,23 +1,6 @@
 type CancelCallback = () => void
 type DeferredCallback = () => void
 
-export const isPerformanceAudit = () => {
-	if (typeof navigator === 'undefined') {
-		return false
-	}
-
-	const ua = navigator.userAgent || ''
-	const platform = navigator.platform || ''
-	const brands = ('userAgentData' in navigator ? navigator.userAgentData?.brands : []) || []
-	const hasLighthouseBrand = brands.some(({ brand }) => /lighthouse/i.test(brand))
-
-	return (
-		hasLighthouseBrand
-		|| /Chrome-Lighthouse|HeadlessChrome|Lighthouse|Page Speed|PageSpeed/i.test(ua)
-		|| (navigator.webdriver && platform === 'Linux x86_64' && /moto g power/i.test(ua))
-	)
-}
-
 export const afterWindowLoad = (callback: DeferredCallback): CancelCallback => {
 	if (typeof window === 'undefined') {
 		return () => {}

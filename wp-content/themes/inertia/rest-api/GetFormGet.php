@@ -3,6 +3,7 @@
 namespace Inertia\RestApi;
 
 use InertiaTheme\Controller\GravityFormController;
+use WP_Error;
 use WP_REST_Request;
 use EvoWpRestRegistration\BaseRestController;
 
@@ -15,7 +16,7 @@ class GetFormGet extends BaseRestController
 
 	protected $rules = [
 		'id' => ['required', 'integer'],
-		'lang' => ['sometimes', 'string', 'max:10'],
+		'lang' => ['sometimes', 'string', 'max:32'],
 	];
 
 	public function authorise()
@@ -28,9 +29,6 @@ class GetFormGet extends BaseRestController
 		$validated = $this->validated();
 		$controller = new GravityFormController();
 
-		return $controller->getForm(
-			(int) ($validated['id'] ?? 0),
-			(string) ($validated['lang'] ?? '')
-		);
+		return $controller->getForm((int) ($validated['id'] ?? 0), (string) ($validated['lang'] ?? ''));
 	}
 }

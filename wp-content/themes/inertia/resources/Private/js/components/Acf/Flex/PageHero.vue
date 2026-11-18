@@ -1,61 +1,38 @@
 <template>
-	<Head>
-		<link v-if="heroPosterSrc" rel="preload" :href="heroPosterSrc" as="image" />
-	</Head>
-
 	<section class="relative h-[calc(100svh-108px)] overflow-hidden max-lg:mt-[123px] max-md:mt-[108px] md:h-[calc(100svh-123px)] lg:h-svh lg:min-h-[650px]">
 		<IdPage :ce="ce" />
 
 		<Image
-			v-if="ce?.image"
+			v-if="ce?.image || ce?.image_mobile"
 			class="absolute inset-0 block h-full w-full"
 			:image="ce.image"
+			:image-mobile="ce.image_mobile"
 			:alt="ce?.image?.alt"
-			:width="heroImageWidth"
-			:height="heroImageHeight"
-			:img-class="'object-cover object-center w-full h-full'"
-			:lazy="false"
-			loading="eager"
-			fetch-priority="high"
-			decoding="async"
-			resize-type="fill"
-			:transform-width="1600"
-			:transform-height="920"
-		/>
-
-		<!-- <Image
-			v-if="ce?.image"
-			class="absolute inset-0 block h-full w-full"
-			:image="ce.image"
-			:alt="ce?.image?.alt"
-			:width="heroImageWidth"
-			:height="heroImageHeight"
 			:img-class="'object-cover object-center w-full h-full'"
 			size="full"
-			:lazy="false"
+			sizes="100vw"
 			loading="eager"
-			fetch-priority="high"
-			decoding="async"
-		/>
+			fetchpriority="high" />
 
 		<video
 			v-if="shouldLoadVideo"
-			ref="heroVideo"
+			:key="ce.video"
 			class="absolute inset-0 h-full w-full object-cover"
+			:class="{ 'opacity-0': !videoPlaying }"
 			muted
-			:autoplay="shouldLoadVideo"
+			autoplay
 			loop
 			playsinline
 			preload="none"
-			:poster="heroPosterSrc"
+			:data-src="ce.video"
 			aria-hidden="true"
-		>
-			<source v-if="shouldLoadVideo" type="video/mp4" :src="ce.video" />
-		</video> -->
+			@playing="videoPlaying = true" />
 
 		<div class="absolute inset-0 bg-linear-to-b from-black/40 to-transparent">
 			<div class="container h-full items-center justify-center gap-6 text-white max-xl:max-w-full max-xl:px-4">
-				<h1 v-if="ce.text" v-html="ce.text" class="title-1 text-center font-thin uppercase" />
+				<h1 v-if="primaryHeading && ce.text?.trim()" v-html="ce.text" class="title-1 text-center font-thin uppercase" />
+				<h2 v-else-if="ce.text?.trim()" v-html="ce.text" class="title-1 text-center font-thin uppercase" />
+				<h1 v-else-if="fallbackTitle" class="title-1 text-center font-thin uppercase">{{ fallbackTitle }}</h1>
 
 				<slot />
 
@@ -65,28 +42,22 @@
 			</div>
 		</div>
 	</section>
-
-	<Image
-		v-if="ce?.image"
-		:image="ce.image"
-		:alt="ce?.image?.alt"
-		:width="1920"
-		:height="1080"
-		resize-type="fill"
-		:transform-width="1920"
-		:transform-height="1080"
-	/>
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { afterLoadAndIdle, isPerformanceAudit } from '@/util/performance'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { afterLoadAndIdle } from '@/util/performance'
 
 const props = defineProps({
 	ce: {
 		type: Object,
 		required: true
 	},
+	primaryHeading: {
+		type: Boolean,
+		default: true
+	},
+	fallbackTitle: String,
 	first: {
 		type: Boolean,
 		default: false
@@ -97,13 +68,10 @@ const props = defineProps({
 	}
 })
 
-const heroVideo = ref(null)
 const shouldLoadVideo = ref(false)
+const videoPlaying = ref(false)
 let cancelVideoSchedule = () => {}
 
-const heroPosterSrc = computed(() => props.ce?.image?.sizes?.full || props.ce?.image?.url || '')
-const heroImageWidth = computed(() => Number(props.ce?.image?.width) || 1920)
-const heroImageHeight = computed(() => Number(props.ce?.image?.height) || 1080)
 const heroButton = computed(() => {
 	const button = props.ce?.button
 
@@ -114,33 +82,21 @@ const heroButton = computed(() => {
 	return button
 })
 
-const canAutoloadHeroVideo = () => {
-	if (typeof window === 'undefined' || !props.ce?.video || isPerformanceAudit()) {
-		return false
-	}
-
-	const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-
-	return !prefersReducedMotion
-}
-
 onMounted(() => {
-	if (!canAutoloadHeroVideo()) {
-		return
-	}
+	watch(
+		() => props.ce?.video,
+		(video) => {
+			cancelVideoSchedule()
+			shouldLoadVideo.value = false
+			videoPlaying.value = false
+			if (!video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-	cancelVideoSchedule = afterLoadAndIdle(() => {
-		shouldLoadVideo.value = true
-	}, 3000)
-})
-
-watch(shouldLoadVideo, async (enabled) => {
-	if (!enabled) {
-		return
-	}
-
-	await nextTick()
-	heroVideo.value?.load()
+			cancelVideoSchedule = afterLoadAndIdle(() => {
+				shouldLoadVideo.value = true
+			}, 3000)
+		},
+		{ immediate: true }
+	)
 })
 
 onBeforeUnmount(() => {

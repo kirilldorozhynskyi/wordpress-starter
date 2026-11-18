@@ -4,9 +4,17 @@
 .vscode
 phploy
 .env
+/.env.*
+!/.env.template
 
 .ddev/*
 !.ddev/config.yaml
+!.ddev/apache/
+.ddev/apache/*
+!.ddev/apache/starter-private-paths.conf
+!.ddev/nginx/
+.ddev/nginx/*
+!.ddev/nginx/starter-private-paths.conf
 wp-config-ddev.php
 
 node_modules/
@@ -57,3 +65,16 @@ wp-admin
 
 wordpress-muster.code-workspace
 wp-content/mcloud-view-cache/
+/.wp-mcp/*
+!/.wp-mcp/.htaccess
+!/.wp-mcp/profiles.example.json
+
+# Repository-owned Codex skills and local CodeGraph state
+!/.agents/
+!/.agents/skills/
+!/.agents/skills/**
+/.codegraph/
+/tests/e2e/.results/
+/docs/*
+!/docs/server.md
+!/docs/releases/

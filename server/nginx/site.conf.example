@@ -1,0 +1,23 @@
+server {
+	listen 443 ssl;
+	server_name example.com;
+	root /srv/www/example.com;
+	index index.php;
+
+	ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+	include /srv/www/example.com/server/nginx/private-paths.conf;
+	add_header X-Content-Type-Options nosniff always;
+
+	location / {
+		try_files $uri $uri/ /index.php?$args;
+	}
+
+	location ~ \.php$ {
+		try_files $uri =404;
+		include /etc/nginx/fastcgi_params;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_pass unix:/run/php/php8.5-fpm.sock;
+	}
+}

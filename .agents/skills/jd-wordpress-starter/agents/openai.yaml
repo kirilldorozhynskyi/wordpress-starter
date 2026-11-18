@@ -1,0 +1,4 @@
+interface:
+    display_name: 'jD WordPress Starter'
+    short_description: 'Maintain the jD WordPress starter stack'
+    default_prompt: 'Use $jd-wordpress-starter to make this change in the current WordPress starter.'

@@ -20,10 +20,7 @@ const config = {
 	base: {
 		production: '/wp-content/themes/inertia/resources/Public/Build/',
 	},
-	esbuild: {
-		target: 'es2020',
-		drop: ['console', 'debugger'],
-	},
+	buildTarget: 'es2022',
 	paths: {
 		projectRoot,
 		themeRoot,
@@ -40,6 +37,7 @@ const config = {
 		themeIconsRoot,
 		themeIconsGlob,
 		themeViteRoot,
+		themeSsrRoot: path.join(themeViteRoot, 'ssr'),
 		hotFile,
 	},
 	directoriesToEnsure: [themeBuildRoot, themeFontsRoot, themeExtRoot, themeFaviconsRoot, themeIconsRoot, themeViteRoot],
@@ -80,9 +78,6 @@ const config = {
 	},
 	wordpress: {
 		namespace: 'theme-inertia',
-		publicDirectory: 'resources/Public',
-		buildDirectory: 'Build',
-		ssrOutputDirectory: 'resources/Private/.vite/ssr',
 	},
 } as const
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Inertia WordPress Environment
- * Description: Allows container environment variables to control SSR without changing database options.
+ * Description: Allows server environment variables to control SSR without changing database options.
  */
 
 if (!defined('ABSPATH')) {

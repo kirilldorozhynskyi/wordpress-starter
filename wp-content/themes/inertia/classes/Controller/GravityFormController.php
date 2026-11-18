@@ -3,11 +3,19 @@
 namespace InertiaTheme\Controller;
 
 use GFAPI;
+use InertiaTheme\Languages;
 use WP_Error;
 
 class GravityFormController
 {
 	private ?bool $canUseWpmlStrings = null;
+
+	public static function isPublicForm(int $formId): bool
+	{
+		$publicIds = apply_filters('inertia_theme/public_gravity_form_ids', [1]);
+
+		return in_array($formId, array_map('intval', $publicIds), true);
+	}
 
 	public function getForm(int $formId, string $lang = ''): array|WP_Error
 	{
@@ -19,41 +27,86 @@ class GravityFormController
 			return new WP_Error('gravity_form_api_unavailable', __('Gravity Forms API is not available.', 'jdev'), ['status' => 503]);
 		}
 
-		if ($lang) {
-			do_action('wpml_switch_language', $lang);
+		$restore = Languages::switchForRequest($lang);
+		try {
+			return $this->getLocalizedForm($formId, Languages::current() ?? '');
+		} finally {
+			$restore?->__invoke();
 		}
+	}
 
+	private function getLocalizedForm(int $formId, string $lang): array|WP_Error
+	{
 		$form = GFAPI::get_form($formId);
 
-		if (!$form || !is_array($form)) {
+		if (!$form || !is_array($form) || empty($form['is_active']) || !empty($form['is_trash']) || (!empty($form['requireLogin']) && !is_user_logged_in())) {
 			return new WP_Error('gravity_form_not_found', __('Gravity form was not found.', 'jdev'), ['status' => 404]);
 		}
 
-		unset($form['notifications'], $form['date_created']);
-
-		if (!empty($form['fields']) && is_array($form['fields'])) {
-			foreach ($form['fields'] as &$field) {
-				$field = $this->normalizeField($field, $lang);
+		if ($lang !== '') {
+			// Let Gravity Forms Multilingual localize the form before projecting it for Vue.
+			$form = gf_apply_filters(['gform_pre_render', $formId], $form, true, null, 'form_display');
+			if (!is_array($form)) {
+				return new WP_Error('gravity_form_not_found', __('Gravity form was not found.', 'jdev'), ['status' => 404]);
 			}
-			unset($field);
 		}
 
-		return $form;
+		$fields = [];
+		foreach ($form['fields'] ?? [] as $field) {
+			$normalized = $this->normalizeField($field, $lang);
+			if ($normalized !== []) {
+				$fields[] = $normalized;
+			}
+		}
+
+		return [
+			'fields' => $fields,
+			'requiredIndicator' => $form['requiredIndicator'] ?? '',
+			'button' => ['text' => $form['button']['text'] ?? ''],
+		];
 	}
 
 	private function normalizeField(mixed $field, string $lang): array
 	{
-		if (is_object($field) && method_exists($field, 'to_array')) {
-			$field = $field->to_array();
-		} elseif (is_object($field)) {
-			$field = (array) $field;
+		if (is_object($field)) {
+			$field = get_object_vars($field);
 		}
 
-		if (!is_array($field)) {
+		if (!is_array($field) || ($field['visibility'] ?? '') === 'administrative') {
 			return [];
 		}
 
-		$field = $this->removeInternalFieldProperties($field);
+		$field = array_intersect_key(
+			$field,
+			array_flip([
+				'id',
+				'type',
+				'visibility',
+				'label',
+				'description',
+				'placeholder',
+				'cssClass',
+				'isRequired',
+				'checkboxLabel',
+				'consentRevisionId',
+				'content',
+				'text',
+				'dateFormat',
+				'allowedExtensions',
+				'inputName',
+				'autocompleteAttribute',
+				'defaultValue',
+				'default_value',
+				'inputs',
+				'choices',
+				'conditionalLogic',
+			]),
+		);
+		foreach (['inputs' => ['id', 'key', 'label'], 'choices' => ['key', 'text', 'value', 'isSelected']] as $key => $allowed) {
+			if (is_array($field[$key] ?? null)) {
+				$field[$key] = array_map(static fn(array $item): array => array_intersect_key($item, array_flip($allowed)), $field[$key]);
+			}
+		}
 
 		$field['key'] = 'input_' . ($field['id'] ?? '');
 
@@ -105,21 +158,6 @@ class GravityFormController
 		);
 
 		return is_string($translation) && $translation !== '' ? $translation : $original;
-	}
-
-	private function removeInternalFieldProperties(array $field): array
-	{
-		$normalized = [];
-
-		foreach ($field as $key => $value) {
-			if (is_string($key) && str_contains($key, "\0")) {
-				continue;
-			}
-
-			$normalized[$key] = $value;
-		}
-
-		return $normalized;
 	}
 
 	private function canUseWpmlStrings(): bool

@@ -52,6 +52,33 @@
 			"wpml_cf_preferences": 3
 		},
 		{
+			"key": "field_6a0e5dcd9e992",
+			"label": "Mobile image",
+			"name": "image_mobile",
+			"aria-label": "",
+			"type": "image",
+			"instructions": "Optional image crop for viewports narrower than 48rem.",
+			"required": 0,
+			"conditional_logic": 0,
+			"wrapper": {
+				"width": "",
+				"class": "",
+				"id": ""
+			},
+			"return_format": "array",
+			"library": "all",
+			"min_width": "",
+			"min_height": "",
+			"min_size": "",
+			"max_width": "",
+			"max_height": "",
+			"max_size": "",
+			"mime_types": "",
+			"allow_in_bindings": 0,
+			"preview_size": "medium",
+			"wpml_cf_preferences": 3
+		},
+		{
 			"key": "field_68bafa44699b5",
 			"label": "Video",
 			"name": "video",
@@ -110,5 +137,5 @@
 	"display_title": "",
 	"allow_ai_access": false,
 	"ai_description": "",
-	"modified": 1776269519
+	"modified": 1795006114
 }

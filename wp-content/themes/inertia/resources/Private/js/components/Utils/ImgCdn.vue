@@ -1,34 +1,39 @@
 <template>
 	<picture v-if="hasImage" class="picture">
-		<template v-if="hasResponsiveSources">
-			<source
-				v-for="(source, breakpoint) in parsedMedia"
-				:key="breakpoint"
-				:media="`(max-width: ${breakpoint}px)`"
-				:srcset="source.srcset"
-				:type="source.type || null" />
-		</template>
+		<source
+			v-if="mobileSource.src"
+			:media="mobileMedia"
+			:srcset="mobileSource.srcset || mobileSource.src"
+			:sizes="mobileSource.hasWidths ? sizes : undefined"
+			:width="mobileSource.width"
+			:height="mobileSource.height" />
+		<source
+			v-for="source in responsiveSources"
+			:key="source.media"
+			:media="source.media"
+			:srcset="source.srcset"
+			:sizes="source.hasWidths ? sizes : undefined"
+			:width="source.width"
+			:height="source.height"
+			:type="source.type" />
 
 		<img
-			:src="placeholderSrc"
+			:src="resolvedSrc || svgPlaceholder"
 			:class="imgClass"
 			:loading="loadingAttr"
 			:fetchpriority="fetchPriority"
 			:decoding="decoding"
-			:data-src="shouldLazyLoad ? resolvedSrc : null"
-			:data-srcset="shouldLazyLoad ? finalSrcset : null"
-			:srcset="shouldLazyLoad ? null : finalSrcset || null"
+			:srcset="source.srcset || null"
+			:sizes="source.hasWidths ? sizes : undefined"
 			:width="resolvedWidth"
 			:height="resolvedHeight"
-			:alt="resolvedAlt"
-			:lazy="shouldLazyLoad ? '' : null" />
+			:alt="resolvedAlt" />
 	</picture>
 </template>
 
 <script setup>
-import { computed, inject, nextTick, onMounted, watch } from 'vue'
-
-const lazyLoad = inject('lazyLoad')
+import { computed } from 'vue'
+import { densitySrcset, getMediaEntries, getNativeImageSource, getNativeMediaSource } from '@/util/responsive-image.mjs'
 
 const props = defineProps({
 	image: {
@@ -37,10 +42,25 @@ const props = defineProps({
 		default: false
 	},
 
-	alt: {
-		type: String,
-		default: ''
+	imageMobile: {
+		type: [Object, String, Boolean],
+		default: false
 	},
+
+	mobileMedia: {
+		type: String,
+		default: '(width < 48rem)'
+	},
+
+	sizes: {
+		type: String,
+		default: '100vw'
+	},
+
+	sizeRetina: String,
+	size_retina: String,
+
+	alt: String,
 
 	width: {
 		type: Number,
@@ -143,66 +163,30 @@ const props = defineProps({
 	}
 })
 
-const hasImage = computed(() => Boolean(props.image))
-const isObjectImage = computed(() => Boolean(props.image && typeof props.image === 'object' && !Array.isArray(props.image)))
-const shouldLazyLoad = computed(() => props.lazy !== false)
-const loadingAttr = computed(() => props.loading || (shouldLazyLoad.value ? 'lazy' : 'eager'))
+const hasImage = computed(() => Boolean(props.image || props.imageMobile))
+const loadingAttr = computed(() => props.loading || (props.lazy ? 'lazy' : 'eager'))
+const baseImage = computed(() => props.image || props.imageMobile)
+const resolvedAlt = computed(() => props.alt ?? baseImage.value?.alt ?? baseImage.value?.metadata?.alt ?? '')
+const nativeSource = computed(() =>
+	getNativeImageSource(baseImage.value, { size: props.size, sizeRetina: props.sizeRetina || props.size_retina, retina: props.retina })
+)
+const mobileSource = computed(() => getNativeImageSource(props.image && props.imageMobile, { retina: props.retina }))
+const resolvedWidth = computed(() => props.width ?? nativeSource.value.width)
+const resolvedHeight = computed(() => props.height ?? nativeSource.value.height)
 
 const normalizeBase = (base) => String(base || '').replace(/\/+$/, '')
-
-const getHostname = (url) => {
+const parseUrl = (url) => {
 	try {
-		return new URL(url).hostname
+		return new URL(url)
 	} catch {
-		return ''
+		return null
 	}
 }
-
-const cdnHost = computed(() => getHostname(normalizeBase(props.cdnBase)))
-
-const isCdnUrl = (url) => {
-	try {
-		return new URL(url).hostname === cdnHost.value
-	} catch {
-		return false
-	}
-}
-
-const getPathFromUrl = (url) => {
-	try {
-		return new URL(url).pathname.replace(/^\/+/, '')
-	} catch {
-		return ''
-	}
-}
-
-const resolvedAlt = computed(() => {
-	if (props.alt) return props.alt
-	if (isObjectImage.value) return props.image?.alt || props.image?.metadata?.alt || ''
-	return ''
-})
-
-const resolvedWidth = computed(() => Number(props.width ?? (isObjectImage.value ? props.image?.width : null)) || undefined)
-const resolvedHeight = computed(() => Number(props.height ?? (isObjectImage.value ? props.image?.height : null)) || undefined)
-
-const rawSourceUrl = computed(() => {
-	if (!hasImage.value) return ''
-
-	if (typeof props.image === 'string') {
-		return props.image
-	}
-
-	if (!isObjectImage.value) {
-		return ''
-	}
-
-	const sizes = props.image?.sizes || {}
-
-	if (props.size && sizes[props.size]) {
-		return sizes[props.size]
-	}
-
-	return props.image?.url || ''
+const cdnBase = computed(() => normalizeBase(props.cdnBase))
+const cdnHost = computed(() => parseUrl(cdnBase.value)?.hostname)
+const cdnPath = computed(() => {
+	const url = parseUrl(nativeSource.value.src)
+	return url && url.hostname === cdnHost.value ? url.pathname.replace(/^\/+/, '') : ''
 })
 
 const buildTransform = ({
@@ -231,145 +215,64 @@ const buildTransform = ({
 	return parts.join('/')
 }
 
-const mainTransform = computed(() =>
-	buildTransform({
-		transform: props.transform,
-		resizeType: props.resizeType,
-		width: props.transformWidth || props.width,
-		height: props.transformHeight || props.height,
-		format: props.format,
-		quality: props.quality,
-		gravity: props.gravity,
-		dpr: props.dpr
-	})
-)
-
-const retinaTransform = computed(() => {
-	if (!props.retina) return ''
-
-	return buildTransform({
-		transform: props.transform,
-		resizeType: props.resizeType,
-		width: props.transformWidth || props.width,
-		height: props.transformHeight || props.height,
-		format: props.format,
-		quality: props.quality,
-		gravity: props.gravity,
-		dpr: props.retinaDpr
-	})
-})
-
-const buildCdnUrl = (path, tr = '') => {
-	const base = normalizeBase(props.cdnBase)
-	const cleanPath = String(path || '').replace(/^\/+/, '')
-
-	if (!base || !cleanPath) return ''
-
-	if (!tr) {
-		return `${base}/${cleanPath}`
+const getCdnSource = (options) => {
+	const buildUrl = (dpr) => {
+		const transform = buildTransform({ ...options, dpr })
+		return `${cdnBase.value}/${cdnPath.value}${transform ? `?tr=${transform}` : ''}`
 	}
+	const src = buildUrl(options.dpr)
+	const retinaDpr = options.retinaDpr || props.retinaDpr
 
-	return `${base}/${cleanPath}?tr=${tr}`
+	return {
+		src,
+		srcset: props.retina ? densitySrcset(src, buildUrl(retinaDpr), retinaDpr / (options.dpr || 1)) : ''
+	}
 }
 
-const resolvedSrc = computed(() => {
-	const url = rawSourceUrl.value
-
-	if (!url) return ''
-
-	if (!isCdnUrl(url)) {
-		return url
-	}
-
-	const path = getPathFromUrl(url)
-
-	if (!path) {
-		return url
-	}
-
-	if (!mainTransform.value) {
-		return url
-	}
-
-	return buildCdnUrl(path, mainTransform.value)
-})
-
-const finalSrcset = computed(() => {
-	const url = rawSourceUrl.value
-
-	if (!url) return ''
-
-	if (!isCdnUrl(url)) {
-		return ''
-	}
-
-	const path = getPathFromUrl(url)
-
-	if (!path) return ''
-
-	const oneX = mainTransform.value ? buildCdnUrl(path, mainTransform.value) : buildCdnUrl(path)
-
-	if (!props.retina || !retinaTransform.value) {
-		return oneX ? `${oneX} 1x` : ''
-	}
-
-	const twoX = buildCdnUrl(path, retinaTransform.value)
-
-	return `${oneX} 1x, ${twoX} 2x`
-})
-
-const parsedMedia = computed(() => {
-	const url = rawSourceUrl.value
-
-	if (!url || !isCdnUrl(url)) return null
-	if (!props.media || typeof props.media !== 'object') return null
-
-	const path = getPathFromUrl(url)
-
-	if (!path) return null
-
-	return Object.entries(props.media).reduce((acc, [breakpoint, config]) => {
-		const tr1x = buildTransform({
-			transform: config.transform || null,
-			resizeType: config.resizeType || props.resizeType,
-			width: config.width || null,
-			height: config.height || null,
-			format: config.format || props.format,
-			quality: config.quality || props.quality,
-			gravity: config.gravity || props.gravity,
-			dpr: config.dpr || props.dpr
-		})
-
-		const src1x = buildCdnUrl(path, tr1x)
-
-		if (props.retina) {
-			const tr2x = buildTransform({
-				transform: config.transform || null,
-				resizeType: config.resizeType || props.resizeType,
-				width: config.width || null,
-				height: config.height || null,
-				format: config.format || props.format,
-				quality: config.quality || props.quality,
-				gravity: config.gravity || props.gravity,
-				dpr: config.retinaDpr || props.retinaDpr
+const source = computed(() =>
+	cdnPath.value
+		? getCdnSource({
+				transform: props.transform,
+				resizeType: props.resizeType,
+				width: props.transformWidth || props.width,
+				height: props.transformHeight || props.height,
+				format: props.format,
+				quality: props.quality,
+				gravity: props.gravity,
+				dpr: props.dpr
 			})
+		: nativeSource.value
+)
+const resolvedSrc = computed(() => source.value.src)
 
-			acc[breakpoint] = {
-				srcset: `${src1x} 1x, ${buildCdnUrl(path, tr2x)} 2x`,
-				type: config.format ? `image/${config.format}` : null
-			}
-		} else {
-			acc[breakpoint] = {
-				srcset: `${src1x} 1x`,
-				type: config.format ? `image/${config.format}` : null
-			}
+const responsiveSources = computed(() => {
+	return getMediaEntries(props.media).flatMap(([breakpoint, config]) => {
+		const media = `(max-width: ${Number(breakpoint)}px)`
+		const image = config.image || baseImage.value
+
+		if (config.image || config.size) {
+			const variant = getNativeMediaSource(image, config, props.retina)
+			return variant ? [{ ...variant, media }] : []
 		}
 
-		return acc
-	}, {})
-})
+		if (!cdnPath.value) return []
 
-const hasResponsiveSources = computed(() => Boolean(parsedMedia.value && Object.keys(parsedMedia.value).length))
+		const format = config.format || props.format
+		const variant = getCdnSource({
+			transform: config.transform,
+			resizeType: config.resizeType || props.resizeType,
+			width: config.width,
+			height: config.height,
+			format,
+			quality: config.quality || props.quality,
+			gravity: config.gravity || props.gravity,
+			dpr: config.dpr || props.dpr,
+			retinaDpr: config.retinaDpr
+		})
+		const type = config.format ? `image/${format === 'jpg' ? 'jpeg' : format}` : undefined
+		return [{ media, srcset: variant.srcset || variant.src, type }]
+	})
+})
 
 const svgPlaceholder = computed(() => {
 	const width = resolvedWidth.value || 1
@@ -380,28 +283,5 @@ const svgPlaceholder = computed(() => {
 		` width='${width}' xmlns='http://www.w3.org/2000/svg'%3E`,
 		`%3Cpath fill='none' d='M0 0h${width}v${height}H0z'/%3E%3C/svg%3E`
 	].join('')
-})
-
-const placeholderSrc = computed(() => {
-	if (!shouldLazyLoad.value) {
-		return resolvedSrc.value || svgPlaceholder.value
-	}
-
-	return svgPlaceholder.value
-})
-
-const updateLazyLoad = () => {
-	if (shouldLazyLoad.value) {
-		lazyLoad?.update()
-	}
-}
-
-onMounted(() => {
-	updateLazyLoad()
-})
-
-watch([resolvedSrc, finalSrcset, hasResponsiveSources, () => props.lazy], async () => {
-	await nextTick()
-	updateLazyLoad()
 })
 </script>

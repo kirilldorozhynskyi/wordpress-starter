@@ -18,6 +18,18 @@
 							<Button :btn="item" class="text-sm" :class="item.current ? 'link-underlined' : 'link-hover-underlined'" @click="closeMenu()" />
 						</li>
 					</ul>
+					<nav v-if="languageLinks.length > 1" :aria-label="$t('menu.language')">
+						<ul class="flex flex-wrap items-center gap-4 text-sm">
+							<li v-for="[code, language] in languageLinks" :key="code">
+								<span v-if="code === languages?.current" :lang="languageTag(code)" aria-current="page">
+									{{ language.native_name || code }}
+								</span>
+								<a v-else :href="language.url" :lang="languageTag(code)" :hreflang="languageTag(code)" class="link-hover-underlined">
+									{{ language.native_name || code }}
+								</a>
+							</li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</div>
@@ -37,10 +49,14 @@
 </template>
 
 <script setup>
-import { onUnmounted, ref, useId } from 'vue'
+import { computed, onUnmounted, ref, useId } from 'vue'
 
-defineProps({
+const props = defineProps({
 	menu: {
+		type: Object,
+		default: null
+	},
+	languages: {
 		type: Object,
 		default: null
 	},
@@ -59,6 +75,10 @@ const emit = defineEmits(['update:menuOpened'])
 const menuOpened = ref(false)
 const menuId = useId()
 const menuToggle = ref(null)
+const languageLinks = computed(() =>
+	Object.entries(props.languages?.list ?? {}).filter(([code, entry]) => entry && (entry.url || code === props.languages?.current))
+)
+const languageTag = (code) => code.replaceAll('_', '-')
 
 const setScrollLock = (locked) => {
 	const lenis = typeof window !== 'undefined' ? window.lenis : null

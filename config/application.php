@@ -54,6 +54,10 @@ if ($env_path) {
  */
 define('WP_ENV', env('WP_ENV') ?: 'production');
 
+if (!defined('WP_ENVIRONMENT_TYPE')) {
+	Config::define('WP_ENVIRONMENT_TYPE', env('WP_ENVIRONMENT_TYPE') ?: WP_ENV);
+}
+
 /**
  * Environments
  */

@@ -1,0 +1,30 @@
+<VirtualHost *:443>
+	ServerName example.com
+	DocumentRoot "/srv/www/example.com"
+	DirectoryIndex index.php
+	ProxyRequests Off
+
+	SSLEngine On
+	SSLCertificateFile "/etc/letsencrypt/live/example.com/fullchain.pem"
+	SSLCertificateKeyFile "/etc/letsencrypt/live/example.com/privkey.pem"
+
+	Include "/srv/www/example.com/server/apache/private-paths.conf"
+	Header always set X-Content-Type-Options "nosniff"
+
+	<Directory "/srv/www/example.com">
+		AllowOverride None
+		Options -Indexes -MultiViews +FollowSymLinks
+		Require all granted
+		CGIPassAuth On
+
+		RewriteEngine On
+		RewriteRule ^index\.php$ - [END]
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule . /index.php [END]
+
+		<FilesMatch "\.php$">
+			SetHandler "proxy:unix:/run/php/php8.5-fpm.sock|fcgi://localhost/"
+		</FilesMatch>
+	</Directory>
+</VirtualHost>

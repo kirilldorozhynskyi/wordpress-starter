@@ -1,0 +1,18 @@
+{
+	"exclude": [
+		"/wp-admin/",
+		"/wp-includes/",
+		"/wp-content/plugins/",
+		"/wp-content/uploads/",
+		"/wp-content/cache/",
+		"/wp-content/upgrade/",
+		"/wp-content/languages/",
+		"/wp-content/lib/tiny-mce-plugins/*.min.js",
+		"/wp-content/themes/*/resources/Public/Build/",
+		"/wp-content/themes/*/resources/Private/.vite/",
+		"/wp-content/themes/*/.inertia/"
+	],
+	"extensions": {
+		".cjs": "javascript"
+	}
+}

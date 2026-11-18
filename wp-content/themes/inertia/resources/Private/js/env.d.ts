@@ -7,13 +7,25 @@ declare module '*.vue' {
 	export default component
 }
 
-declare module '@evo-mark/inertia-wordpress' {
-	import type { Component, DefineComponent } from 'vue'
+declare module '@/directives/animation.js' {
+	const directive: import('vue').ObjectDirective<HTMLElement>
+	export default directive
+}
 
-	type InertiaResolvedComponent = DefineComponent | Promise<DefineComponent> | { default: DefineComponent }
-	type PageResolver = (name: string) => InertiaResolvedComponent
+declare module '@/directives/maskReveal.js' {
+	const directive: import('vue').ObjectDirective<HTMLElement>
+	export default directive
+	export function refreshMaskReveal(): void
+}
 
-	export function resolveInertiaPage(pages: Record<string, unknown>, layout?: Component): PageResolver
+declare module '@/directives/scrollZoomOut.js' {
+	const directive: import('vue').ObjectDirective<HTMLElement>
+	export default directive
+}
+
+declare module '@/directives/splitReveal.js' {
+	export const RevealHeading: import('vue').ObjectDirective<HTMLElement>
+	export const RevealText: import('vue').ObjectDirective<HTMLElement>
 }
 
 interface NavigatorUADataBrand {

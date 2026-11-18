@@ -45,7 +45,7 @@ export const resolveLocale = (locale?: string | null) => {
 		return normalizedLocale as keyof typeof messages
 	}
 
-	if (typeof document !== 'undefined') {
+	if (!normalizedLocale && typeof document !== 'undefined') {
 		const documentLocale = normalizeLocale(document.documentElement.lang || 'en')
 
 		if (documentLocale && documentLocale in messages) {

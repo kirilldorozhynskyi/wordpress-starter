@@ -53,7 +53,7 @@ add_action('acf/include_field_types', static function (): void {
 			}
 
 			return [
-				'title' => sanitize_text_field((string) ($link['title'] ?? '')),
+				'title' => wp_kses((string) ($link['title'] ?? ''), array_fill_keys(['b', 'br', 'em', 'i', 'span', 'strong', 'sub', 'sup'], [])),
 				'url' => esc_url_raw((string) ($link['url'] ?? '')),
 				'target' => ($link['target'] ?? '') === '_blank' ? '_blank' : '',
 			];
@@ -125,7 +125,6 @@ add_action('acf/include_field_types', static function (): void {
 
 		private function getStorageValue(array $link): array
 		{
-			// Keep query-bearing links intact (including plain WordPress permalinks).
 			$postId = wp_parse_url($link['url'], PHP_URL_QUERY) === null ? $this->getPostIdFromUrl($link['url']) : 0;
 			$target = $link['target'] === '_blank' ? '_blank' : '';
 			$title = trim((string) $link['title']);
@@ -215,7 +214,7 @@ add_action('acf/input/admin_enqueue_scripts', static function (): void {
 						var $node = this.$node();
 
 						return !!$node.attr('href') && {
-							title: $node.text(),
+							title: $node.html(),
 							url: $node.attr('href'),
 							target: $node.attr('target')
 						};
@@ -229,14 +228,35 @@ add_action('acf/input/admin_enqueue_scripts', static function (): void {
 
 						var $control = this.$control();
 						var $node = this.$node();
+						var title = document.createElement('template');
+						title.innerHTML = value.title;
+						title.content.querySelectorAll('*').forEach(function (element) {
+							if (!['B', 'BR', 'EM', 'I', 'SPAN', 'STRONG', 'SUB', 'SUP'].includes(element.tagName)) {
+								element.replaceWith(document.createTextNode(element.textContent));
+								return;
+							}
+							Array.from(element.attributes).forEach(function (attribute) {
+								element.removeAttribute(attribute.name);
+							});
+						});
+						value.title = title.innerHTML;
+
+						if (value.url) {
+							try {
+								var protocol = new URL(value.url, document.baseURI).protocol;
+								if (!['http:', 'https:', 'mailto:', 'tel:', 'sms:', 'ftp:'].includes(protocol)) value.url = '';
+							} catch (error) {
+								value.url = '';
+							}
+						}
 
 						$control.removeClass('-value -external');
 						if (value.url) $control.addClass('-value');
 						if (value.target === '_blank') $control.addClass('-external');
 
-						this.$('.link-title').text(value.title);
+						this.$('.link-title').html(value.title);
 						this.$('.link-url').attr('href', value.url).text(value.url);
-						$node.text(value.title);
+						$node.html(value.title);
 						$node.attr('href', value.url);
 						$node.attr('target', value.target);
 						this.$('.input-title').val(value.title);

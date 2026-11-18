@@ -52,7 +52,8 @@ export function useGravityForm(id: () => number | string, language: () => string
 		errors.value = {}
 		submitError.value = false
 		try {
-			const data = await fetchJson<SubmissionResult>(`/wp-json/gf/v2/forms/${encodeURIComponent(id())}/submissions`, {
+			const query = new URLSearchParams({ lang: language() })
+			const data = await fetchJson<SubmissionResult>(`/wp-json/gf/v2/forms/${encodeURIComponent(id())}/submissions?${query}`, {
 				method: 'POST',
 				body: serializeForm(definition.value.fields, values.value),
 				signal: controller.signal,

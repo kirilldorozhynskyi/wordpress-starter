@@ -1,1 +1,0 @@
-import{D as e,S as t,f as n,k as r}from"./vendor-i18n-NEPLBP7p.js";var i=[`data-src`,`aria-label`],a={__name:`Object`,props:{src:{type:String,required:!0},alt:{type:String,default:``}},setup(a){let o=t(`lazyLoad`);return e(()=>{o?.update()}),(e,t)=>(r(),n(`object`,{lazy:``,type:`image/svg+xml`,"data-src":a.src,"aria-label":a.alt},null,8,i))}};export{a as default};

@@ -52,7 +52,7 @@ test('form request lifecycle', async (t) => {
 		const form = scope.run(() =>
 			useGravityForm(
 				() => 1,
-				() => 'en'
+				() => 'sk-sk'
 			)
 		)
 		t.mock.method(globalThis, 'fetch', async () => Response.json(definition))
@@ -68,6 +68,11 @@ test('form request lifecycle', async (t) => {
 		assert.equal(form.status.value, 'submitting')
 		assert.equal(await form.submit(), null)
 		assert.equal(globalThis.fetch.mock.callCount(), 2)
+		for (const {
+			arguments: [url],
+		} of globalThis.fetch.mock.calls) {
+			assert.equal(new URL(url, 'https://starter.test').searchParams.get('lang'), 'sk-sk')
+		}
 		finish(Response.json({ is_valid: true }))
 		await first
 		assert.equal(form.status.value, 'success')

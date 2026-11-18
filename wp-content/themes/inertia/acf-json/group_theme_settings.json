@@ -3,112 +3,6 @@
 	"title": "Theme Settings",
 	"fields": [
 		{
-			"key": "general",
-			"label": "General",
-			"name": "",
-			"aria-label": "",
-			"type": "tab",
-			"instructions": "",
-			"required": 0,
-			"conditional_logic": false,
-			"wrapper": {
-				"width": "",
-				"class": "",
-				"id": ""
-			},
-			"wpml_cf_preferences": 3,
-			"placement": "top",
-			"endpoint": 0,
-			"selected": 0
-		},
-		{
-			"key": "general_gtm",
-			"label": "GTM ID",
-			"name": "general_gtm",
-			"aria-label": "",
-			"type": "text",
-			"instructions": "",
-			"required": false,
-			"conditional_logic": false,
-			"wrapper": {
-				"width": "",
-				"class": "",
-				"id": ""
-			},
-			"wpml_cf_preferences": 3,
-			"default_value": "",
-			"maxlength": "",
-			"placeholder": "",
-			"prepend": "",
-			"append": ""
-		},
-		{
-			"key": "field_66e3d98783979",
-			"label": "Google Map API",
-			"name": "GAPI",
-			"aria-label": "",
-			"type": "text",
-			"instructions": "",
-			"required": 0,
-			"conditional_logic": 0,
-			"wrapper": {
-				"width": "",
-				"class": "",
-				"id": ""
-			},
-			"default_value": "",
-			"maxlength": "",
-			"allow_in_bindings": 1,
-			"placeholder": "",
-			"prepend": "",
-			"append": "",
-			"wpml_cf_preferences": 3
-		},
-		{
-			"key": "general_background_color",
-			"label": "Background color",
-			"name": "general_background_color",
-			"aria-label": "",
-			"type": "color_picker",
-			"instructions": "",
-			"required": false,
-			"conditional_logic": false,
-			"wrapper": {
-				"width": 25,
-				"class": "",
-				"id": ""
-			},
-			"wpml_cf_preferences": 3,
-			"default_value": "",
-			"enable_opacity": false,
-			"return_format": "string",
-			"custom_palette_source": "",
-			"palette_colors": "",
-			"show_color_wheel": true
-		},
-		{
-			"key": "general_theme_color",
-			"label": "Theme color",
-			"name": "general_theme_color",
-			"aria-label": "",
-			"type": "color_picker",
-			"instructions": "",
-			"required": false,
-			"conditional_logic": false,
-			"wrapper": {
-				"width": 25,
-				"class": "",
-				"id": ""
-			},
-			"wpml_cf_preferences": 3,
-			"default_value": "",
-			"enable_opacity": false,
-			"return_format": "string",
-			"custom_palette_source": "",
-			"palette_colors": "",
-			"show_color_wheel": true
-		},
-		{
 			"key": "field_68bf272d2c705",
 			"label": "Header",
 			"name": "",
@@ -244,5 +138,5 @@
 	"display_title": "",
 	"allow_ai_access": false,
 	"ai_description": "",
-	"modified": 1776269035
+	"modified": 1795004348
 }

@@ -2,7 +2,6 @@
 
 namespace InertiaTheme;
 
-use InertiaTheme\Controller\AcfController;
 use InertiaTheme\Controller\NewsController;
 
 class ACFContent
@@ -13,14 +12,19 @@ class ACFContent
 			return [];
 		}
 
-		$fields = $id ? get_fields($id) : get_fields();
+		$id ??= get_queried_object_id();
+		if (!$id || post_password_required($id)) {
+			return [];
+		}
+
+		$fields = get_fields($id);
 
 		if (!is_array($fields)) {
 			$fields = [];
 		}
 
-		$fields = self::enrichImagesWithAcf($fields);
-		$fields = self::processFlexibleContent($fields, $id);
+		$publicFields = apply_filters('inertia_theme/public_acf_fields', ['flexible_content'], $id);
+		$fields = self::processFlexibleContent(array_intersect_key($fields, array_flip($publicFields)), $id);
 
 		return (array) apply_filters('inertia_theme/acf_content/fields', $fields, $id);
 	}
@@ -35,46 +39,30 @@ class ACFContent
 			'all_news' => [NewsController::class, 'handleAllNews'],
 		]);
 
-		foreach ($fields['flexible_content'] as &$section) {
-			$layout = $section['acf_fc_layout'] ?? null;
-			$handler = $layout ? $layout_handlers[$layout] ?? null : null;
+		$layoutFields = apply_filters(
+			'inertia_theme/public_acf_layout_fields',
+			[
+				'page_hero' => ['text', 'image', 'image_mobile', 'video', 'button', 'add_to_submenu', 'title_nav'],
+				'contact' => [],
+				'cta' => ['title', 'text'],
+			],
+			$id,
+		);
 
-			if (!is_callable($handler)) {
+		$sections = [];
+		foreach ($fields['flexible_content'] as $section) {
+			$layout = $section['acf_fc_layout'] ?? '';
+			if (!isset($layoutFields[$layout])) {
 				continue;
 			}
 
-			$processed = call_user_func($handler, $section, $fields, $id);
-
-			if (is_array($processed)) {
-				$section = $processed;
-			}
+			$section = array_intersect_key($section, array_flip([...$layoutFields[$layout], 'acf_fc_layout', 'key']));
+			$handler = $layout_handlers[$layout] ?? null;
+			$processed = is_callable($handler) ? $handler($section, $fields, $id) : $section;
+			$sections[] = is_array($processed) ? $processed : $section;
 		}
 
-		unset($section);
-
-		return $fields;
-	}
-
-	private static function enrichImagesWithAcf(array $fields): array
-	{
-		foreach ($fields as $key => $value) {
-			if (!is_array($value)) {
-				continue;
-			}
-
-			if (isset($value['id'], $value['url']) && is_numeric($value['id']) && function_exists('get_fields')) {
-				$image_acf = get_fields((int) $value['id']);
-
-				if (is_array($image_acf)) {
-					$fields[$key]['acf'] = $image_acf;
-				}
-
-				continue;
-			}
-
-			$fields[$key] = self::enrichImagesWithAcf($value);
-		}
-
+		$fields['flexible_content'] = $sections;
 		return $fields;
 	}
 }

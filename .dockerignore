@@ -8,6 +8,8 @@
 
 # Local development tooling
 .ddev/
+.agents/
+.codegraph/
 .idea/
 .vscode/
 *.code-workspace
@@ -33,6 +35,8 @@ wp-content/plugins/wp-vite/vendor/
 coverage/
 *.tsbuildinfo
 hot
+wp-content/themes/inertia/resources/Public/Build/
+wp-content/themes/inertia/resources/Private/.vite/
 
 # Logs and database dumps
 *.log

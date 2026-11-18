@@ -1,172 +1,81 @@
 <template>
-	<picture v-if="hasImage" class="picture">
-		<template v-if="hasResponsiveSources">
-			<template v-for="(size, breakpoint) in parsedMedia" :key="breakpoint">
-				<source :media="`(max-width: ${breakpoint}px)`" :srcset="getSrcset(size.size, size.size_retina)" />
-			</template>
-		</template>
-
+	<picture v-if="source.src" class="picture">
+		<source
+			v-if="mobileSource.src"
+			:media="mobileMedia"
+			:srcset="mobileSource.srcset || mobileSource.src"
+			:sizes="mobileSource.hasWidths ? sizes : undefined"
+			:width="mobileSource.width"
+			:height="mobileSource.height" />
+		<source
+			v-for="variant in mediaSources"
+			:key="variant.media"
+			:media="variant.media"
+			:srcset="variant.srcset"
+			:sizes="variant.hasWidths ? sizes : undefined"
+			:width="variant.width"
+			:height="variant.height" />
 		<img
-			:src="placeholderSrc"
+			:src="source.src"
+			:srcset="source.srcset || undefined"
+			:sizes="source.hasWidths ? sizes : undefined"
 			:class="imgClass"
-			:loading="loadingAttr"
-			:fetchpriority="fetchPriority"
+			:loading="imageLoading"
+			:fetchpriority="fetchpriority || fetchPriority || 'auto'"
 			:decoding="decoding"
-			:data-src="shouldLazyLoad ? resolvedSrc : null"
-			:data-srcset="shouldLazyLoad ? jpegSrcset : null"
-			:srcset="shouldLazyLoad ? null : jpegSrcset || null"
-			:width="resolvedWidth"
-			:height="resolvedHeight"
-			:alt="resolvedAlt"
-			:lazy="shouldLazyLoad ? '' : null"
-		/>
+			:width="width ?? source.width"
+			:height="height ?? source.height"
+			:alt="alt ?? baseImage?.alt ?? baseImage?.metadata?.alt ?? ''" />
 	</picture>
 </template>
-<script setup>
-import { computed, inject, nextTick, onMounted, watch } from 'vue'
 
-const lazyLoad = inject('lazyLoad')
+<script setup>
+import { computed } from 'vue'
+import { getMediaEntries, getNativeImageSource, getNativeMediaSource } from '@/util/responsive-image.mjs'
 
 const props = defineProps({
 	image: {
-		type: [Object, Boolean],
+		type: [Object, String, Boolean],
 		required: true,
 		default: false
 	},
-	alt: {
-		type: String,
-		default: ''
-	},
-	width: {
-		type: Number,
-		default: null
-	},
-	height: {
-		type: Number,
-		default: null
-	},
-	size: {
-		type: String,
-		default: null
-	},
-	size_retina: {
-		type: String,
-		default: null
-	},
-	imgClass: {
-		type: String,
-		default: ''
-	},
-	lazy: {
-		type: Boolean,
-		default: true
-	},
-	loading: {
-		type: String,
-		default: null
-	},
-	fetchPriority: {
-		type: String,
-		default: null
-	},
-	decoding: {
-		type: String,
-		default: 'async'
-	},
-	media: {
-		type: Object,
-		default: () => ({})
-	}
+	imageMobile: { type: [Object, String, Boolean], default: false },
+	mobileMedia: { type: String, default: '(width < 48rem)' },
+	size: { type: String, default: 'full' },
+	sizeRetina: String,
+	size_retina: String,
+	sizes: { type: String, default: '100vw' },
+	media: { type: Object, default: () => ({}) },
+	retina: { type: Boolean, default: true },
+	alt: String,
+	imgClass: String,
+	width: Number,
+	height: Number,
+	lazy: { type: Boolean, default: true },
+	loading: String,
+	fetchpriority: String,
+	fetchPriority: String,
+	decoding: { type: String, default: 'async' }
 })
 
-const hasImage = computed(() => Boolean(props.image && !Array.isArray(props.image) && typeof props.image === 'object'))
-const shouldLazyLoad = computed(() => props.lazy !== false)
-const loadingAttr = computed(() => props.loading || (shouldLazyLoad.value ? 'lazy' : 'eager'))
-const resolvedAlt = computed(() => props.alt || props.image?.alt || props.image?.metadata?.alt || '')
-const resolvedWidth = computed(() => Number(props.width ?? props.image?.width) || undefined)
-const resolvedHeight = computed(() => Number(props.height ?? props.image?.height) || undefined)
-const resolvedSrc = computed(() => {
-	const img = hasImage.value ? props.image : null
-	if (!img) return ''
+const baseImage = computed(() => props.image || props.imageMobile)
+const imageLoading = computed(() => props.loading || (props.lazy ? 'lazy' : 'eager'))
+const source = computed(() =>
+	getNativeImageSource(baseImage.value, {
+		size: props.size,
+		sizeRetina: props.sizeRetina || props.size_retina,
+		retina: props.retina
+	})
+)
+const mobileSource = computed(() => getNativeImageSource(props.image && props.imageMobile, { retina: props.retina }))
+const mediaSources = computed(() =>
+	getMediaEntries(props.media).flatMap(([breakpoint, config]) => {
+		const image = config.image || baseImage.value
+		const media = `(max-width: ${Number(breakpoint)}px)`
+		if (!config.size && !config.image) return []
 
-	const sizes = img.sizes || {}
-	return (props.size && sizes[props.size]) || img.url || ''
-})
-
-const svgPlaceholder = computed(() => {
-	const width = resolvedWidth.value || 1
-	const height = resolvedHeight.value || 1
-
-	return [
-		`data:image/svg+xml,%3Csvg height='${height}' viewBox='0 0 ${width} ${height}'`,
-		` width='${width}' xmlns='http://www.w3.org/2000/svg'%3E`,
-		`%3Cpath fill='none' d='M0 0h${width}v${height}H0z'/%3E%3C/svg%3E`
-	].join('')
-})
-
-const placeholderSrc = computed(() => {
-	if (!shouldLazyLoad.value) {
-		return resolvedSrc.value || svgPlaceholder.value
-	}
-
-	return svgPlaceholder.value
-})
-
-const jpegSrcset = computed(() => {
-	const img = hasImage.value ? props.image : null
-	if (!img) return ''
-	const sizes = img.sizes || {}
-
-	const sizeKey = props.size
-	const retinaKey = props.size_retina || (sizeKey ? `${sizeKey}2x` : undefined)
-
-	const oneX = sizeKey && sizes[sizeKey] ? sizes[sizeKey] : img.url || ''
-	const twoX = retinaKey && sizes[retinaKey] ? sizes[retinaKey] : oneX
-
-	return oneX ? `${oneX} 1x, ${twoX} 2x` : ''
-})
-
-const parsedMedia = computed(() => {
-	if (!props.media || typeof props.media !== 'object') {
-		return null
-	}
-
-	const img = hasImage.value ? props.image : null
-	const sizes = img?.sizes || {}
-
-	return Object.keys(props.media).reduce((acc, breakpoint) => {
-		const size = props.media[breakpoint]
-
-		if (size?.size && sizes[size.size]) {
-			const retinaCandidateKey = size.size_retina || `${size.size}2x`
-			acc[breakpoint] = {
-				size: sizes[size.size],
-				size_retina: retinaCandidateKey && sizes[retinaCandidateKey] ? sizes[retinaCandidateKey] : sizes[size.size]
-			}
-		}
-		return acc
-	}, {})
-})
-
-const hasResponsiveSources = computed(() => Boolean(parsedMedia.value && Object.keys(parsedMedia.value).length))
-
-const getSrcset = (size, retinaSize) => {
-	if (!size) return ''
-	return `${size} 1x, ${retinaSize ?? size} 2x`
-}
-
-const updateLazyLoad = () => {
-	if (shouldLazyLoad.value) {
-		lazyLoad?.update()
-	}
-}
-
-onMounted(() => {
-	updateLazyLoad()
-})
-
-watch([resolvedSrc, jpegSrcset, hasResponsiveSources, () => props.lazy], async () => {
-	await nextTick()
-	updateLazyLoad()
-})
+		const variant = getNativeMediaSource(image, config, props.retina)
+		return variant ? [{ ...variant, media }] : []
+	})
+)
 </script>

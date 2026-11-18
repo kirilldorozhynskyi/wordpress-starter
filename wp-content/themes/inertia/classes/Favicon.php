@@ -4,6 +4,9 @@ namespace InertiaTheme;
 
 class Favicon
 {
+	private const THEME_COLOR = '#000000';
+	private const BACKGROUND_COLOR = '#ffffff';
+
 	private string $build_path;
 	private string $build_dir;
 	private string $ext_path;
@@ -129,7 +132,7 @@ class Favicon
 
 		return [
 			'manifest' => file_exists($this->ext_dir . $manifest_file) ? $this->ext_path . $manifest_file : null,
-			'theme_color' => $this->getThemeColor(),
+			'theme_color' => self::THEME_COLOR,
 			'favicons' => $this->getFilesForGroup('favicons'),
 			'apple' => $this->getFilesForGroup('appleIcon'),
 			'android' => $this->getFilesForGroup('android'),
@@ -148,8 +151,8 @@ class Favicon
 			'short_name' => get_bloginfo('name'),
 			'description' => get_bloginfo('description'),
 			'lang' => get_locale(),
-			'background_color' => $this->getBackgroundColor(),
-			'theme_color' => $this->getThemeColor(),
+			'background_color' => self::BACKGROUND_COLOR,
+			'theme_color' => self::THEME_COLOR,
 			'display' => 'standalone',
 			'orientation' => 'portrait',
 			'scope' => '/',
@@ -183,20 +186,6 @@ class Favicon
 		}
 
 		return $files;
-	}
-
-	private function getThemeColor(): string
-	{
-		$options = function_exists('get_fields') ? get_fields('options') : [];
-
-		return $options['general_theme_color'] ?? '#000000';
-	}
-
-	private function getBackgroundColor(): string
-	{
-		$options = function_exists('get_fields') ? get_fields('options') : [];
-
-		return $options['general_background_color'] ?? '#ffffff';
 	}
 
 	private function compileFaviconHtml(array $favicon_data): string

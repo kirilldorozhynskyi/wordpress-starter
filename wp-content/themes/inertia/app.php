@@ -1,7 +1,8 @@
 <?php
-$globals = new \InertiaTheme\Globals();
-$language = $globals->getSiteLanguage();
-$seo = $globals->getSeoData();
+\InertiaTheme\InertiaRequest::sendPageHeaders();
+
+$language = \InertiaTheme\Globals::getSiteLanguage();
+remove_action('wp_head', 'rel_canonical');
 ?>
 
 <!DOCTYPE html>
@@ -10,9 +11,7 @@ $seo = $globals->getSeoData();
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no" />
-	<title inertia><?php echo esc_html($seo['title']); ?></title>
-	<meta inertia name="description" content="<?php echo esc_attr($seo['description']); ?>" />
-	<meta name="author" content="justDev">
+	<?php echo implode("\n\t", \InertiaTheme\Globals::getSeoHead()); ?>
 
     <?php inertia_head(); ?>
 </head>

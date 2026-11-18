@@ -1,0 +1,4 @@
+interface:
+    display_name: 'jD Project Skill from Design'
+    short_description: 'Capture an approved design and its project conventions'
+    default_prompt: 'Use $jd-project-skill-from-design to create the frontend conventions skill for this repository from the approved design.'

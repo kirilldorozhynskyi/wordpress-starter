@@ -25,28 +25,49 @@ class InertiaShare
 		]);
 
 		Inertia::share('menu', fn() => $this->getMenus());
+		Inertia::share('seoHead', Inertia::always([Globals::class, 'getSeoHead']));
 		$this->removeDefaultWpMenusShare();
 
 		Inertia::share('fields', function () {
-			$post_id = get_queried_object_id() ?: 0;
-			$lang = defined('ICL_LANGUAGE_CODE') ? ICL_LANGUAGE_CODE : get_locale();
+			$post_id = get_queried_object_id();
+			if (!is_singular() || !$post_id || post_password_required($post_id)) {
+				return [];
+			}
+
+			$lang = Languages::current() ?? get_locale();
 			$version = $post_id ? (string) get_post_modified_time('U', true, $post_id) : '0';
-			$key = sprintf('acf_content_%s_%s_%s', $post_id ?: '0', $lang ?: 'na', $version);
+			$key = sprintf('public_acf_content_%s_%s_%s', $post_id, $lang ?: 'na', $version);
 
 			// Preview, private content and query-filtered sections are request-specific.
 			if (is_user_logged_in() || is_preview() || !empty($_GET) || ($post_id && get_post_status($post_id) !== 'publish')) {
-				return ACFContent::getAcfContent();
+				return ACFContent::getAcfContent($post_id);
 			}
 
-			return Cache::getCached($key, static fn() => ACFContent::getAcfContent());
+			return Cache::getCached($key, static fn() => ACFContent::getAcfContent($post_id));
 		});
 	}
 
 	public function filterAcfShare(array $data): array
 	{
-		unset($data['post']);
+		$allowed = apply_filters('inertia_theme/public_acf_options', []);
+		$options = (array) ($data['options'] ?? []);
 
-		return $data;
+		$publicOptions = [];
+		foreach ($allowed as $page => $fields) {
+			$values = (array) ($options[$page] ?? []);
+			$optionPage = function_exists('acf_get_options_page') ? acf_get_options_page($page) : null;
+			if (($optionPage['parent_slug'] ?? '') === 'theme_settings' && !empty($optionPage['post_id'])) {
+				$values = array_replace($values, get_fields('theme_settings') ?: []);
+				$language = Languages::current();
+				$postId = $page === 'theme_settings_default' && $language !== null ? "theme_settings_{$language}" : $optionPage['post_id'];
+				if ($postId !== 'theme_settings') {
+					$values = array_replace($values, get_fields($postId) ?: []);
+				}
+			}
+			$publicOptions[$page] = array_intersect_key($values, array_flip($fields));
+		}
+
+		return ['options' => (object) $publicOptions];
 	}
 
 	private function getMenus(): array
@@ -78,18 +99,17 @@ class InertiaShare
 			return $this->languages;
 		}
 
-		if (defined('ICL_LANGUAGE_CODE')) {
+		$language = Languages::current();
+		if ($language !== null) {
 			$this->languages = [
-				'current' => ICL_LANGUAGE_CODE,
+				'current' => $language,
 				'list' => apply_filters('wpml_active_languages', null, 'orderby=id&order=asc'),
 			];
 
 			return $this->languages;
 		}
 
-		$this->languages = null;
-
-		return $this->languages;
+		return null;
 	}
 
 	private function getEnhancedMenu(string $menuName): ?array
@@ -128,10 +148,6 @@ class InertiaShare
 				'current_item_parent' => (bool) $item->current_item_parent,
 				'children' => [],
 			];
-
-			if ($acfFields = get_fields($item->ID)) {
-				$normalized['acf'] = $acfFields;
-			}
 
 			if (!empty($item->children)) {
 				foreach ($item->children as $child) {

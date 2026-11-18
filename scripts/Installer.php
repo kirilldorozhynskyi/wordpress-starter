@@ -6,21 +6,15 @@ use Composer\Script\Event;
 
 class Installer
 {
-	public static function create(Event $event)
+	public static function create(Event $event): void
 	{
-		DDevManager::addDDev($event);
-		WorkspaceManager::addWorkspace($event);
-		EnvManager::addEnv($event);
-		SaltManager::addSalts($event);
-	}
+		if (!$event->getIO()->isInteractive()) {
+			return;
+		}
 
-	public static function install(Event $event)
-	{
-		// EnvManager::addEnv($event);
-		// SaltManager::addSalts($event);
-		DDevManager::addDDev($event);
-		WorkspaceManager::addWorkspace($event);
-		EnvManager::addEnv($event);
-		SaltManager::addSalts($event);
+		DDevManager::addDDev();
+		WorkspaceManager::addWorkspace();
+		EnvManager::addEnv();
+		SaltManager::addSalts();
 	}
 }

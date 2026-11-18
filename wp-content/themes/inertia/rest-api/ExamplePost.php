@@ -19,7 +19,7 @@ class ExamplePost extends BaseRestController
 
 	public function authorise()
 	{
-		return true;
+		return current_user_can('manage_options');
 	}
 
 	public function handler(WP_REST_Request $request)

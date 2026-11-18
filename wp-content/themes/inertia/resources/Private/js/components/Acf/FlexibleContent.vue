@@ -1,35 +1,45 @@
 <template>
 	<div class="flex flex-col">
 		<template v-for="(item, index) in fields" :key="item.key ?? `${item.acf_fc_layout}-${index}`">
-			<component :is="getItemComponent(item)" :ce="item" :first="index == 0" />
+			<PageHero
+				v-if="item.acf_fc_layout === 'page_hero'"
+				:ce="item"
+				:first="index === 0"
+				:primary-heading="index === primaryHero"
+				:fallback-title="index === primaryHero ? pageTitle : ''" />
+			<component v-else :is="getItemComponent(item)" :ce="item" :first="index === 0" />
 		</template>
 	</div>
 </template>
 
 <script setup>
-import { nextTick, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
+import { computed, nextTick, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { ensurePrimeVue } from '@/util/primevue'
 
 import PageHero from './Flex/PageHero.vue'
 
-defineProps({
+const props = defineProps({
 	fields: {
-		type: [Object, Boolean],
+		type: Array,
 		required: true
 	},
+	pageTitle: String,
 	offset: {
 		type: Boolean,
 		default: true
 	}
 })
 
+const primaryHero = computed(() => {
+	const isHero = (item) => item.acf_fc_layout === 'page_hero'
+	const titled = props.fields.findIndex((item) => isHero(item) && item.text?.trim())
+
+	return titled >= 0 ? titled : props.fields.findIndex(isHero)
+})
+
 const modules = import.meta.glob(['./Flex/*.vue', '!./Flex/PageHero.vue'])
 const primeVueFlexComponents = new Set([])
-
-const eagerComponents = {
-	PageHero
-}
 
 const asyncComponents = {}
 
@@ -48,7 +58,7 @@ const getAsyncComponent = (componentName) => {
 	const moduleKey = Object.keys(modules).find((key) => key.endsWith(`/Flex/${componentName}.vue`))
 
 	if (!moduleKey) {
-		return eagerComponents.Content
+		return undefined
 	}
 
 	asyncComponents[componentName] = defineAsyncComponent(async () => {
@@ -66,7 +76,7 @@ const getAsyncComponent = (componentName) => {
 const getAcfComponent = (type) => {
 	const componentName = resolveComponentName(type)
 
-	return eagerComponents[componentName] || getAsyncComponent(componentName)
+	return getAsyncComponent(componentName)
 }
 
 const getItemComponent = (item) => getAcfComponent(item.acf_fc_layout)

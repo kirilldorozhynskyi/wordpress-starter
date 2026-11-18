@@ -1,39 +1,35 @@
-import type { Component, Plugin } from 'vue'
+import type { Component, DefineComponent, Directive, Plugin } from 'vue'
 import { createApp, createSSRApp, defineAsyncComponent, h } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import { createI18n } from 'vue-i18n'
 import type { Page } from '@inertiajs/core'
-import { resolveInertiaPage } from '@evo-mark/inertia-wordpress'
-import Layout from '@/layouts/Layout.vue'
+import Image from '@/components/Utils/ImageWP.vue'
 import { registerPrimeVueApp } from '@/util/primevue'
-import { createI18nConfig } from '@/util/i18n'
+import { createI18nConfig, resolveLocale } from '@/util/i18n'
 
-// Eagerly imported — used inside Layout (Footer + Header), must match SSR output exactly
-// import SvgIcon from '@/components/Utils/SvgIcon.vue'
-// import SvgObject from '@/components/Utils/Object.vue'
-
-// Async — not in the critical SSR layout path
 const SvgIcon = defineAsyncComponent(() => import('@/components/Utils/SvgIcon.vue'))
 const SvgObject = defineAsyncComponent(() => import('@/components/Utils/Object.vue'))
-const Image = defineAsyncComponent(() => import('@/components/Utils/ImgCdn.vue'))
 const Button = defineAsyncComponent(() => import('@/components/Utils/Button.vue'))
 const IdPage = defineAsyncComponent(() => import('@/components/Utils/IdPage.vue'))
 
 const primeVueCriticalLayouts = new Set<string>([])
 
-const clientPages = import.meta.glob('./pages/**/*.vue')
+const pages = import.meta.glob<{ default: DefineComponent }>('./pages/**/*.vue')
 
 type FlexibleContentItem = {
 	acf_fc_layout?: string | null
 }
 
-type InertiaPageProps = Record<string, unknown> & {
+export type InertiaPageProps = Record<string, unknown> & {
 	locale?: string | null
 	site?: {
 		language?: string | null
 	} | null
 	wp?: {
 		language?: string | null
+	} | null
+	menu?: {
+		languages?: { current?: string | null } | null
 	} | null
 	fields?: {
 		flexible_content?: FlexibleContentItem[] | null
@@ -42,35 +38,19 @@ type InertiaPageProps = Record<string, unknown> & {
 
 type InertiaPagePayload = Page<InertiaPageProps>
 
-export const createNoopLazyLoad = () => ({
-	update() {},
-	loadAll() {},
-	restoreAll() {},
-})
+export const getPageLocale = (page: InertiaPagePayload | null) =>
+	page?.props?.locale || page?.props?.menu?.languages?.current || page?.props?.site?.language || page?.props?.wp?.language || null
 
-export const getInitialPage = (id = 'app'): InertiaPagePayload | null => {
-	if (typeof document === 'undefined') {
-		return null
+export const resolvePage = async (name: string) => {
+	const [component] = name.split('?', 1)
+	const loadPage = pages[`./pages/${component}.vue`]
+
+	if (!loadPage) {
+		throw new Error(`[Inertia] Unknown page component "${component}".`)
 	}
 
-	const pageScript = document.querySelector(`script[data-page="${id}"][type="application/json"]`)
-	if (pageScript?.textContent) {
-		return JSON.parse(pageScript.textContent) as InertiaPagePayload
-	}
-
-	const appElement = document.getElementById(id)
-	const legacyPage = appElement?.getAttribute('data-page')
-
-	if (!legacyPage) {
-		return null
-	}
-
-	return JSON.parse(legacyPage) as InertiaPagePayload
+	return (await loadPage()).default
 }
-
-export const getPageLocale = (page: InertiaPagePayload | null) => page?.props?.locale || page?.props?.site?.language || page?.props?.wp?.language || null
-
-export const resolvePage = resolveInertiaPage(clientPages, Layout)
 
 export const needsPrimeVueOnFirstRender = (page: InertiaPagePayload | null) => {
 	const layouts = Array.isArray(page?.props?.fields?.flexible_content) ? page.props.fields.flexible_content : []
@@ -78,30 +58,49 @@ export const needsPrimeVueOnFirstRender = (page: InertiaPagePayload | null) => {
 	return layouts.slice(0, 2).some((item) => primeVueCriticalLayouts.has(item?.acf_fc_layout ?? ''))
 }
 
+type AnimationDirectives = {
+	jdAnimate: Directive
+	revealMask: Directive
+	scrollZoomOut: Directive
+	revealHeading: Directive
+	revealText: Directive
+}
+
+const noopDirective: Directive = {}
+const revealSsrDirective: Directive = { getSSRProps: () => ({ 'data-reveal-initial': '' }) }
+
 type CreateInertiaVueAppOptions = {
+	directives?: AnimationDirectives
 	App: Component
 	props: object
 	plugin: Plugin
 	page: InertiaPagePayload | null
-	lazyLoad?: {
-		update?: () => void
-		loadAll?: () => void
-		restoreAll?: () => void
-	} | null
 	hydrate?: boolean
 	ssr?: boolean
 }
 
-export const createInertiaVueApp = ({ App, props, plugin, page, lazyLoad, hydrate = false, ssr = false }: CreateInertiaVueAppOptions) => {
+export const createInertiaVueApp = ({ App, props, plugin, page, directives, hydrate = false, ssr = false }: CreateInertiaVueAppOptions) => {
 	const vueApp = (ssr || hydrate ? createSSRApp : createApp)({
 		render: () => h(App, props),
 	})
+	const i18n = createI18n<false>(createI18nConfig(getPageLocale(page)) as never)
 
 	registerPrimeVueApp(vueApp)
+	if (!ssr && typeof document !== 'undefined') {
+		const stop = router.on('navigate', ({ detail }) => {
+			const nextPage: InertiaPagePayload = detail.page
+			const language = nextPage.props.menu?.languages?.current
+			if (typeof language === 'string' && language) {
+				document.documentElement.lang = language.replaceAll('_', '-')
+			}
+			i18n.global.locale.value = resolveLocale(getPageLocale(nextPage))
+		})
+		vueApp.onUnmount(stop)
+	}
 
 	vueApp
 		.use(plugin)
-		.use(createI18n(createI18nConfig(getPageLocale(page)) as never))
+		.use(i18n)
 		.component('Link', Link)
 		.component('Head', Head)
 		.component('Image', Image)
@@ -109,7 +108,14 @@ export const createInertiaVueApp = ({ App, props, plugin, page, lazyLoad, hydrat
 		.component('SvgIcon', SvgIcon)
 		.component('SvgObject', SvgObject)
 		.component('IdPage', IdPage)
-		.provide('lazyLoad', lazyLoad ?? createNoopLazyLoad())
+		.directive('jdAnimate', directives?.jdAnimate ?? noopDirective)
+		.directive('jd-animate', directives?.jdAnimate ?? noopDirective)
+		.directive('revealMask', directives?.revealMask ?? noopDirective)
+		.directive('reveal-mask', directives?.revealMask ?? noopDirective)
+		.directive('scrollZoomOut', directives?.scrollZoomOut ?? noopDirective)
+		.directive('scroll-zoom-out', directives?.scrollZoomOut ?? noopDirective)
+		.directive('reveal-heading', directives?.revealHeading ?? revealSsrDirective)
+		.directive('reveal-text', directives?.revealText ?? revealSsrDirective)
 
 	return vueApp
 }

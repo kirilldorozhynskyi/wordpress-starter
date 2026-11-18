@@ -1,0 +1,18 @@
+@media (prefers-reduced-motion: no-preference) {
+	.jd-init {
+		transition-property: transform, opacity;
+		transform: translateY(40px);
+		opacity: 0;
+	}
+
+	.jd-init.jd-animate {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+	[data-reveal-initial] {
+		visibility: hidden;
+	}
+}

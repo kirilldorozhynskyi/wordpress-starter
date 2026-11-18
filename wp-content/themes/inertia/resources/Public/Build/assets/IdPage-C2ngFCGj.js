@@ -1,1 +1,0 @@
-import{d as e,f as t,k as n}from"./vendor-i18n-NEPLBP7p.js";var r=[`id`],i={__name:`IdPage`,props:{ce:{type:Object,required:!0}},setup(i){return(a,o)=>i.ce?.add_to_submenu&&i.ce?.title_nav?(n(),t(`span`,{key:0,class:`absolute top-0 left-0`,id:i.ce.title_nav.toLowerCase().trim().replace(/\s+/g,`-`).replace(/[^\w\-]+/g,``)},null,8,r)):e(``,!0)}};export{i as default};

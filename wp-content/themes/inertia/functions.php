@@ -1,6 +1,7 @@
 <?php
 
 use EvoWpRestRegistration\RestApi;
+use InertiaTheme\InertiaRequest;
 use InertiaTheme\ThemeSetup;
 
 if (!class_exists(RestApi::class)) {
@@ -9,13 +10,19 @@ if (!class_exists(RestApi::class)) {
 
 new ThemeSetup();
 
+add_filter('request', static function (array $query): array {
+	if (!InertiaRequest::isServerNotFound()) {
+		return $query;
+	}
+
+	remove_action('template_redirect', 'redirect_canonical');
+	return ['error' => '404'];
+});
+
 // Define constants
 define('PAGES', [
 	'HOME' => 2,
 	'NEWS' => 20,
-	'FLATS_HOME' => 8,
-	'GDPR' => 3,
-	'COOKIES' => 258,
 ]);
 
 new RestApi([

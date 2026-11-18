@@ -2,13 +2,15 @@
 
 namespace JDEVINT;
 
-use Composer\Script\Event;
-
 class WorkspaceManager
 {
-	public static function addWorkspace(Event $event)
+	public static function addWorkspace(): void
 	{
 		$newWorkspacePath = dirname(__DIR__) . '/' . DDevManager::useProjectName() . '.code-workspace';
+
+		if (file_exists($newWorkspacePath)) {
+			return;
+		}
 
 		$workspaceContent = <<<EOL
 		{
@@ -21,14 +23,12 @@ class WorkspaceManager
 		        "psi-header.changes-tracking": {
 		            "isActive": false
 		        },
-				"npm.exclude": ["**/@(vendor|node_modules|bower_components|dist|static)/**", "**/plugins/**"],
+				"npm.exclude": ["**/@(vendor|node_modules|dist|static)/**", "**/plugins/**"],
 		        "files.exclude": {
 		            "vendor": false,
 		            "node_modules": false,
 		            ".browserslistrc": true,
 		            ".editorconfig": true,
-		            ".eslintrc.js": true,
-		            "babel.config.js": true,
 		            "license.txt": true,
 		            "readme.html": true,
 		            "wp-admin/": false,

@@ -25,7 +25,15 @@
 		"sending": "Odosiela sa…",
 		"remove_file": "Odstrániť súbor"
 	},
+	"archive": {
+		"empty": "Nenašli sa žiadne výsledky.",
+		"untitled": "Bez názvu",
+		"pagination": "Stránky výsledkov",
+		"previous": "Predchádzajúca strana",
+		"next": "Nasledujúca strana"
+	},
 	"menu": {
+		"language": "Jazyk",
 		"toggle": "Otvoriť menu",
 		"close": "Zavrieť menu"
 	}
