@@ -9,7 +9,7 @@ Dokploy and Docker are documented separately.
 
 ## Local development requirements
 
-- DDEV with PHP 8.5 / MariaDB 11.8 (Composer dependencies require PHP 8.4.1+).
+- DDEV with PHP 8.5.13+ / MariaDB 11.8. On PHP 8.4, use 8.4.28+ to install the locked development dependencies.
 - Node.js 26 LTS (26.13.1 or newer within 26.x) and npm. With nvm, run `nvm install` and `nvm use` in the repository. DDEV and Docker also use Node.js 26.
 - Composer 2; SSH access to the configured private repositories and ACF PRO Composer credentials.
 
@@ -102,4 +102,4 @@ and migration.
 Frontend structure, supported form fields and isolated UI checks: [frontend guide](docs/frontend-structure.md). Run `npm run test:frontend` for regression
 tests.
 
-Release notes for [4.4.0](docs/releases/4.4.0.md) and [4.3.0](docs/releases/4.3.0.md).
+Release notes for [4.4.1](docs/releases/4.4.1.md), [4.4.0](docs/releases/4.4.0.md), and [4.3.0](docs/releases/4.3.0.md).
