@@ -8,12 +8,12 @@
 		"WordPress",
 		"Starter"
 	],
-	"version": "4.4.0",
+	"version": "4.4.1",
 	"require": {
 		"php": ">=8.4.1",
 		"ext-json": "*",
 		"composer/installers": "^2.3.0",
-		"evo-mark/inertia-wordpress": "^0.8.5",
+		"evo-mark/inertia-wordpress": "^0.9.0",
 		"justdev/jd-support": "^2.2.2",
 		"justdev/lomnio-api-connector": "dev-develop",
 		"justdev/mcp-connector": "dev-develop",
@@ -21,7 +21,7 @@
 		"oscarotero/env": "^2.1.1",
 		"pronamic/gravityforms": "^3.2.3.1",
 		"roots/bedrock-autoloader": "^1.1.0",
-		"roots/wordpress": "^7.1.4",
+		"roots/wordpress": "^7.1.5",
 		"roots/wp-config": "1.0.0",
 		"timber/timber": "^2.5.1",
 		"vlucas/phpdotenv": "^5.8.0",
@@ -31,7 +31,7 @@
 		"wpackagist-plugin/redirection": "^5.10.1",
 		"wpackagist-plugin/simple-custom-post-order": "^2.8.12",
 		"wpackagist-plugin/wp-mail-smtp": "^4.10.4",
-		"wpengine/advanced-custom-fields-pro": "^6.8.11",
+		"wpengine/advanced-custom-fields-pro": "^6.8.12",
 		"yahnis-elsts/plugin-update-checker": "^5.7",
 		"yoast/wordpress-seo": "^28.9"
 	},
