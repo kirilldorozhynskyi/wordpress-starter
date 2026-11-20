@@ -46,9 +46,9 @@ class InertiaRequest extends RequestHandler
 		return $page;
 	}
 
-	public function body($args)
+	public function body($args = [])
 	{
-		if ($this->ssrEnabled) {
+		if ($this->getSsrResponse() !== null) {
 			return parent::body($args);
 		}
 

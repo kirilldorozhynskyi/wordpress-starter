@@ -25,7 +25,7 @@ class InertiaShare
 		]);
 
 		Inertia::share('menu', fn() => $this->getMenus());
-		Inertia::share('seoHead', Inertia::always([Globals::class, 'getSeoHead']));
+		Inertia::share('seoHead', Inertia::always(Globals::getSeoHead(...)));
 		$this->removeDefaultWpMenusShare();
 
 		Inertia::share('fields', function () {

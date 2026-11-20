@@ -26,9 +26,14 @@ namespace EvoMark\InertiaWordpress {
     use EvoMark\InertiaWordpress\Helpers\Settings;
     use EvoMark\InertiaWordpress\Theme\ThemeSetup;
     use EvoMark\InertiaWordpress\Modules\ModuleSetup;
+    use EvoMark\InertiaWordpress\Contracts\ResponseEmitter;
+    use EvoMark\InertiaWordpress\Responses\WordpressEmitter;
+    use EvoMark\InertiaWordpress\Ssr\HttpGateway;
+    use GuzzleHttp\Client;
     use YahnisElsts\PluginUpdateChecker\v5p5\Vcs\Api;
     use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
     use InertiaTheme\InertiaRequest;
+    use InertiaTheme\InertiaSsrGateway;
     use EvoMark\InertiaWordpress\Helpers\RequestResponse;
     use EvoMark\InertiaWordpress\Helpers\Plugin as HelpersPlugin;
 
@@ -50,6 +55,15 @@ namespace EvoMark\InertiaWordpress {
                 $container->set('env.root', plugin_dir_path($entryFile));
                 $container->set('env.baseUrl', plugin_dir_url($entryFile));
                 $container->set('requestHandler', \Di\create(InertiaRequest::class));
+                $container->set(ResponseEmitter::class, \Di\create(WordpressEmitter::class));
+                $container->set(HttpGateway::class, \Di\factory(static function () {
+                    $options = apply_filters(HookFilters::SSR_CLIENT_OPTIONS, [
+                        'connect_timeout' => 1,
+                        'timeout' => 5,
+                    ]);
+
+                    return new InertiaSsrGateway(new Client($options));
+                }));
                 HelpersPlugin::setPluginVersion();
 
                 $themeRuntimeDir = Path::join(get_stylesheet_directory(), '.inertia');
@@ -282,7 +296,6 @@ namespace EvoMark\InertiaWordpress {
 
 namespace EvoMark\InertiaWordpress\Responses {
 
-    use EvoMark\InertiaWordpress\Helpers\Header;
     use EvoMark\InertiaWordpress\Helpers\RequestResponse;
     use EvoMark\InertiaWordpress\Inertia;
 
@@ -293,14 +306,11 @@ namespace EvoMark\InertiaWordpress\Responses {
             {
                 $request = inertia_request();
                 $method = RequestResponse::getMethod();
-                $version = Inertia::getVersion();
+                if ($request->hasVersionMismatch()) {
+                    return self::handleVersionChange();
+                }
 
                 \InertiaTheme\InertiaRequest::sendPageHeaders();
-
-                if ($method === 'GET' && $request->getHeader(Header::VERSION, '') !== $version) {
-                    header('X-Inertia-Version: ' . $version);
-                    Inertia::location(home_url($_SERVER['REQUEST_URI'] ?? '/'));
-                }
 
                 if (http_response_code() === 302 && in_array($method, ['PUT', 'PATCH', 'DELETE'], true)) {
                     status_header(303);
@@ -308,6 +318,14 @@ namespace EvoMark\InertiaWordpress\Responses {
 
                 header('X-Inertia: true');
                 wp_send_json($request->getPageData());
+            }
+
+            public static function handleVersionChange()
+            {
+                \InertiaTheme\InertiaRequest::sendPageHeaders();
+                header('X-Inertia-Version: ' . Inertia::getVersion());
+
+                return Inertia::location(RequestResponse::currentUrl());
             }
         }
     }
@@ -522,9 +540,9 @@ namespace EvoMark\InertiaWordpress\Commands {
 
     use WP_CLI;
     use Symfony\Component\Process\Process;
-    use EvoMark\InertiaWordpress\Helpers\Path;
     use EvoMark\InertiaWordpress\Helpers\Settings;
     use EvoMark\InertiaWordpress\Exceptions\SsrException;
+    use InertiaTheme\InertiaSsrGateway;
 
     if (! class_exists(StartSsrCommand::class, false)) {
         class StartSsrCommand
@@ -536,7 +554,7 @@ namespace EvoMark\InertiaWordpress\Commands {
                     WP_CLI::error('Inertia SSR is not enabled. Enable it via the Inertia settings pages in your Wordpress admin area');
                 }
 
-                $target = Path::join(get_stylesheet_directory(), 'resources', 'Private', '.vite', 'ssr', 'ssr.mjs');
+                $target = InertiaSsrGateway::bundlePath();
 
                 if (! file_exists($target)) {
                     WP_CLI::error("Couldn't find Inertia SSR file. Ensure you have run a build of your theme and try again.");

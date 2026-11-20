@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ae7f1d887cbf8055e419de1e5c626c9",
+    "content-hash": "6bda02f3592e48ab91a11ace6bd88a21",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -78,7 +78,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-06T14:11:38+00:00"
+            "time": "2026-09-06T14:11:38+00:00",
+            "published-time": "2026-09-06T14:15:00+00:00"
         },
         {
             "name": "composer/installers",
@@ -224,7 +225,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-24T20:46:46+00:00"
+            "time": "2024-06-24T20:46:46+00:00",
+            "published-time": "2024-06-24T21:01:36+00:00"
         },
         {
             "name": "evo-mark/evo-wp-rest-registration",
@@ -273,20 +275,21 @@
                 "issues": "https://github.com/evo-mark/evo-wp-rest-registration/issues",
                 "source": "https://github.com/evo-mark/evo-wp-rest-registration"
             },
-            "time": "2026-08-12T04:20:56+00:00"
+            "time": "2026-08-12T04:20:56+00:00",
+            "published-time": "2026-08-12T04:27:03+00:00"
         },
         {
             "name": "evo-mark/inertia-wordpress",
-            "version": "v0.8.5",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evo-mark/wp-inertia.git",
-                "reference": "791eafc4f1f4b88ca385ddfe09ff4f57d55e9549"
+                "reference": "c88be11a38b0a7272d256201fb4272af6f4feaed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evo-mark/wp-inertia/zipball/791eafc4f1f4b88ca385ddfe09ff4f57d55e9549",
-                "reference": "791eafc4f1f4b88ca385ddfe09ff4f57d55e9549",
+                "url": "https://api.github.com/repos/evo-mark/wp-inertia/zipball/c88be11a38b0a7272d256201fb4272af6f4feaed",
+                "reference": "c88be11a38b0a7272d256201fb4272af6f4feaed",
                 "shasum": ""
             },
             "require": {
@@ -302,13 +305,12 @@
                 "yahnis-elsts/plugin-update-checker": "^5.5"
             },
             "require-dev": {
+                "brain/monkey": "^2.6",
                 "friendsofphp/php-cs-fixer": "^3.65",
                 "php-stubs/wordpress-stubs": "^6.3",
-                "php-stubs/wordpress-tests-stubs": "^6.7",
                 "php-stubs/wp-cli-stubs": "^2.8",
                 "phpunit/phpunit": ">=11.0",
-                "symfony/var-dumper": "^7.2",
-                "yoast/phpunit-polyfills": "^4.0"
+                "symfony/var-dumper": "^7.2"
             },
             "type": "wordpress-plugin",
             "autoload": {
@@ -336,7 +338,8 @@
                 "issues": "https://github.com/evo-mark/inertia-wordpress/issues",
                 "source": "https://github.com/evo-mark/inertia-wordpress"
             },
-            "time": "2025-09-21T12:00:57+00:00"
+            "time": "2026-11-19T18:39:52+00:00",
+            "published-time": "2026-11-20T02:55:43+00:00"
         },
         {
             "name": "evo-mark/wp-vite",
@@ -377,7 +380,8 @@
                 "issues": "https://github.com/evo-mark/wp-vite/issues",
                 "source": "https://github.com/evo-mark/wp-vite/tree/v1.3.4"
             },
-            "time": "2026-10-09T21:36:01+00:00"
+            "time": "2026-10-09T21:36:01+00:00",
+            "published-time": "2026-10-09T23:16:00+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -567,7 +571,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-17T16:23:09+00:00"
+            "time": "2026-11-17T16:23:09+00:00",
+            "published-time": "2026-11-17T16:23:41+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -651,7 +656,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-18T12:46:59+00:00"
+            "time": "2026-10-18T12:46:59+00:00",
+            "published-time": "2026-10-18T12:47:39+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -770,7 +776,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-17T16:15:51+00:00"
+            "time": "2026-11-17T16:15:51+00:00",
+            "published-time": "2026-11-17T16:16:24+00:00"
         },
         {
             "name": "illuminate/collections",
@@ -830,7 +837,8 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-11-11T14:33:13+00:00"
+            "time": "2026-11-11T14:33:13+00:00",
+            "published-time": "2026-11-17T14:55:16+00:00"
         },
         {
             "name": "illuminate/conditionable",
@@ -876,7 +884,8 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-05-13T15:08:45+00:00"
+            "time": "2025-05-13T15:08:45+00:00",
+            "published-time": "2026-11-17T14:55:16+00:00"
         },
         {
             "name": "illuminate/contracts",
@@ -924,7 +933,8 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-06-09T13:20:54+00:00"
+            "time": "2026-06-09T13:20:54+00:00",
+            "published-time": "2026-11-17T14:55:27+00:00"
         },
         {
             "name": "illuminate/macroable",
@@ -970,7 +980,8 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-03-30T19:05:19+00:00"
+            "time": "2026-03-30T19:05:19+00:00",
+            "published-time": "2026-11-17T14:55:50+00:00"
         },
         {
             "name": "justdev/jd-support",
@@ -1075,12 +1086,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/justDev-studio/mcp-connector.git",
-                "reference": "31ed1c897152c656ab9ca40748f542716a9a79fb"
+                "reference": "32a171d52f26db2f0cbd6f0c3df81027c49fe643"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justDev-studio/mcp-connector/zipball/31ed1c897152c656ab9ca40748f542716a9a79fb",
-                "reference": "31ed1c897152c656ab9ca40748f542716a9a79fb",
+                "url": "https://api.github.com/repos/justDev-studio/mcp-connector/zipball/32a171d52f26db2f0cbd6f0c3df81027c49fe643",
+                "reference": "32a171d52f26db2f0cbd6f0c3df81027c49fe643",
                 "shasum": ""
             },
             "require": {
@@ -1113,7 +1124,8 @@
                 "issues": "https://github.com/justDev-studio/mcp-connector/issues",
                 "source": "https://github.com/justDev-studio/mcp-connector"
             },
-            "time": "2026-11-18T11:05:35+00:00"
+            "time": "2026-11-19T16:12:28+00:00",
+            "published-time": "2026-11-19T16:12:34+00:00"
         },
         {
             "name": "justdev/syncport",
@@ -1226,7 +1238,8 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2026-10-14T21:20:29+00:00"
+            "time": "2026-10-14T21:20:29+00:00",
+            "published-time": "2026-11-10T16:11:08+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -1332,7 +1345,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:32:48+00:00"
+            "time": "2026-10-25T14:32:48+00:00",
+            "published-time": "2026-10-25T14:41:05+00:00"
         },
         {
             "name": "oscarotero/env",
@@ -1442,7 +1456,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-30T10:22:22+00:00"
+            "time": "2025-08-30T10:22:22+00:00",
+            "published-time": "2025-08-30T10:22:43+00:00"
         },
         {
             "name": "php-di/php-di",
@@ -1515,7 +1530,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-16T11:10:48+00:00"
+            "time": "2025-08-16T11:10:48+00:00",
+            "published-time": "2025-08-16T11:11:08+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -1659,7 +1675,8 @@
                 "issues": "https://github.com/php-fig/clock/issues",
                 "source": "https://github.com/php-fig/clock/tree/1.0.0"
             },
-            "time": "2022-11-25T14:36:26+00:00"
+            "time": "2022-11-25T14:36:26+00:00",
+            "published-time": "2022-11-25T14:59:22+00:00"
         },
         {
             "name": "psr/container",
@@ -1712,7 +1729,8 @@
                 "issues": "https://github.com/php-fig/container/issues",
                 "source": "https://github.com/php-fig/container/tree/2.0.2"
             },
-            "time": "2021-11-05T16:47:00+00:00"
+            "time": "2021-11-05T16:47:00+00:00",
+            "published-time": "2021-11-05T16:53:27+00:00"
         },
         {
             "name": "psr/http-client",
@@ -1764,7 +1782,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-client"
             },
-            "time": "2023-09-23T14:17:50+00:00"
+            "time": "2023-09-23T14:17:50+00:00",
+            "published-time": "2023-09-23T14:18:12+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -1819,7 +1838,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-factory"
             },
-            "time": "2024-04-15T12:06:14+00:00"
+            "time": "2024-04-15T12:06:14+00:00",
+            "published-time": "2024-05-10T07:32:19+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1872,7 +1892,8 @@
             "support": {
                 "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:54:51+00:00"
+            "time": "2023-04-04T09:54:51+00:00",
+            "published-time": "2023-04-04T09:55:35+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -1923,7 +1944,8 @@
             "support": {
                 "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
             },
-            "time": "2021-10-29T13:26:27+00:00"
+            "time": "2021-10-29T13:26:27+00:00",
+            "published-time": "2021-10-29T13:27:19+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -1967,7 +1989,8 @@
                 "issues": "https://github.com/ralouphie/getallheaders/issues",
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
-            "time": "2019-03-08T08:55:37+00:00"
+            "time": "2019-03-08T08:55:37+00:00",
+            "published-time": "2019-03-08T09:01:32+00:00"
         },
         {
             "name": "roots/bedrock-autoloader",
@@ -2046,7 +2069,7 @@
         },
         {
             "name": "roots/wordpress",
-            "version": "7.1.4",
+            "version": "7.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roots/wordpress.git",
@@ -2077,7 +2100,7 @@
             ],
             "support": {
                 "issues": "https://github.com/roots/wordpress/issues",
-                "source": "https://github.com/roots/wordpress/tree/7.1.4"
+                "source": "https://github.com/roots/wordpress/tree/7.1.5"
             },
             "funding": [
                 {
@@ -2085,7 +2108,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-22T13:26:54+00:00"
+            "time": "2026-03-22T13:26:54+00:00",
+            "published-time": "2026-11-18T17:14:22+00:00"
         },
         {
             "name": "roots/wordpress-core-installer",
@@ -2152,27 +2176,28 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-22T03:17:23+00:00"
+            "time": "2026-03-22T03:17:23+00:00",
+            "published-time": "2026-03-22T03:22:05+00:00"
         },
         {
             "name": "roots/wordpress-no-content",
-            "version": "7.1.4",
+            "version": "7.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress.git",
-                "reference": "7.1.4"
+                "reference": "7.1.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.w.org/release/wordpress-7.1.4-no-content.zip",
-                "reference": "7.1.4",
-                "shasum": "1dd4bfa7b13dec725c0062a3fb62ba0536cb8699"
+                "url": "https://downloads.w.org/release/wordpress-7.1.5-no-content.zip",
+                "reference": "7.1.5",
+                "shasum": "360c3644ce4e382e254aa4f0c1e56d5082efe2ff"
             },
             "require": {
                 "php": ">= 7.4"
             },
             "provide": {
-                "wordpress/core-implementation": "7.1.4"
+                "wordpress/core-implementation": "7.1.5"
             },
             "suggest": {
                 "ext-curl": "Performs remote request operations.",
@@ -2223,7 +2248,8 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-10-28T17:15:58+00:00"
+            "time": "2026-11-18T17:13:39+00:00",
+            "published-time": "2026-11-18T17:13:48+00:00"
         },
         {
             "name": "roots/wp-config",
@@ -2346,7 +2372,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-12T14:32:04+00:00"
+            "time": "2026-10-12T14:32:04+00:00",
+            "published-time": "2026-10-14T06:48:32+00:00"
         },
         {
             "name": "symfony/console",
@@ -2444,7 +2471,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-03T21:47:07+00:00"
+            "time": "2026-11-03T21:47:07+00:00",
+            "published-time": "2026-11-04T11:27:31+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2515,7 +2543,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-16T14:15:10+00:00"
+            "time": "2026-09-16T14:15:10+00:00",
+            "published-time": "2026-11-04T11:25:34+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2598,7 +2627,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-10T16:19:22+00:00"
+            "time": "2026-04-10T16:19:22+00:00",
+            "published-time": "2026-04-26T14:44:50+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -2680,7 +2710,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-15T09:18:53+00:00"
+            "time": "2026-10-15T09:18:53+00:00",
+            "published-time": "2026-10-28T10:07:44+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -2765,7 +2796,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-23T22:02:09+00:00"
+            "time": "2026-09-23T22:02:09+00:00",
+            "published-time": "2026-09-30T10:23:47+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2850,7 +2882,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T09:35:49+00:00"
+            "time": "2026-10-28T09:35:49+00:00",
+            "published-time": "2026-10-28T10:07:45+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -2934,7 +2967,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:50:05+00:00"
+            "time": "2026-09-25T15:50:05+00:00",
+            "published-time": "2026-09-30T10:23:35+00:00"
         },
         {
             "name": "symfony/polyfill-php83",
@@ -3014,7 +3048,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:50:05+00:00"
+            "time": "2026-09-25T15:50:05+00:00",
+            "published-time": "2026-09-30T10:23:43+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
@@ -3094,7 +3129,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-23T22:01:09+00:00"
+            "time": "2026-09-23T22:01:09+00:00",
+            "published-time": "2026-09-30T10:23:33+00:00"
         },
         {
             "name": "symfony/polyfill-php85",
@@ -3174,7 +3210,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-30T15:20:09+00:00"
+            "time": "2026-10-30T15:20:09+00:00",
+            "published-time": "2026-11-15T14:20:22+00:00"
         },
         {
             "name": "symfony/polyfill-time",
@@ -3257,7 +3294,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T13:08:13+00:00"
+            "time": "2026-08-07T13:08:13+00:00",
+            "published-time": "2026-08-24T11:45:15+00:00"
         },
         {
             "name": "symfony/process",
@@ -3322,7 +3360,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:16+00:00"
+            "time": "2026-10-25T14:40:16+00:00",
+            "published-time": "2026-10-28T18:21:18+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -3409,7 +3448,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-20T17:38:25+00:00"
+            "time": "2026-10-20T17:38:25+00:00",
+            "published-time": "2026-11-04T11:25:33+00:00"
         },
         {
             "name": "symfony/string",
@@ -3499,7 +3539,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-23T17:06:53+00:00"
+            "time": "2026-10-23T17:06:53+00:00",
+            "published-time": "2026-10-28T18:24:27+00:00"
         },
         {
             "name": "symfony/translation",
@@ -3592,7 +3633,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-01T22:27:46+00:00"
+            "time": "2026-11-01T22:27:46+00:00",
+            "published-time": "2026-11-04T11:31:54+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -3674,7 +3716,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-03T08:17:19+00:00"
+            "time": "2026-10-03T08:17:19+00:00",
+            "published-time": "2026-11-04T11:25:31+00:00"
         },
         {
             "name": "timber/timber",
@@ -4067,10 +4110,10 @@
         },
         {
             "name": "wpengine/advanced-custom-fields-pro",
-            "version": "6.8.11",
+            "version": "6.8.12",
             "dist": {
                 "type": "zip",
-                "url": "https://connect.advancedcustomfields.com/v2/plugins/composer_download?s=composer&p=pro&t=6.8.11"
+                "url": "https://connect.advancedcustomfields.com/v2/plugins/composer_download?s=composer&p=pro&t=6.8.12"
             },
             "require": {
                 "composer/installers": "~1.0 || ~2.0"
@@ -4129,7 +4172,8 @@
                 "issues": "https://github.com/YahnisElsts/plugin-update-checker/issues",
                 "source": "https://github.com/YahnisElsts/plugin-update-checker/tree/v5.7"
             },
-            "time": "2026-05-26T12:48:45+00:00"
+            "time": "2026-05-26T12:48:45+00:00",
+            "published-time": "2026-05-26T13:21:40+00:00"
         },
         {
             "name": "yoast/wordpress-seo",
@@ -4223,12 +4267,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "58dd0699bbc208d2db0b73af8099535601f9b820"
+                "reference": "ea3fd42f04ff44f4cd3ad8c549595baeef0103d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/58dd0699bbc208d2db0b73af8099535601f9b820",
-                "reference": "58dd0699bbc208d2db0b73af8099535601f9b820",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ea3fd42f04ff44f4cd3ad8c549595baeef0103d3",
+                "reference": "ea3fd42f04ff44f4cd3ad8c549595baeef0103d3",
                 "shasum": ""
             },
             "conflict": {
@@ -4256,7 +4300,7 @@
                 "algolia/algoliasearch-magento-2": "<=3.16.1|>=3.17.0.0-beta1,<=3.17.1",
                 "almirhodzic/nova-toggle-5": "<1.3",
                 "alt-design/alt-redirect": "<1.6.4",
-                "altcha-org/altcha": "<1.3.1",
+                "altcha-org/altcha": "<1.3.1|>=2,<2.0.3",
                 "alterphp/easyadmin-extension-bundle": ">=1.2,<1.2.11|>=1.3,<1.3.1",
                 "amazing/media2click": ">=1,<1.3.3",
                 "ameos/ameos_filemanager": "<3.1.3",
@@ -4309,6 +4353,7 @@
                 "barrelstrength/sprout-forms": "<3.9",
                 "barryvdh/laravel-translation-manager": "<0.6.8",
                 "barzahlen/barzahlen-php": "<2.0.1",
+                "baserproject/baser-core": "<5.3",
                 "baserproject/basercms": "<=5.2.2",
                 "bassjobsen/bootstrap-3-typeahead": ">4.0.2",
                 "bazaarvoice/bazaarvoice-magento2-ext": ">=8,<9.1.11",
@@ -4326,7 +4371,7 @@
                 "blueways/bw-captcha": ">=4,<5.4.2",
                 "bmarshall511/wordpress_zero_spam": "<5.2.13",
                 "bolt/bolt": "<3.7.2",
-                "bolt/core": "<=4.2",
+                "bolt/core": "<6.1.5",
                 "born05/craft-twofactorauthentication": "<3.3.4",
                 "bottelet/flarepoint": "<2.2.1",
                 "bref/bref": "<2.1.17",
@@ -4548,6 +4593,7 @@
                 "flightphp/core": "<3.18.1",
                 "floriangaerber/magnesium": "<0.3.1",
                 "fluidtypo3/vhs": "<5.1.1",
+                "flux-se/sylius-stripe-plugin": ">=1,<1.2|>=2,<2.0.3|>=2.1,<2.1.1",
                 "fof/byobu": ">=0.3.0.0-beta2,<1.1.7",
                 "fof/oauth": "<1.7.4|>=2.0.0.0-beta1,<2.0.0.0-beta4",
                 "fof/pretty-mail": "<=1.1.2",
@@ -4655,6 +4701,7 @@
                 "jambagecom/div2007": "<0.10.2",
                 "james-heinrich/getid3": "<1.9.21",
                 "james-heinrich/phpthumb": "<=1.7.23",
+                "jane-php/open-api-3": "<7.12",
                 "jasig/phpcas": "<1.3.3",
                 "jayanta/laravel-threat-detection": "<1.9",
                 "jbartels/wec-map": "<3.0.3",
@@ -4847,7 +4894,7 @@
                 "nzo/url-encryptor-bundle": ">=4,<4.3.2|>=5,<5.0.1",
                 "october/backend": "<1.1.2",
                 "october/cms": "<1.0.469|==1.0.469|==1.0.471|==1.1.1",
-                "october/october": "<3.7.14|>=4,<4.1.10|>=4.3,<4.3.4",
+                "october/october": "<3.7.14|>=4,<4.3.4",
                 "october/rain": "<=3.7.13|>=4,<=4.1.9",
                 "october/system": "<3.7.17|>=4,<4.2.23",
                 "oliverklee/phpunit": "<3.5.15",
@@ -4899,7 +4946,7 @@
                 "phanan/koel": "<=9.7",
                 "pheditor/pheditor": "<2.0.8",
                 "phenx/php-svg-lib": "<0.5.2",
-                "php": "<8.2.35|>=8.3,<8.3.36|>=8.4,<8.4.27|>=8.5,<8.5.12",
+                "php": "<8.2.36|>=8.3,<8.3.37|>=8.4,<8.4.28|>=8.5,<8.5.13",
                 "php-censor/php-censor": "<2.0.13|>=2.1,<2.1.5",
                 "php-mod/curl": "<2.3.2",
                 "php-standard-library/h2": ">=6.1,<6.1.2|>=6.2,<6.2.1",
@@ -5105,7 +5152,8 @@
                 "sylius/mollie-plugin": "<2.2.8|>=3,<3.2.4|>=3.3,<3.3.1",
                 "sylius/paypal-plugin": "<1.6.2|>=1.7,<1.7.2|>=2,<2.0.2",
                 "sylius/resource-bundle": ">=1,<1.3.14|>=1.4,<1.4.7|>=1.5,<1.5.2|>=1.6,<1.6.4",
-                "sylius/sylius": "<1.14.21|>=2,<2.1.17|>=2.2,<2.2.12|>=2.3,<2.3.2",
+                "sylius/sylius": "<1.14.22|>=2,<2.2.13|>=2.3,<2.3.3",
+                "sylius/theme-bundle": ">=2,<2.3.1|>=2.4,<2.4.2|>=2.5,<2.5.1",
                 "symbiote/silverstripe-advancedworkflow": "<6.4.6|>=7,<7.2.4",
                 "symbiote/silverstripe-multivaluefield": ">=3,<3.1",
                 "symbiote/silverstripe-queuedjobs": ">=3,<3.0.2|>=3.1,<3.1.4|>=4,<4.0.7|>=4.1,<4.1.2|>=4.2,<4.2.4|>=4.3,<4.3.3|>=4.4,<4.4.3|>=4.5,<4.5.1|>=4.6,<4.6.4",
@@ -5395,7 +5443,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-17T23:45:35+00:00"
+            "time": "2026-11-20T05:52:42+00:00",
+            "published-time": "2026-11-20T05:52:47+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -5497,5 +5546,5 @@
         "ext-json": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
